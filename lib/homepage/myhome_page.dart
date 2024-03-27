@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pdfviwer/test_page/test.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -9,13 +10,18 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
-  String appBarTitle = 'All files'; // Initial app bar title
+  String appBarTitle = 'All files';
+
+  List<Widget> pages = [
+    const MyHomePage(),
+    const tools(),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(appBarTitle), // Dynamically update title based on selection
+        title: Text(appBarTitle),
         actions: [
           IconButton(
             icon: const Icon(Icons.search),
@@ -52,7 +58,14 @@ class _MyHomePageState extends State<MyHomePage> {
                 Navigator.pop(context);
               },
             ),
-            // ... other drawer items
+
+            ListTile(
+              title: const Text('DarkMode'),
+              leading: const Icon(Icons.dark_mode),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
           ],
         ),
       ),

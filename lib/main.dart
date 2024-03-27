@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pdfviwer/homepage/myhome_page.dart';
-import 'package:pdfviwer/test_page/test.dart';
+import 'package:pdfviwer/notifiers.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -9,16 +10,22 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  @override
+   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const MyHomePage(),
+    return ValueListenableBuilder (
+      valueListenable: isDarkModelNotifier,
+        builder: (context, isDark, child) {
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'Flutter Demo',
+            theme: ThemeData(
+              brightness: isDark? Brightness.dark : Brightness.light,                 ///added dark////
+              primarySwatch: Colors.blue,
+              useMaterial3: true,
+            ),
+            home: const MyHomePage(),
+          );
+        },
     );
   }
 }
