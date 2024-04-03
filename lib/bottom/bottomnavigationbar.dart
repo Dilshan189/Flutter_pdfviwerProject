@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:pdfviwer/test_page/test.dart';
+
+import '../test_page/browserpage.dart';
+import '../test_page/favorite.dart';
+import '../test_page/recent.dart';
+
 
 
 
@@ -12,6 +18,16 @@ class BottomNavigationBarWidget extends StatefulWidget {
 class _BottomNavigationBarState extends State<BottomNavigationBarWidget> {
   int _selectedIndex = 0;
   String appBarTitle = 'All files';
+
+  List<Widget> widgetList = const [
+
+    browserpage(),
+    recent(),
+    favorite(),
+    tools(),
+  ];
+
+
 
   @override
   Widget build(BuildContext context) {

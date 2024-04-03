@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pdfviwer/homepage/myhome_page.dart';
-import 'package:pdfviwer/notifiers.dart';
+import 'package:pdfviwer/notifier/notifiers.dart';
 
 
 void main() {

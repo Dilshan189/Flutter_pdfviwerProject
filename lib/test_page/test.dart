@@ -11,9 +11,6 @@ import 'package:pdfviwer/tools_page/unlockpdf.dart';
 
 import '../homepage/myhome_page.dart';
 
-
-
-
 class tools extends StatefulWidget {
   const tools({Key? key});
 
@@ -33,6 +30,7 @@ List cateNames = [
   "Print",
 ];
 
+
 List<Color> cateColors = [
   const Color(0xFFFDFCCE),
   const Color(0xFFFFF4E0),
@@ -44,6 +42,7 @@ List<Color> cateColors = [
   const Color(0xFFF6E3CD),
   const Color(0xFFFDFDD2),
 ];
+
 
 List<Icon> cateIcons = [
   const Icon(Icons.picture_as_pdf_outlined, color: Colors.amber, size: 25),
@@ -57,7 +56,9 @@ List<Icon> cateIcons = [
   const Icon(Icons.print_outlined, color: Colors.brown, size: 25),
 ];
 
+
 class _ToolsState extends State<tools> {
+
 
   @override
   Widget build(BuildContext context) {
@@ -187,4 +188,5 @@ class _ToolsState extends State<tools> {
     );
   }
 }
+
 
