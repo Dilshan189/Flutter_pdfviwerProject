@@ -9,6 +9,7 @@ import '../test_page/favorite.dart';
 import '../test_page/recent.dart';
 import '../test_page/test.dart';
 
+
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
 
@@ -21,6 +22,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   int _selectedIndex = 0;
   String appBarTitle = 'Home';
+  bool isScreenKeptOn = false;
 
   List<Widget> widgetList = const [
 
@@ -58,115 +60,120 @@ class _MyHomePageState extends State<MyHomePage> {
       /// Added Drawer////////////////////////////////////////////////////////
       drawer: Drawer(
         child: ListView(
-          children: [
-            const UserAccountsDrawerHeader(
-              accountName: Text('John Doe'),
-              accountEmail: Text('johndoe@example.com'),
-              currentAccountPicture: CircleAvatar(
-                child: FlutterLogo(),
-              ),
+          children: <Widget>[
+
+            const ListTile(
+              title: Text('PDF Reader',
+               style: TextStyle(fontSize: 24.0,fontWeight: FontWeight.bold),
+               ),
             ),
 
+            const Divider(thickness: 1),
+
             ListTile(
-              leading: const Icon(Icons.folder_copy_outlined, color: Colors.blue,),
-              title: const Text('Browse PDF', style: TextStyle(fontWeight: FontWeight.bold)),
+              title: const Text('Browse PDF',style: TextStyle(fontWeight: FontWeight.bold)),
+              leading: const Icon(Icons.folder_open,color: Colors.blue,),
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const browserpage()),
-                );
+
               },
             ),
+
 
             ListTile(
               leading: const Icon(Icons.ios_share_rounded, color: Colors.blue,),
               title: const Text('Share App', style: TextStyle(fontWeight: FontWeight.bold)),
               onTap: () {
                 final RenderBox box = context.findRenderObject() as RenderBox;
-                Share.share('Check out this awesome PDF Viewer app!',
+                Share.share('Hi , Im using PDF Reader. Its so easy and convenient to view & edit PDFs...',
                     subject: 'PDF Viewer App',
                     sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
               },
             ),
 
 
-            ListTile(
-              title: const Text('DarkMode',style: TextStyle(fontWeight: FontWeight.bold)),
-              leading: const Icon(Icons.dark_mode,color: Colors.blue,),
-              onTap: () {
-                isDarkModelNotifier.value = !isDarkModelNotifier.value;
+
+
+            SwitchListTile(
+              title: const Text('Security question',style: TextStyle(fontWeight: FontWeight.bold)),
+              secondary: const Icon(Icons.security_outlined,color: Colors.blue,),
+              value: isScreenKeptOn,
+              onChanged: (abl) {
                 setState(() {
-                  },
-                );
+                  isScreenKeptOn = abl;
+                });
               },
             ),
 
+
+
             ListTile(
-              leading: const Icon(Icons.security, color: Colors.blue,),
-              title: const Text('Security Question', style: TextStyle(fontWeight: FontWeight.bold)),
+              title: const Text('Language Options',style: TextStyle(fontWeight: FontWeight.bold)),
+              leading: const Icon(Icons.language_outlined,color: Colors.blue,),
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const SecurityQuestionPage()),
-                );
+
               },
             ),
 
+            SwitchListTile(
+              title: const Text('DarkMode', style: TextStyle(fontWeight: FontWeight.bold)),
+              secondary: const Icon(Icons.dark_mode, color: Colors.blue),
+              value: isDarkModelNotifier.value,
+              onChanged: (val) {
+                isDarkModelNotifier.value = !isDarkModelNotifier.value;
+                setState(() {});
+              },
+            ),
+
+
             ListTile(
-              leading: const Icon(Icons.feedback_outlined, color: Colors.blue,),
-              title: const Text('Feedback', style: TextStyle(fontWeight: FontWeight.bold)),
+              title: const Text('FAQ',style: TextStyle(fontWeight: FontWeight.bold)),
+              leading: const Icon(Icons.question_answer_outlined,color: Colors.blue,),
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const FeedbackPage()),
-                );
+
               },
             ),
 
+
             ListTile(
-              leading: const Icon(Icons.devices_fold_outlined, color: Colors.blue),
-              title: const Text(
-                'Request a new feature',
-                style: TextStyle(fontWeight: FontWeight.bold),
+              title: const Text('Feedback',style: TextStyle(fontWeight: FontWeight.bold)),
+              leading: const Icon(Icons.feedback_outlined,color: Colors.blue,),
+              onTap: () {
+
+              },
+            ),
+
+
+            ListTile(
+              title: const Text('Request a new feature',style: TextStyle(fontWeight: FontWeight.bold)),
+              leading: const Icon(Icons.file_copy_outlined,color: Colors.blue,),
+              onTap: () {
+
+              },
+            ),
+
+            const Divider(thickness: 1),
+
+        const ListTile(
+          title: Text('Settings',
+          style: TextStyle(fontSize: 16.0),
+         ),
+      ),
+
+
+            SwitchListTile(
+              title: const Text('Keep screen on',style: TextStyle(fontWeight: FontWeight.bold)),
+                value: isScreenKeptOn,
+                onChanged: (val) {
+                setState(() {
+                  isScreenKeptOn = val;
+                });
+              }
+            ),
+
+            const ListTile(
+              title: Text('Version:1.3.8L',
+                style: TextStyle(fontSize: 16.0),
               ),
-              onTap: () {
-                showModalBottomSheet(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return GestureDetector(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Card(
-                              elevation: 5,
-                              child: Container(
-                                padding: const EdgeInsets.all(16.0),
-                                child: Image.asset(
-                                  'assets/images/your_image.png',
-                                  width: 200,
-                                  height: 200,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 16.0),
-                            ElevatedButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: const Text('Submit'),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                );
-              },
             ),
 
           ],
@@ -182,16 +189,16 @@ class _MyHomePageState extends State<MyHomePage> {
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
+            icon: Icon(Icons.file_open_outlined),
+            label: 'All files',
           ),
 
           BottomNavigationBarItem(
-            icon: Icon(Icons.watch_later),
+            icon: Icon(Icons.watch_later_outlined),
             label: 'Recent',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.favorite),
+            icon: Icon(Icons.favorite_outline),
             label: 'Favourite', // Rename for clarity
           ),
 
@@ -216,7 +223,7 @@ class _MyHomePageState extends State<MyHomePage> {
       _selectedIndex = index;
       switch (index) {
         case 0:
-          appBarTitle = 'Home';
+          appBarTitle = 'All files';
           break;
         case 1:
           appBarTitle = 'Recent';
