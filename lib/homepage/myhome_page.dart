@@ -116,7 +116,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
             SwitchListTile(
               title: const Text('DarkMode', style: TextStyle(fontWeight: FontWeight.bold)),
-              secondary: const Icon(Icons.dark_mode, color: Colors.blue),
+              secondary: const Icon(Icons.dark_mode_outlined, color: Colors.blue),
               value: isDarkModelNotifier.value,
               onChanged: (val) {
                 isDarkModelNotifier.value = !isDarkModelNotifier.value;
@@ -129,7 +129,10 @@ class _MyHomePageState extends State<MyHomePage> {
               title: const Text('FAQ',style: TextStyle(fontWeight: FontWeight.bold)),
               leading: const Icon(Icons.question_answer_outlined,color: Colors.blue,),
               onTap: () {
-
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SecurityQuestionPage()),
+                );
               },
             ),
 
@@ -138,7 +141,10 @@ class _MyHomePageState extends State<MyHomePage> {
               title: const Text('Feedback',style: TextStyle(fontWeight: FontWeight.bold)),
               leading: const Icon(Icons.feedback_outlined,color: Colors.blue,),
               onTap: () {
-
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const FeedbackPage()),
+                );
               },
             ),
 
@@ -146,9 +152,208 @@ class _MyHomePageState extends State<MyHomePage> {
             ListTile(
               title: const Text('Request a new feature',style: TextStyle(fontWeight: FontWeight.bold)),
               leading: const Icon(Icons.file_copy_outlined,color: Colors.blue,),
-              onTap: () {
-
-              },
+              onTap: () => showModalBottomSheet<void>(
+                context: context,
+                builder: (BuildContext context) {
+                  return Container(
+                    width: MediaQuery.of(context).size.width * 9.5,
+                    height: MediaQuery.of(context).size.height * 20.0,
+                    padding: const EdgeInsets.all(20.0),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                      
+                          const Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                      
+                              Row(
+                                children: [
+                                  SizedBox(width: 10.0),
+                                  Text('What Other features do you want?'
+                                      ' \n Well prioritize adding the features you want'),
+                                ],
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 10.0),
+                      
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                      
+                              Card(
+                                child: TextButton.icon(
+                                  onPressed: () => {},
+                                  icon: const Icon(Icons.comment_bank_outlined),
+                                  label: const Text('Contents'),
+                                ),
+                              ),
+                              
+                              Card(
+                                child: TextButton.icon(
+                                  onPressed: () => {},
+                                  icon: const Icon(Icons.picture_as_pdf_outlined),
+                                  label: const Text('PDF to Image'),
+                                ),
+                              ),
+                            ],
+                          ),
+                      
+                          const SizedBox(height: 10.0),
+                      
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                      
+                              Card(
+                                child: TextButton.icon(
+                                  onPressed: () => {},
+                                  icon: const Icon(Icons.document_scanner_outlined),
+                                  label: const Text('Scan to PDF'),
+                                ),
+                              ),
+                      
+                              Card(
+                                child: TextButton.icon(
+                                  onPressed: () => {},
+                                  icon: const Icon(Icons.cloud_done_outlined),
+                                  label: const Text('Cloud Sync'),
+                                ),
+                              ),
+                            ],
+                          ),
+                      
+                          const SizedBox(height: 10.0),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                      
+                              Card(
+                                child: TextButton.icon(
+                                  onPressed: () => {},
+                                  icon: const Icon(Icons.create_new_folder_outlined),
+                                  label: const Text('Create Folders'),
+                                ),
+                              ),
+                      
+                      
+                              Card(
+                                child: TextButton.icon(
+                                  onPressed: () => {},
+                                  icon: const Icon(Icons.offline_bolt_outlined),
+                                  label: const Text('Others'),
+                                ),
+                              ),
+                            ],
+                          ),
+                      
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                      
+                              Card(
+                                child: TextButton.icon(
+                                  onPressed: () => {},
+                                  icon: const Icon(Icons.create_new_folder_outlined),
+                                  label: const Text('Create Folders'),
+                                ),
+                              ),
+                      
+                      
+                              Card(
+                                child: TextButton.icon(
+                                  onPressed: () => {},
+                                  icon: const Icon(Icons.offline_bolt_outlined),
+                                  label: const Text('Others'),
+                                ),
+                              ),
+                            ],
+                          ),
+                      
+                      
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                      
+                              Card(
+                                child: TextButton.icon(
+                                  onPressed: () => {},
+                                  icon: const Icon(Icons.create_new_folder_outlined),
+                                  label: const Text('Create Folders'),
+                                ),
+                              ),
+                      
+                      
+                              Card(
+                                child: TextButton.icon(
+                                  onPressed: () => {},
+                                  icon: const Icon(Icons.offline_bolt_outlined),
+                                  label: const Text('Others'),
+                                ),
+                              ),
+                            ],
+                          ),
+                      
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                      
+                              Card(
+                                child: TextButton.icon(
+                                  onPressed: () => {},
+                                  icon: const Icon(Icons.create_new_folder_outlined),
+                                  label: const Text('Create Folders'),
+                                ),
+                              ),
+                      
+                      
+                              Card(
+                                child: TextButton.icon(
+                                  onPressed: () => {},
+                                  icon: const Icon(Icons.offline_bolt_outlined),
+                                  label: const Text('Others'),
+                                ),
+                              ),
+                            ],
+                          ),
+                      
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                      
+                              Card(
+                                child: TextButton.icon(
+                                  onPressed: () => {},
+                                  icon: const Icon(Icons.create_new_folder_outlined),
+                                  label: const Text('Create Folders'),
+                                ),
+                              ),
+                      
+                      
+                              Card(
+                                child: TextButton.icon(
+                                  onPressed: () => {},
+                                  icon: const Icon(Icons.offline_bolt_outlined),
+                                  label: const Text('Others'),
+                                ),
+                              ),
+                            ],
+                          ),
+                      
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
             ),
 
             const Divider(thickness: 1),
