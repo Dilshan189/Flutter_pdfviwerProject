@@ -23,6 +23,7 @@ class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
   String appBarTitle = 'Home';
   bool isScreenKeptOn = false;
+  bool showSubmitButton = false;
 
   List<Widget> widgetList = const [
 
@@ -148,13 +149,13 @@ class _MyHomePageState extends State<MyHomePage> {
               },
             ),
 
-
             ListTile(
               title: const Text('Request a new feature',style: TextStyle(fontWeight: FontWeight.bold)),
               leading: const Icon(Icons.file_copy_outlined,color: Colors.blue,),
               onTap: () => showModalBottomSheet<void>(
                 context: context,
                 builder: (BuildContext context) {
+                   bool showSubmitButton = true;
                   return Container(
                     width: MediaQuery.of(context).size.width * 9.5,
                     height: MediaQuery.of(context).size.height * 20.0,
@@ -163,15 +164,16 @@ class _MyHomePageState extends State<MyHomePage> {
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(15.0),
                     ),
+
                     child: SingleChildScrollView(
                       child: Column(
                         children: [
-                      
+
                           const Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
-                      
+
                               Row(
                                 children: [
                                   SizedBox(width: 10.0),
@@ -182,20 +184,293 @@ class _MyHomePageState extends State<MyHomePage> {
                             ],
                           ),
                           const SizedBox(height: 10.0),
-                      
+
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
-                      
+
                               Card(
                                 child: TextButton.icon(
-                                  onPressed: () => {},
+                                  onPressed: () => {
+                                    ListTile(
+                                      title: const Text('Request a new feature',style: TextStyle(fontWeight: FontWeight.bold)),
+                                      leading: const Icon(Icons.file_copy_outlined,color: Colors.blue,),
+                                      onTap: () => showModalBottomSheet<void>(
+                                        context: context,
+                                        builder: (BuildContext context) {
+
+
+
+                                          return Container(
+                                            width: MediaQuery.of(context).size.width * 9.5,
+                                            height: MediaQuery.of(context).size.height * 20.0,
+                                            padding: const EdgeInsets.all(20.0),
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.circular(15.0),
+                                            ),
+
+                                            child: SingleChildScrollView(
+                                              child: Column(
+                                                children: [
+
+                                                  const Row(
+                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                                    children: [
+
+                                                      Row(
+                                                        children: [
+                                                          SizedBox(width: 10.0),
+                                                          Text('What Other features do you want?'
+                                                              ' \n Well prioritize adding the features you want'),
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  const SizedBox(height: 10.0),
+
+                                                  Row(
+                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                                    children: [
+
+                                                      Card(
+                                                        child: TextButton.icon(
+                                                          onPressed: () => {
+                                                            showSubmitButton = true,
+                                                            setState(() {})
+                                                          },
+                                                          icon: const Icon(Icons.comment_bank_outlined),
+                                                          label: const Text('Contents'),
+                                                          style: TextButton.styleFrom(
+                                                            foregroundColor: Colors.black,
+                                                          ),
+                                                        ),
+                                                      ),
+
+                                                      Card(
+                                                        child: TextButton.icon(
+                                                          onPressed: () => {},
+                                                          icon: const Icon(Icons.picture_as_pdf_outlined),
+                                                          label: const Text('PDF to Image'),
+                                                          style: TextButton.styleFrom(
+                                                            foregroundColor: Colors.black,
+                                                          ),
+                                                      ),
+                                                    ),
+                                                  ],),
+
+                                                  const SizedBox(height: 10.0),
+
+                                                  Row(
+                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                                    children: [
+
+                                                      Card(
+                                                        child: TextButton.icon(
+                                                          onPressed: () => {
+                                                            showSubmitButton = true,
+                                                            setState(() {})
+                                                          },
+                                                          icon: const Icon(Icons.document_scanner_outlined),
+                                                          label: const Text('Scan to PDF'),
+                                                          style: TextButton.styleFrom(
+                                                            foregroundColor: Colors.black,
+
+                                                          ),
+                                                        ),
+                                                      ),
+
+                                                      Card(
+                                                        child: TextButton.icon(
+                                                          onPressed: () => {
+                                                            showSubmitButton = true,
+                                                            setState(() {})
+                                                          },
+                                                          icon: const Icon(Icons.cloud_done_outlined),
+                                                          label: const Text('Cloud Sync'),
+                                                          style: TextButton.styleFrom(
+                                                            foregroundColor: Colors.black,
+                                                          ),
+                                                      ),
+                                                      ),],
+                                                  ),
+
+                                                  const SizedBox(height: 10.0),
+
+                                                  Row(
+                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                    children: [
+
+                                                      Card(
+                                                        child: TextButton.icon(
+                                                          onPressed: () => {
+                                                            showSubmitButton = true,
+                                                            setState(() {})
+                                                          },
+                                                          icon: const Icon(Icons.create_new_folder_outlined),
+                                                          label: const Text('Create Folders'),
+                                                          style: TextButton.styleFrom(
+                                                            foregroundColor: Colors.black,
+                                                          ),
+                                                          ),
+                                                      ),
+
+
+                                                      Card(
+                                                        child: TextButton.icon(
+                                                          onPressed: () => {
+                                                            showSubmitButton = true,
+                                                            setState(() {})
+                                                          },
+                                                          icon: const Icon(Icons.offline_bolt_outlined),
+                                                          label: const Text('Others'),
+                                                          style: TextButton.styleFrom(
+                                                            foregroundColor: Colors.black,
+                                                          ),
+                                                          ),
+                                                      ),
+                                                    ],
+                                                  ),
+
+
+                                                  Row(
+                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                    children: [
+
+                                                      Card(
+                                                        child: TextButton.icon(
+                                                          onPressed: () => {
+                                                            showSubmitButton = true,
+                                                            setState(() {})
+                                                          },
+                                                          icon: const Icon(Icons.color_lens_outlined),
+                                                          label: const Text('Page Color'),
+                                                          style: TextButton.styleFrom(
+                                                            foregroundColor: Colors.black,
+                                                          ),
+                                                          ),
+                                                      ),
+
+
+                                                      Card(
+                                                        child: TextButton.icon(
+                                                          onPressed: () => {
+                                                            showSubmitButton = true,
+                                                            setState(() {})
+                                                          },
+                                                          icon: const Icon(Icons.edit_note_sharp),
+                                                          label: const Text('Co-editing'),
+                                                          style: TextButton.styleFrom(
+                                                            foregroundColor: Colors.black,
+                                                          ),
+                                                          ),
+                                                      ),
+                                                    ],
+                                                  ),
+
+                                                  Row(
+                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                    children: [
+
+                                                      Card(
+                                                        child: TextButton.icon(
+                                                          onPressed: () => {
+                                                            showSubmitButton = true,
+                                                            setState(() {})
+                                                          },
+                                                          icon: const Icon(Icons.edit),
+                                                          label: const Text('Signature'),
+                                                          style: TextButton.styleFrom(
+                                                            foregroundColor: Colors.black,),
+                                                          ),
+                                                      ),
+
+
+                                                      Card(
+                                                        child: TextButton.icon(
+                                                          onPressed: () => {
+                                                            showSubmitButton = true,
+                                                            setState(() {})
+                                                          },
+                                                          icon: const Icon(Icons.ac_unit_rounded),
+                                                          label: const Text('Adjust Pages'),
+                                                          style: TextButton.styleFrom(
+                                                            foregroundColor: Colors.black,),
+                                                          ),
+                                                      ),
+                                                    ],
+                                                  ),
+
+                                                  Row(
+                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                    children: [
+
+                                                      Card(
+                                                        child: TextButton.icon(
+                                                          onPressed: () => {
+                                                            showSubmitButton = true,
+                                                            setState(() {})
+                                                          },
+                                                          icon: const Icon(Icons.text_fields_outlined),
+                                                          label: const Text('OCR'),
+                                                          style: TextButton.styleFrom(
+                                                            foregroundColor: Colors.black,),
+                                                          ),
+                                                      ),
+
+
+                                                      Card(
+                                                        child: TextButton.icon(
+                                                          onPressed: () => {
+                                                            showSubmitButton = true,
+                                                            setState(() {})
+                                                          },
+                                                          icon: const Icon(Icons.recycling_outlined),
+                                                          label: const Text('Recycle Bin'),
+                                                          style: TextButton.styleFrom(
+                                                            foregroundColor: Colors.black,),
+                                                          ),
+                                                      ),
+                                                    ],
+                                                  ),
+
+                                                  const SizedBox(height: 10.0),
+                                                  if(showSubmitButton)
+                                                  Row(
+                                                    mainAxisAlignment: MainAxisAlignment.end,
+                                                    children: [
+                                                      ElevatedButton(
+                                                        onPressed: () {
+
+                                                        },
+                                                        style: ElevatedButton.styleFrom(
+                                                          backgroundColor: Colors.blue,
+                                                          minimumSize: const Size(350.0, 50.0),
+
+                                                        ),
+                                                        child:const Text('Submit'),
+                                                      ),
+                                                    ],
+                                                  ),
+
+                                                ],
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  },
+
                                   icon: const Icon(Icons.comment_bank_outlined),
                                   label: const Text('Contents'),
                                 ),
                               ),
-                              
+
                               Card(
                                 child: TextButton.icon(
                                   onPressed: () => {},
@@ -205,14 +480,14 @@ class _MyHomePageState extends State<MyHomePage> {
                               ),
                             ],
                           ),
-                      
+
                           const SizedBox(height: 10.0),
-                      
+
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
-                      
+
                               Card(
                                 child: TextButton.icon(
                                   onPressed: () => {},
@@ -220,7 +495,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   label: const Text('Scan to PDF'),
                                 ),
                               ),
-                      
+
                               Card(
                                 child: TextButton.icon(
                                   onPressed: () => {},
@@ -230,12 +505,13 @@ class _MyHomePageState extends State<MyHomePage> {
                               ),
                             ],
                           ),
-                      
+
                           const SizedBox(height: 10.0),
+
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                      
+
                               Card(
                                 child: TextButton.icon(
                                   onPressed: () => {},
@@ -243,8 +519,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                   label: const Text('Create Folders'),
                                 ),
                               ),
-                      
-                      
+
+
                               Card(
                                 child: TextButton.icon(
                                   onPressed: () => {},
@@ -254,100 +530,94 @@ class _MyHomePageState extends State<MyHomePage> {
                               ),
                             ],
                           ),
-                      
+
+
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                      
+
                               Card(
                                 child: TextButton.icon(
                                   onPressed: () => {},
-                                  icon: const Icon(Icons.create_new_folder_outlined),
-                                  label: const Text('Create Folders'),
+                                  icon: const Icon(Icons.color_lens_outlined),
+                                  label: const Text('Page Color'),
                                 ),
                               ),
-                      
-                      
+
+
                               Card(
                                 child: TextButton.icon(
                                   onPressed: () => {},
-                                  icon: const Icon(Icons.offline_bolt_outlined),
-                                  label: const Text('Others'),
+                                  icon: const Icon(Icons.edit_note_sharp),
+                                  label: const Text('Co-editing'),
                                 ),
                               ),
                             ],
                           ),
-                      
-                      
+
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                      
+
                               Card(
                                 child: TextButton.icon(
                                   onPressed: () => {},
-                                  icon: const Icon(Icons.create_new_folder_outlined),
-                                  label: const Text('Create Folders'),
+                                  icon: const Icon(Icons.edit),
+                                  label: const Text('Signature'),
                                 ),
                               ),
-                      
-                      
+
+
                               Card(
                                 child: TextButton.icon(
                                   onPressed: () => {},
-                                  icon: const Icon(Icons.offline_bolt_outlined),
-                                  label: const Text('Others'),
+                                  icon: const Icon(Icons.ac_unit_rounded),
+                                  label: const Text('Adjust Pages'),
                                 ),
                               ),
                             ],
                           ),
-                      
+
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                      
+
                               Card(
                                 child: TextButton.icon(
                                   onPressed: () => {},
-                                  icon: const Icon(Icons.create_new_folder_outlined),
-                                  label: const Text('Create Folders'),
+                                  icon: const Icon(Icons.text_fields_outlined),
+                                  label: const Text('OCR'),
                                 ),
                               ),
-                      
-                      
+
+
                               Card(
                                 child: TextButton.icon(
                                   onPressed: () => {},
-                                  icon: const Icon(Icons.offline_bolt_outlined),
-                                  label: const Text('Others'),
+                                  icon: const Icon(Icons.recycling_outlined),
+                                  label: const Text('Recycle Bin'),
                                 ),
                               ),
                             ],
                           ),
-                      
+
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                      
-                              Card(
-                                child: TextButton.icon(
-                                  onPressed: () => {},
-                                  icon: const Icon(Icons.create_new_folder_outlined),
-                                  label: const Text('Create Folders'),
+                              ElevatedButton(
+                                onPressed: () {
+
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.blue,
+                                  minimumSize: const Size(350.0, 50.0),
+
                                 ),
-                              ),
-                      
-                      
-                              Card(
-                                child: TextButton.icon(
-                                  onPressed: () => {},
-                                  icon: const Icon(Icons.offline_bolt_outlined),
-                                  label: const Text('Others'),
-                                ),
+                                child:const Text('Submit'),
                               ),
                             ],
                           ),
-                      
+
                         ],
                       ),
                     ),
@@ -356,13 +626,15 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
 
+
             const Divider(thickness: 1),
 
-        const ListTile(
-          title: Text('Settings',
-          style: TextStyle(fontSize: 16.0),
-         ),
-      ),
+            const ListTile(
+              title: Text('Settings',
+                style: TextStyle(fontSize: 16.0),
+              ),
+            ),
+
 
 
             SwitchListTile(
