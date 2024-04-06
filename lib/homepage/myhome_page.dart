@@ -4,6 +4,7 @@ import 'package:share/share.dart';
 
 import '../bottom/FeedbackPage.dart';
 import '../bottom/SecurityQuestionPage.dart';
+import '../bottom/featureRequset.dart';
 import '../notifier/notifiers.dart';
 import '../test_page/favorite.dart';
 import '../test_page/recent.dart';
@@ -93,16 +94,20 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
 
-
-            SwitchListTile(
-              title: const Text('Security question',style: TextStyle(fontWeight: FontWeight.bold)),
-              secondary: const Icon(Icons.security_outlined,color: Colors.blue,),
-              value: isScreenKeptOn,
-              onChanged: (abl) {
-                setState(() {
-                  isScreenKeptOn = abl;
-                });
-              },
+        GestureDetector(
+        onTap: () {
+          Navigator.pushNamed(context, '/securityQuestionPage');
+        },
+          child: SwitchListTile(
+                title: const Text('Security question',style: TextStyle(fontWeight: FontWeight.bold)),
+                secondary: const Icon(Icons.security_outlined,color: Colors.blue,),
+                value: isScreenKeptOn,
+                onChanged: (abl) {
+                  setState(() {
+                    isScreenKeptOn = abl;
+                  });
+                },
+              ),
             ),
 
 
@@ -132,7 +137,7 @@ class _MyHomePageState extends State<MyHomePage> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const SecurityQuestionPage()),
+                  MaterialPageRoute(builder: (context) => const featureRequset()),
                 );
               },
             ),
@@ -183,6 +188,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               ),
                             ],
                           ),
+
                           const SizedBox(height: 10.0),
 
                           Row(
