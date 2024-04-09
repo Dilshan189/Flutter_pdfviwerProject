@@ -32,12 +32,13 @@ class _FeatureRequestScreenState extends State<featureRequset> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Center(
                   child: Image.asset(
                     _imagePath,
-                    width: 80,
-                    height:80,
+                    width: 100,
+                    height:90,
                   ),
                 ),
 
@@ -46,7 +47,7 @@ class _FeatureRequestScreenState extends State<featureRequset> {
 
             const Text(
               'Tell us the problem you encountered',
-              style: TextStyle(fontSize: 20.0 ,color: Colors.black),
+              style: TextStyle(fontSize: 20.0 ,),
             ),
 
             const SizedBox(height: 10.0),

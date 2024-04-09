@@ -122,12 +122,27 @@ class _FeedbackFormState extends State<FeedbackForm> {
             ),
           ),
           const SizedBox(height: 20),
+
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
           ElevatedButton(
             onPressed: () {
               _submitFeedback(context);
             },
+            style: ElevatedButton.styleFrom(
+              foregroundColor: Colors.white,
+              backgroundColor: Colors.blue, // Set text color
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0), // Adjust corner radius
+              ),
+              minimumSize: const Size(350.0, 50.0), // Set button size
+            ),
             child: const Text('Submit'),
           ),
+        ],
+      ),
+
         ],
       ),
     );
