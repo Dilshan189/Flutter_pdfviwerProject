@@ -5,8 +5,12 @@ class recent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
+    return  Scaffold(
+      floatingActionButton: FloatingActionButton(
+          onPressed: (){},
+        backgroundColor: Colors.blue,
+        child: const Icon(Icons.add,color: Colors.white,),
+      ),
     );
   }
 }

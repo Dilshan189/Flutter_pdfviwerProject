@@ -1,15 +1,17 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:pdfviwer/tools_page/addtext.dart';
 import 'package:pdfviwer/tools_page/editpdf.dart';
 import 'package:pdfviwer/tools_page/hardwea.dart';
-import 'package:pdfviwer/tools_page/imagepdf.dart';
 import 'package:pdfviwer/tools_page/lockpdf.dart';
 import 'package:pdfviwer/tools_page/marge.dart';
 import 'package:pdfviwer/tools_page/splitpdf.dart';
 import 'package:pdfviwer/tools_page/unlockpdf.dart';
-
-
-import '../homepage/myhome_page.dart';
+import 'package:permission_handler/permission_handler.dart';
+import '../homepage/pdf_screen.dart';
+import '../tools_page/images_list.dart';
+import '../tools_page/selected_images.dart';
 
 class tools extends StatefulWidget {
   const tools({Key? key});
@@ -30,7 +32,6 @@ List cateNames = [
   "Print",
 ];
 
-
 List<Color> cateColors = [
   const Color(0xFFFDFCCE),
   const Color(0xFFFFF4E0),
@@ -42,7 +43,6 @@ List<Color> cateColors = [
   const Color(0xFFF6E3CD),
   const Color(0xFFFDFDD2),
 ];
-
 
 List<Icon> cateIcons = [
   const Icon(Icons.picture_as_pdf_outlined, color: Colors.amber, size: 25),
@@ -56,14 +56,81 @@ List<Icon> cateIcons = [
   const Icon(Icons.print_outlined, color: Colors.brown, size: 25),
 ];
 
-
 class _ToolsState extends State<tools> {
 
+  ///File Picker Tools//////////////////////////////////////////////////////////
+
+  List<PlatformFile>? selectedFiles;
+
+  void pickFiles(BuildContext context) async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['pdf'],
+    );
+
+    if (result != null && result.files.isNotEmpty) {
+      setState(() {
+        selectedFiles = result.files;
+      });
+
+      var path = selectedFiles!.first.path;
+      if (path != null) {
+        Navigator.push(context, MaterialPageRoute(
+            builder: (context) => PDFScreen(index: 0, path: path),
+          ),
+        );
+      }
+    } else {
+
+    }
+  }
+
+  ///Image Picker Tools ////////////////////////////////////////////////////////
+
+  ImagesList imagesList = ImagesList();
+
+  Future<PermissionStatus> storagePermissionStatus() async {
+    PermissionStatus storagePermissionStatus = await Permission.storage.status;
+
+    if (!storagePermissionStatus.isGranted) {
+      await Permission.storage.request();
+    }
+
+    storagePermissionStatus = await Permission.storage.status;
+
+    return storagePermissionStatus;
+  }
+
+  Future<void> pickGalleryImage() async {
+    PermissionStatus status = await storagePermissionStatus();
+
+    if (status.isGranted) {
+      final ImagePicker picker = ImagePicker();
+      final List<XFile> images = await picker.pickMultiImage();
+
+      if (images.isNotEmpty) {
+        imagesList.clearImagesList();
+        imagesList.imagePaths.addAll(images);
+
+        if (!mounted) return;
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const SelectedImages(),
+          ),
+        );
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15),
+        color: Colors.white70,
+      ),
+      child: Padding(
         padding: const EdgeInsets.only(top: 20, left: 15, right: 15),
         child: Column(
           children: [
@@ -77,7 +144,7 @@ class _ToolsState extends State<tools> {
               ),
               itemBuilder: (context, index) {
                 return GestureDetector(
-                  onTap: () {
+                  onTap: () async {
                     switch (index) {
                       case 0:
                         Navigator.push(
@@ -85,48 +152,50 @@ class _ToolsState extends State<tools> {
                           MaterialPageRoute(builder: (context) => const marge()),
                         );
                         break;
+
                       case 1:
                         Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => const spiltpdf()),
                         );
                         break;
+
                       case 2:
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const imagepdf()),
-                        );
+                        await pickGalleryImage();
                         break;
+
                       case 3:
                         Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => const editpdf()),
                         );
                         break;
+
                       case 4:
                         Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => const addtext()),
                         );
                         break;
+
                       case 5:
                         Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => const lockpdf()),
                         );
                         break;
+
                       case 6:
                         Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => const unlockpdf()),
                         );
                         break;
+
                       case 7:
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const MyHomePage()),
-                        );
+                        pickFiles(context);
                         break;
+
                       default:
                         Navigator.push(
                           context,
@@ -174,17 +243,15 @@ class _ToolsState extends State<tools> {
             Card(
               elevation: 10,
               child: ListTile(
-                leading: const Icon(Icons.hail,color: Colors.amber,),
-                title: const Text("Hi Friends How are you?",style: TextStyle(fontWeight: FontWeight.bold)),
-                subtitle: const Text("I'm fine",style: TextStyle(fontWeight: FontWeight.bold)),
-                onTap: () {
-                },
+                leading: const Icon(Icons.hail, color: Colors.amber),
+                title: const Text("Hi Friends How are you?", style: TextStyle(fontWeight: FontWeight.bold)),
+                subtitle: const Text("I'm fine", style: TextStyle(fontWeight: FontWeight.bold)),
+                onTap: () {},
               ),
             ),
           ],
         ),
       ),
-
     );
   }
 }

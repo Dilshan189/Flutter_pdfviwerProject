@@ -32,7 +32,6 @@ class _SecurityQuestionPageState extends State<SecurityQuestionPage> {
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Card(
-            color: Colors.grey,
             elevation: 6,
             child: Padding(
               padding: const EdgeInsets.all(16.0),
@@ -40,9 +39,9 @@ class _SecurityQuestionPageState extends State<SecurityQuestionPage> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   const Text('Answer the security questions:',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 26),),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 40),
                   _buildSecurityQuestionDropdown(),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 30),
                   TextField(
                     onChanged: (value) {
                       setState(() {
@@ -70,12 +69,14 @@ class _SecurityQuestionPageState extends State<SecurityQuestionPage> {
                           ),
                         );
                         Navigator.popUntil(context, ModalRoute.withName('/'));
-                      } else {
+                      }
+                      else
+                      {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             content: Row(
                               children: [
-                                Text('Please select a security\nquestion and enter an answer',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16)),
+                                Text('Please select a security \n question and enter an answer',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16)),
                                 Icon(Icons.error_outline, size: 50, color: Colors.yellow), // Adjust size and color as needed
                               ],
                             ),

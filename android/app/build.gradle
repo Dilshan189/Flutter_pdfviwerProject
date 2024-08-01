@@ -24,7 +24,8 @@ if (flutterVersionName == null) {
 
 android {
     namespace "com.example.pdfviwer"
-    compileSdk flutter.compileSdkVersion
+    //compileSdk flutter.
+    compileSdkVersion 34
     ndkVersion flutter.ndkVersion
 
     compileOptions {
@@ -37,10 +38,17 @@ android {
         applicationId "com.example.pdfviwer"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdkVersion flutter.minSdkVersion
-        targetSdkVersion flutter.targetSdkVersion
+       // minSdkVersion flutter.
+        minSdkVersion 21
+        //targetSdkVersion flutter.
+        targetSdkVersion 33
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        multiDexEnabled true
+        versionCode 1
+        versionName "1.0"
+
+
     }
 
     buildTypes {

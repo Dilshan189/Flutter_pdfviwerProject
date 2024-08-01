@@ -6,7 +6,11 @@ class favorite extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: (){},
+        backgroundColor: Colors.blue,
+        child: const Icon(Icons.add,color:Colors.white),
+      ),
     );
   }
 }

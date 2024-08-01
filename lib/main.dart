@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:pdfviwer/homepage/myhome_page.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:pdfviwer/Splash_screen.dart';
 import 'package:pdfviwer/notifier/notifiers.dart';
+import 'package:device_preview/device_preview.dart';
 
 
-void main() {
-  runApp(const MyApp());
-}
+
+void main() => runApp(
+  DevicePreview(
+    builder: (context) => const MyApp(), // Wrap your app
+  ),
+);
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -15,15 +20,19 @@ class MyApp extends StatelessWidget {
     return ValueListenableBuilder (
       valueListenable: isDarkModelNotifier,
         builder: (context, isDark, child) {
-          return MaterialApp(
+          return GetMaterialApp(
+            useInheritedMediaQuery: true,
+            locale: DevicePreview.locale(context),
+            builder: DevicePreview.appBuilder,
             debugShowCheckedModeBanner: false,
             title: 'Flutter Demo',
             theme: ThemeData(
-              brightness: isDark? Brightness.dark : Brightness.light,                 ///added dark////
+              scaffoldBackgroundColor:  Colors.white ,
+              brightness: isDark? Brightness.dark : Brightness.light,                 ///added darkMode////
               primarySwatch: Colors.blue,
               useMaterial3: true,
             ),
-            home: const MyHomePage(),
+            home:  const SplashScreen(),
           );
         },
     );

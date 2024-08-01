@@ -71,7 +71,6 @@ class _FeedbackFormState extends State<FeedbackForm> {
 
           const Text(
             'How satisfied are you with the app?',
-            style: TextStyle(color: Colors.black54),
           ),
           const SizedBox(height: 20),
           Row(
