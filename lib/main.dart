@@ -5,7 +5,6 @@ import 'package:pdfviwer/notifier/notifiers.dart';
 import 'package:device_preview/device_preview.dart';
 
 
-
 void main() => runApp(
   DevicePreview(
     builder: (context) => const MyApp(), // Wrap your app
@@ -20,12 +19,12 @@ class MyApp extends StatelessWidget {
     return ValueListenableBuilder (
       valueListenable: isDarkModelNotifier,
         builder: (context, isDark, child) {
+
           return GetMaterialApp(
             useInheritedMediaQuery: true,
             locale: DevicePreview.locale(context),
             builder: DevicePreview.appBuilder,
             debugShowCheckedModeBanner: false,
-            title: 'Flutter Demo',
             theme: ThemeData(
               scaffoldBackgroundColor:  Colors.white ,
               brightness: isDark? Brightness.dark : Brightness.light,                 ///added darkMode////

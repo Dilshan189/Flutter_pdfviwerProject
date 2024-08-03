@@ -5,6 +5,7 @@ import 'package:pdfviwer/homepage/pdf_screen.dart';
 import 'package:share/share.dart';
 import '../bottom/FeedbackPage.dart';
 import '../bottom/featureRequset.dart';
+import '../bottom/featurebottomsheet.dart';
 import '../notifier/notifiers.dart';
 import '../test_page/browserpage.dart';
 import '../test_page/favorite.dart';
@@ -22,7 +23,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
-  FilePickerResult? filePickerResult;
+  List<PlatformFile>? selectedFiles;
   final String _imagePath = 'assets/images/image.png';
 
   int _selectedIndex = 0;
@@ -46,15 +47,38 @@ class _MyHomePageState extends State<MyHomePage> {
   bool showCreateFoldersIcon = false;
   bool showOtherIcon = false;
 
+  /// File picker added ////////////////////////////////////////////////////////
 
-  List<Widget> widgetList = [
+  void pickFiles(BuildContext context) async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['pdf'],
+    );
 
+    if (result != null && result.files.isNotEmpty) {
+      setState(() {
+        selectedFiles = result.files;
+      });
+
+      var path = selectedFiles!.first.path;
+      if (path != null) {
+        Navigator.push(context, MaterialPageRoute(
+          builder: (context) => PDFScreen(index: 0, path: path),
+        ),
+        );
+      }
+    } else {
+
+    }
+  }
+
+
+  List<Widget> widgetList = const[
 
     BrowserPage(),
     recent(),
     favorite(),
     tools(),
-
 
   ];
 
@@ -69,6 +93,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.white54,
         title: isSearching
             ? TextField(
           controller: searchController,
@@ -100,6 +125,15 @@ class _MyHomePageState extends State<MyHomePage> {
             onPressed: () {},
           ),
         ],
+
+        leading: Builder(
+          builder: (context) => IconButton(onPressed: () {
+              Scaffold.of(context).openDrawer();
+            },
+            icon: const Icon(Icons.sort),
+          ),
+        ),
+
       ),
 
       /// Added Drawer////////////////////////////////////////////////////////
@@ -111,59 +145,92 @@ class _MyHomePageState extends State<MyHomePage> {
 
             const ListTile(
               title: Text('PDF Reader',
-                style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
-              ),
+                style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.w500,fontFamily: 'apots_bold')),
+              trailing: Icon(Icons.star_border_purple500_outlined, color: Colors.black,size: 45,shadows: [Shadow(color: Colors.black87)],),
+
             ),
 
             const Divider(thickness: 1),
 
             ListTile(
               title: const Text(
-                'Browse PDF',
-                style: TextStyle(fontWeight: FontWeight.bold),
+                'Import PDF',
+                style: TextStyle(fontWeight: FontWeight.bold,fontFamily: 'apots_bold'),
               ),
               leading: const Icon(Icons.folder_open, color: Colors.blue),
-              onTap: () async {
-                try {
-                  filePickerResult = await FilePicker.platform.pickFiles(
-                    allowedExtensions: ['pdf'],
-                    type: FileType.custom,
-                  );
-                  if (filePickerResult != null) {
-                    var path = filePickerResult!.files.single.path;
-                    if (path != null) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => PDFScreen(index: 0, path: path),
-                        ),
-                      );
-                    }
-                  }
-                } catch (e) {
-                  print('Error picking file: $e');
-                }
+              onTap: () {
+                  pickFiles(context);
+              }
+            ),
+
+            ListTile(
+              title: const Text(
+                  'FAQ', style: TextStyle(fontFamily: 'apots_bold',fontWeight: FontWeight.w500)),
+              leading: const Icon(
+                Icons.question_answer_outlined, color: Colors.blue,),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const featureRequset()),
+                );
               },
             ),
 
             ListTile(
-              leading: const Icon(Icons.ios_share_rounded, color: Colors.blue,),
+              title: const Text('Request a new feature', style: TextStyle(fontWeight: FontWeight.bold,fontFamily: 'apots_bold')),
+              leading: const Icon(Icons.file_copy_outlined, color: Colors.blue),
+              onTap: () => showModalBottomSheet<void>(
+                context: context,
+                builder: (BuildContext context) {
+                  return FeatureRequestBottomSheet(imagePath: _imagePath);
+                },
+              ),
+            ),
+
+
+        const Divider(thickness: 1,),
+
+
+            const ListTile(
+              title: Text('Settings',
+                style: TextStyle(fontSize: 16.0,fontFamily: 'apots_bold'),
+              ),
+            ),
+
+            SwitchListTile(
               title: const Text(
-                  'Share App', style: TextStyle(fontWeight: FontWeight.bold)),
-              onTap: () {
-                final RenderBox box = context.findRenderObject() as RenderBox;
-                Share.share(
-                    'Hi , Im using PDF Reader. Its so easy and convenient to view & edit PDFs...',
-                    subject: 'PDF Viewer App',
-                    sharePositionOrigin: box.localToGlobal(Offset.zero) & box
-                        .size);
+                  'DarkMode', style: TextStyle(fontWeight: FontWeight.bold,fontFamily: 'apots_bold')),
+              secondary: const Icon(
+                  Icons.dark_mode_outlined, color: Colors.blue),
+              value: isDarkModelNotifier.value,
+              onChanged: (val) {
+                isDarkModelNotifier.value = !isDarkModelNotifier.value;
+                setState(() {});
               },
             ),
 
 
+
+            SwitchListTile(
+                title: const Text('Keep screen on',
+                    style: TextStyle(fontWeight: FontWeight.bold,fontFamily: 'apots_bold')),
+                secondary: const Icon(
+                  Icons.screen_rotation_alt_outlined, color: Colors.blue,),
+                value: isScreenKeptOff,
+                onChanged: (val) {
+                  setState(() {
+                    isScreenKeptOff = val;
+                  });
+                }
+            ),
+
+
+
+
             SwitchListTile(
               title: const Text('Security question',
-                  style: TextStyle(fontWeight: FontWeight.bold)),
+                  style: TextStyle(fontWeight: FontWeight.bold,fontFamily: 'apots_bold')),
               secondary: const Icon(
                 Icons.security_outlined, color: Colors.blue,),
               value: isScreenKeptOn,
@@ -179,46 +246,51 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
 
 
+
+
             ListTile(
               title: const Text('Language Options',
-                  style: TextStyle(fontWeight: FontWeight.bold)),
+                  style: TextStyle(fontWeight: FontWeight.bold,fontFamily: 'apots_bold')),
               leading: const Icon(Icons.language_outlined, color: Colors.blue,),
               onTap: () {
 
               },
             ),
 
-            SwitchListTile(
-              title: const Text(
-                  'DarkMode', style: TextStyle(fontWeight: FontWeight.bold)),
-              secondary: const Icon(
-                  Icons.dark_mode_outlined, color: Colors.blue),
-              value: isDarkModelNotifier.value,
-              onChanged: (val) {
-                isDarkModelNotifier.value = !isDarkModelNotifier.value;
-                setState(() {});
-              },
+
+
+            const Divider(thickness: 1,),
+
+
+            const ListTile(
+              title: Text('About App',
+                style: TextStyle(fontSize: 16.0,fontFamily: 'apots_bold'),
+              ),
             ),
 
 
+
+
             ListTile(
+              leading: const Icon(Icons.ios_share_rounded, color: Colors.blue,),
               title: const Text(
-                  'FAQ', style: TextStyle(fontWeight: FontWeight.bold)),
-              leading: const Icon(
-                Icons.question_answer_outlined, color: Colors.blue,),
+                  'Share App', style: TextStyle(fontWeight: FontWeight.bold,fontFamily: 'apots_bold')),
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const featureRequset()),
-                );
+                final RenderBox box = context.findRenderObject() as RenderBox;
+                Share.share(
+                    'Hi , Im using PDF Reader. Its so easy and convenient to view & edit PDFs...',
+                    subject: 'PDF Viewer App',
+                    sharePositionOrigin: box.localToGlobal(Offset.zero) & box
+                        .size);
               },
             ),
 
 
+
+
             ListTile(
               title: const Text(
-                  'Feedback', style: TextStyle(fontWeight: FontWeight.bold)),
+                  'Feedback', style: TextStyle(fontWeight: FontWeight.bold,fontFamily: 'apots_bold')),
               leading: const Icon(Icons.feedback_outlined, color: Colors.blue,),
               onTap: () {
                 Navigator.push(
@@ -228,186 +300,11 @@ class _MyHomePageState extends State<MyHomePage> {
               },
             ),
 
-            ListTile(
-              title: const Text('Request a new feature',
-                  style: TextStyle(fontWeight: FontWeight.bold)),
-              leading: const Icon(
-                Icons.file_copy_outlined, color: Colors.blue,),
-              onTap: () =>
-                  showModalBottomSheet<void>(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return Container(
-                        width: MediaQuery
-                            .of(context)
-                            .size
-                            .width * 9.5,
-                        height: MediaQuery
-                            .of(context)
-                            .size
-                            .height * 20.0,
-                        padding: const EdgeInsets.all(20.0),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            Image.asset(
-                              _imagePath,
-                              width: 100.0,
-                              height: 100.0,
-                            ),
 
-                            const SizedBox(height: 10.0),
-
-                            const Text(
-                              'What other features do you want?',
-                              style: TextStyle(fontSize: 22.0,),
-                            ),
-
-                            const SizedBox(height: 16.0),
-
-                            const Text(
-                              'Well prioritize adding the features you want',
-                              style: TextStyle(fontSize: 15.0,),
-                            ),
-
-                            const SizedBox(height: 20.0),
-
-                            SingleChildScrollView(
-                              child: Column(
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment
-                                        .spaceBetween,
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment
-                                            .start,
-                                        crossAxisAlignment: CrossAxisAlignment
-                                            .end,
-                                        children: [
-
-                                          Card(
-                                            child: TextButton.icon(
-                                              onPressed: () =>
-                                              {
-
-                                                setState(() {})
-                                              },
-                                              icon: const Icon(Icons
-                                                  .document_scanner_outlined),
-                                              label: const Text('Scan to PDF'),
-                                            ),
-                                          ),
-
-                                          Card(
-                                            child: TextButton.icon(
-                                              onPressed: () =>
-                                              {
-                                                showSubmitButton = true,
-                                                setState(() {})
-                                              },
-                                              icon: const Icon(
-                                                  Icons.cloud_done_outlined),
-                                              label: const Text('Cloud Sync'),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-
-                                  const SizedBox(height: 5.0),
-
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-
-                                      Card(
-                                        child: TextButton.icon(
-                                          onPressed: () =>
-                                          {
-                                            showSubmitButton = true,
-                                            setState(() {})
-                                          },
-                                          icon: const Icon(
-                                              Icons.create_new_folder_outlined),
-                                          label: const Text('Create Folders'),
-                                        ),
-                                      ),
-
-
-                                      Card(
-                                        child: TextButton.icon(
-                                          onPressed: () =>
-                                          {
-                                            showSubmitButton = true,
-                                            setState(() {})
-                                          },
-                                          icon: const Icon(
-                                              Icons.offline_bolt_outlined),
-                                          label: const Text('Others'),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                ElevatedButton(
-                                  onPressed: () {
-
-
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    foregroundColor: Colors.white,
-                                    backgroundColor: Colors.blue,
-                                    // Set text color
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(
-                                          10.0),
-                                    ),
-                                    minimumSize: const Size(
-                                        350.0, 50.0),
-                                  ),
-                                  child: const Text('Submit'),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-            ),
-
-
-            const Divider(thickness: 1),
-
-            const ListTile(
-              title: Text('Settings',
-                style: TextStyle(fontSize: 16.0),
-              ),
-            ),
-
-
-            SwitchListTile(
-                title: const Text('Keep screen on',
-                    style: TextStyle(fontWeight: FontWeight.bold)),
-                value: isScreenKeptOff,
-                onChanged: (val) {
-                  setState(() {
-                    isScreenKeptOff = val;
-                  });
-                }
-            ),
 
             const ListTile(
               title: Text('Version:1.3.8L',
-                style: TextStyle(fontSize: 16.0),
+                style: TextStyle(fontSize: 16.0,fontFamily: 'apots_bold'),
               ),
             ),
 
@@ -416,28 +313,40 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
 
 
-      ///Added bottomnavigationbar//////////////////////////////////////////
+      /// Bottomnavigationbar added ////////////////////////////////////////////
 
 
       body: widgetList[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.file_open_outlined),
+            icon: Image(image:AssetImage('assets/images/home.png'),
+              width: 25,
+              height: 25,
+            ) ,
             label: 'All files',
           ),
 
           BottomNavigationBarItem(
-            icon: Icon(Icons.watch_later_outlined),
+            icon: Image(image:AssetImage('assets/images/icons8-clock-32.png',),
+              width: 25,
+              height: 25,
+            ) ,
             label: 'Recent',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.favorite_outline),
+            icon:Image(image:AssetImage('assets/images/icons8-favorite-folder-48.png'),
+              width: 25,
+              height: 25,
+            ) ,
             label: 'Favourite', // Rename for clarity
           ),
 
           BottomNavigationBarItem(
-            icon: Icon(Icons.apps_rounded),
+            icon: Image(image:AssetImage('assets/images/icons8-apps-32.png'),
+              width: 25,
+              height: 25,
+            ) ,
             label: 'Tools', // Rename for clarity
           ),
 
@@ -445,9 +354,15 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.blue,
+        selectedItemColor: Colors.black87,
         unselectedItemColor: Colors.black,
         onTap: _onItemTapped,
+        selectedLabelStyle: const TextStyle(
+          fontFamily: 'apots_bold',
+        ),
+        unselectedLabelStyle: const TextStyle(
+          fontFamily: 'apots_bold',
+        ),
       ),
     );
   }

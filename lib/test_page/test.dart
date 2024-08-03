@@ -45,7 +45,7 @@ List<Color> cateColors = [
 ];
 
 List<Icon> cateIcons = [
-  const Icon(Icons.picture_as_pdf_outlined, color: Colors.amber, size: 25),
+  const Icon(Icons.picture_as_pdf_outlined, color: Colors.red, size: 25),
   const Icon(Icons.call_split_outlined, color: Colors.green, size: 25),
   const Icon(Icons.image_outlined, color: Colors.pink, size: 25),
   const Icon(Icons.edit_note_sharp, color: Colors.purple, size: 25),
@@ -207,14 +207,14 @@ class _ToolsState extends State<tools> {
                   child: Column(
                     children: [
                       Container(
-                        height: 80,
-                        width: 80,
+                        height: 65,
+                        width: 70,
                         decoration: BoxDecoration(
                           color: cateColors[index],
                           shape: BoxShape.circle,
                           boxShadow: const [
                             BoxShadow(
-                              color: Colors.white60,
+                              color: Colors.black12,
                               blurRadius: 1,
                               spreadRadius: 1,
                               offset: Offset(2, 2),
@@ -244,8 +244,8 @@ class _ToolsState extends State<tools> {
               elevation: 10,
               child: ListTile(
                 leading: const Icon(Icons.hail, color: Colors.amber),
-                title: const Text("Hi Friends How are you?", style: TextStyle(fontWeight: FontWeight.bold)),
-                subtitle: const Text("I'm fine", style: TextStyle(fontWeight: FontWeight.bold)),
+                title: const Text("Hi Friends How are you?", style: TextStyle(fontWeight: FontWeight.w800,fontFamily: 'Calibri')),
+                subtitle: const Text("I'm fine", style: TextStyle(fontWeight: FontWeight.bold,fontFamily: 'Calibri')),
                 onTap: () {},
               ),
             ),

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 import 'homepage/myhome_page.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -14,10 +15,8 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
 
   changeScreen(){
-    Future.delayed(const Duration(seconds: 3),(){
+    Future.delayed(const Duration(seconds: 6),(){
       Get.to(()=>const MyHomePage ());
-
-
     });
   }
 
@@ -36,38 +35,35 @@ class _SplashScreenState extends State<SplashScreen> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Align(
-              alignment: Alignment.center,child: Image.asset('assets/images/icon.png',width:100,height: 150,),
+              alignment: Alignment.center,
+              child: Lottie.asset('assets/icon/Animation - 1722678542638.json',),
             ),
-            const SizedBox(height: 310,),
-
+            const SizedBox(height: 100,),
             const SizedBox(
-              height: 2,
-                width: 350,
-                child: LinearProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation(Colors.blue),
-                  backgroundColor: Colors.grey,
-                  minHeight: 5,
-
-                )
+              height: 5,
+              width: 10,
             ),
-
-            const SizedBox(height: 10,),
+            const SizedBox(height: 5,),
             const Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text('PDF Reader',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 22,),)
+                  Text(
+                    'PDF Reader',
+                    style: TextStyle(
+                      fontFamily: 'apots_bold',
+                      fontWeight: FontWeight.w500,
+                      fontSize: 22,
+                      color: Color.fromARGB(255, 255, 7, 26),
+                    ),
+                  ),
                 ],
               ),
             ),
-            const SizedBox(height: 20,),
+            const SizedBox(height: 50,),
           ],
         ),
-
       ),
-
     );
-
   }
 }
-

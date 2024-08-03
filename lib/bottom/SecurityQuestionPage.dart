@@ -62,7 +62,7 @@ class _SecurityQuestionPageState extends State<SecurityQuestionPage> {
                             content: Row(
                               children: [
                                 Text('Thank for your Answer!',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16)),
-                                Icon(Icons.gpp_good, size: 50, color: Colors.yellow), // Adjust size and color as needed
+                                Icon(Icons.gpp_good, size: 40, color: Colors.yellow), // Adjust size and color as needed
                               ],
                             ),
                             duration: Duration(seconds: 2),
@@ -77,7 +77,7 @@ class _SecurityQuestionPageState extends State<SecurityQuestionPage> {
                             content: Row(
                               children: [
                                 Text('Please select a security \n question and enter an answer',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16)),
-                                Icon(Icons.error_outline, size: 50, color: Colors.yellow), // Adjust size and color as needed
+                                Icon(Icons.error_outline, size: 40, color: Colors.yellow), // Adjust size and color as needed
                               ],
                             ),
                             duration: Duration(seconds: 2),

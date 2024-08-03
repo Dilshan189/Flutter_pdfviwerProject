@@ -6,7 +6,6 @@ import 'package:gap/gap.dart';
 import 'package:media_scanner/media_scanner.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:image/image.dart' as img;
-
 import 'images_list.dart';
 
 class SelectedImages extends StatefulWidget {
@@ -63,8 +62,8 @@ class _SelectedImagesState extends State<SelectedImages> {
       appBar: AppBar(
         title: const Text("Selected Images"),
         centerTitle: true,
-        backgroundColor: Colors.teal,
-        foregroundColor: Colors.white,
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black38,
       ),
       bottomNavigationBar: MaterialButton(
         color: Colors.teal,
