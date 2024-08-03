@@ -76,7 +76,7 @@ class _ToolsState extends State<tools> {
       var path = selectedFiles!.first.path;
       if (path != null) {
         Navigator.push(context, MaterialPageRoute(
-            builder: (context) => PDFScreen(index: 0, path: path),
+            builder: (context) => PDFScreen(index: 0, path: path,pdfPath: path, pdfName: path.split('/').last),
           ),
         );
       }
@@ -90,13 +90,13 @@ class _ToolsState extends State<tools> {
   ImagesList imagesList = ImagesList();
 
   Future<PermissionStatus> storagePermissionStatus() async {
-    PermissionStatus storagePermissionStatus = await Permission.storage.status;
+    PermissionStatus storagePermissionStatus = await Permission.manageExternalStorage.status;
 
     if (!storagePermissionStatus.isGranted) {
-      await Permission.storage.request();
+      await Permission.manageExternalStorage.request();
     }
 
-    storagePermissionStatus = await Permission.storage.status;
+    storagePermissionStatus = await Permission.manageExternalStorage.status;
 
     return storagePermissionStatus;
   }

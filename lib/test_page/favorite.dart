@@ -7,7 +7,9 @@ class favorite extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Image.asset('assets/images/paper_2.png'),
+        child: Image.asset('assets/images/paper_2.png',
+          width: 500,
+          height: 300,),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: (){},

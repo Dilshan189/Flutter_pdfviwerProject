@@ -66,7 +66,7 @@ class _SelectedImagesState extends State<SelectedImages> {
         foregroundColor: Colors.black38,
       ),
       bottomNavigationBar: MaterialButton(
-        color: Colors.teal,
+        color: Colors.blue,
         textColor: Colors.white,
         padding: const EdgeInsets.symmetric(vertical: 20),
         onPressed: convertImage,
@@ -87,7 +87,7 @@ class _SelectedImagesState extends State<SelectedImages> {
                 child: LinearProgressIndicator(
                   minHeight: 25,
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
-                  valueColor: const AlwaysStoppedAnimation<Color>(Colors.green),
+                  valueColor: const AlwaysStoppedAnimation<Color>(Colors.blue),
                   value: progressValue,
                 ),
               ),

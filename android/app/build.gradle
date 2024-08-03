@@ -26,7 +26,9 @@ android {
     namespace "com.example.pdfviwer"
     //compileSdk flutter.
     compileSdkVersion 34
-    ndkVersion flutter.ndkVersion
+
+    //ndkVersion flutter.
+
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8

@@ -1,26 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pdfx/pdfx.dart';
+//import 'package:pdfx/pdfx.dart';
 import 'package:share/share.dart';
 import '../const.dart';
 
-
 class PDFScreen extends StatefulWidget {
+  final String pdfPath;
+  final String pdfName;
   final int index;
   final String path;
 
-  const PDFScreen({super.key, required this.index, required this.path});
+  const PDFScreen({
+    super.key,
+    required this.index,
+    required this.path,
+    required this.pdfPath,
+    required this.pdfName,
+  });
 
   @override
   State<PDFScreen> createState() => _PDFScreenState();
 }
 
 class _PDFScreenState extends State<PDFScreen> {
-
   late PdfController pdfController;
   int _selectedIndex = 0;
   String fileName = '';
-
 
   ///PDF Reader Portrait added//////////////////////////////////////////////////
 
@@ -46,13 +52,11 @@ class _PDFScreenState extends State<PDFScreen> {
     super.dispose();
   }
 
-
-
   Future<void> loadController() async {
     switch (widget.index) {
       case 0:
       case 1:
-        pdfController = PdfController(document: PdfDocument.openFile(widget.path.toString()));
+        pdfController = PdfController(document: PdfDocument.openFile(widget.pdfPath));
         break;
       default:
         pdfController = PdfController(document: PdfDocument.openAsset('assets/files/pdf.pdf'));
@@ -72,10 +76,10 @@ class _PDFScreenState extends State<PDFScreen> {
     return Scaffold(
       appBar: AppBar(
         actions: [
-          IconButton(onPressed: () {_rotateScreen();},
-            icon: const Icon(Icons.autorenew_rounded, color: Colors.black38,),
+          IconButton(
+            onPressed: _rotateScreen,
+            icon: const Icon(Icons.autorenew_rounded, color: Colors.black38),
           ),
-
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12),
             alignment: Alignment.center,
@@ -87,7 +91,7 @@ class _PDFScreenState extends State<PDFScreen> {
         ],
         title: Text(
           fileName.isEmpty ? "Filename" : fileName,
-          style: textStyle(font: poppins,),
+          style: textStyle(font: poppins),
         ),
         leading: IconButton(
           onPressed: () {
@@ -98,7 +102,7 @@ class _PDFScreenState extends State<PDFScreen> {
         ),
       ),
       body: Center(
-        child: pdfController != null ? PdfView(controller: pdfController) : const CircularProgressIndicator(),
+        child: PdfView(controller: pdfController),
       ),
 
       ///PDF Reader bottomnavigationbar added///////////////////////////////////
@@ -118,7 +122,6 @@ class _PDFScreenState extends State<PDFScreen> {
     );
   }
 
-
   ///Added roisterer Screen connect portrait ///////////////////////////////////
 
   void _rotateScreen() {
@@ -135,7 +138,7 @@ class _PDFScreenState extends State<PDFScreen> {
     }
   }
 
-///Bottomnavigationbar//////////////////////////////////////////////////////////
+  ///Bottomnavigationbar////////////////////////////////////////////////////////
 
   Widget _buildBottomNavigationBarItem(IconData icon, String label, int index) {
     return GestureDetector(
@@ -144,10 +147,14 @@ class _PDFScreenState extends State<PDFScreen> {
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(icon,color: _selectedIndex == index ? Colors.cyan : Colors.black,
-          ),
-          Text(label, style: const TextStyle(fontWeight: FontWeight.w600,).copyWith(
+          Icon(
+            icon,
             color: _selectedIndex == index ? Colors.cyan : Colors.black,
+          ),
+          Text(
+            label,
+            style: const TextStyle(fontWeight: FontWeight.w600).copyWith(
+              color: _selectedIndex == index ? Colors.cyan : Colors.black,
             ),
           ),
         ],

@@ -1,11 +1,17 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:lottie/lottie.dart';
 import 'package:pdfviwer/bottom/SecurityQuestionPage.dart';
+import 'package:pdfviwer/consts/consts.dart';
 import 'package:pdfviwer/homepage/pdf_screen.dart';
+import 'package:pdfviwer/homepage/search_bar.dart';
 import 'package:share/share.dart';
 import '../bottom/FeedbackPage.dart';
 import '../bottom/featureRequset.dart';
 import '../bottom/featurebottomsheet.dart';
+import '../exite_dialog.dart';
 import '../notifier/notifiers.dart';
 import '../test_page/browserpage.dart';
 import '../test_page/favorite.dart';
@@ -22,6 +28,28 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
+  void _showImage() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Lottie.asset('assets/icon/Animation - 1722878584548.json'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Close',
+              style: TextStyle(color: Colors.black),),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
 
   List<PlatformFile>? selectedFiles;
   final String _imagePath = 'assets/images/image.png';
@@ -63,7 +91,7 @@ class _MyHomePageState extends State<MyHomePage> {
       var path = selectedFiles!.first.path;
       if (path != null) {
         Navigator.push(context, MaterialPageRoute(
-          builder: (context) => PDFScreen(index: 0, path: path),
+          builder: (context) => PDFScreen(index: 0, path: path, pdfPath:path, pdfName:path,),
         ),
         );
       }
@@ -75,7 +103,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   List<Widget> widgetList = const[
 
-    BrowserPage(),
+    PDFListScreen(),
     recent(),
     favorite(),
     tools(),
@@ -91,33 +119,27 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return WillPopScope(
+        onWillPop: () async {
+      showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) => exitDialog(context),
+      );
+      return false; // Prevent the default back navigation
+    },
+
+    child:Scaffold(
       appBar: AppBar(
+        title: Text(appBarTitle),
         backgroundColor: Colors.white54,
-        title: isSearching
-            ? TextField(
-          controller: searchController,
-          decoration: const InputDecoration(
-            hintText: 'Search PDF files...',
-            hintStyle: TextStyle(color: Colors.black38,fontWeight: FontWeight.w500),
-          ),
-          style: const TextStyle(color: Colors.black,fontWeight: FontWeight.w500),
-         // onChanged: _filterPdfFiles,
-        )
-            : Text(appBarTitle),
         actions: [
           IconButton(
-            icon: Icon(isSearching ? Icons.clear : Icons.search),
+            icon: const Image(image: AssetImage('assets/images/icons8-search-50.png',),
+            width: 23,
+            height: 23,),
             onPressed: () {
-              setState(() {
-                if (isSearching) {
-                  isSearching = false;
-                  searchController.clear();
-                  filteredPdfFiles = pdfFiles;
-                } else {
-                  isSearching = true;
-                }
-              });
+              Get.to(() => const Searchbar());
             },
           ),
           IconButton(
@@ -128,8 +150,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
         leading: Builder(
           builder: (context) => IconButton(onPressed: () {
-              Scaffold.of(context).openDrawer();
-            },
+            Scaffold.of(context).openDrawer();
+          },
             icon: const Icon(Icons.sort),
           ),
         ),
@@ -143,31 +165,35 @@ class _MyHomePageState extends State<MyHomePage> {
         child: ListView(
           children: <Widget>[
 
-            const ListTile(
-              title: Text('PDF Reader',
-                style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.w500,fontFamily: 'apots_bold')),
-              trailing: Icon(Icons.star_border_purple500_outlined, color: Colors.black,size: 45,shadows: [Shadow(color: Colors.black87)],),
-
+             ListTile(
+              title: const Text('PDF Reader',
+                  style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.w500,fontFamily: 'apots_bold')),
+                  trailing: IconButton(onPressed:_showImage,
+                      icon: const Icon(Icons.star_border_purple500_outlined, color: Colors.black,size: 45,shadows: [Shadow(color: Colors.black87)])),
             ),
 
             const Divider(thickness: 1),
 
             ListTile(
-              title: const Text(
-                'Import PDF',
-                style: TextStyle(fontWeight: FontWeight.bold,fontFamily: 'apots_bold'),
-              ),
-              leading: const Icon(Icons.folder_open, color: Colors.blue),
-              onTap: () {
+                title: const Text(
+                  'Import PDF',
+                  style: TextStyle(fontWeight: FontWeight.bold,fontFamily: 'apots_bold'),
+                ),
+                leading:const Image(image: AssetImage('assets/images/icons8-folder-26.png'),
+                  width: 20,
+                  height: 20,),
+                onTap: () {
                   pickFiles(context);
-              }
+                }
             ),
 
             ListTile(
               title: const Text(
-                  'FAQ', style: TextStyle(fontFamily: 'apots_bold',fontWeight: FontWeight.w500)),
-              leading: const Icon(
-                Icons.question_answer_outlined, color: Colors.blue,),
+                'FAQ', style: TextStyle(fontFamily: 'apots_bold',fontWeight: FontWeight.w500),
+              ),
+              leading: const Image(image: AssetImage('assets/images/icons8-question-48.png'),
+                width: 25,
+                height: 25,),
               onTap: () {
                 Navigator.push(
                   context,
@@ -179,7 +205,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
             ListTile(
               title: const Text('Request a new feature', style: TextStyle(fontWeight: FontWeight.bold,fontFamily: 'apots_bold')),
-              leading: const Icon(Icons.file_copy_outlined, color: Colors.blue),
+              leading: const Image(image: AssetImage('assets/images/icons8-copy-48.png'),
+                width: 25,
+                height: 25,),
               onTap: () => showModalBottomSheet<void>(
                 context: context,
                 builder: (BuildContext context) {
@@ -189,7 +217,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
 
 
-        const Divider(thickness: 1,),
+            const Divider(thickness: 1,),
 
 
             const ListTile(
@@ -201,8 +229,10 @@ class _MyHomePageState extends State<MyHomePage> {
             SwitchListTile(
               title: const Text(
                   'DarkMode', style: TextStyle(fontWeight: FontWeight.bold,fontFamily: 'apots_bold')),
-              secondary: const Icon(
-                  Icons.dark_mode_outlined, color: Colors.blue),
+              secondary: const Image(image: AssetImage('assets/images/icons8-dark-30.png'),
+                width: 25,
+                height: 25,
+              ),
               value: isDarkModelNotifier.value,
               onChanged: (val) {
                 isDarkModelNotifier.value = !isDarkModelNotifier.value;
@@ -215,8 +245,9 @@ class _MyHomePageState extends State<MyHomePage> {
             SwitchListTile(
                 title: const Text('Keep screen on',
                     style: TextStyle(fontWeight: FontWeight.bold,fontFamily: 'apots_bold')),
-                secondary: const Icon(
-                  Icons.screen_rotation_alt_outlined, color: Colors.blue,),
+                secondary: const Image(image: AssetImage('assets/images/icons8-google-mobile-30.png'),
+                  width: 25,
+                  height: 25,),
                 value: isScreenKeptOff,
                 onChanged: (val) {
                   setState(() {
@@ -231,8 +262,9 @@ class _MyHomePageState extends State<MyHomePage> {
             SwitchListTile(
               title: const Text('Security question',
                   style: TextStyle(fontWeight: FontWeight.bold,fontFamily: 'apots_bold')),
-              secondary: const Icon(
-                Icons.security_outlined, color: Colors.blue,),
+              secondary: const Image(image: AssetImage('assets/images/icons8-question-48.png'),
+                width: 25,
+                height: 25,),
               value: isScreenKeptOn,
               onChanged: (abl) {
                 setState(() {
@@ -251,16 +283,15 @@ class _MyHomePageState extends State<MyHomePage> {
             ListTile(
               title: const Text('Language Options',
                   style: TextStyle(fontWeight: FontWeight.bold,fontFamily: 'apots_bold')),
-              leading: const Icon(Icons.language_outlined, color: Colors.blue,),
+              leading: const Image(image: AssetImage('assets/images/icons8-world-50.png'),
+                width: 25,
+                height: 25,),
               onTap: () {
 
               },
             ),
 
-
-
             const Divider(thickness: 1,),
-
 
             const ListTile(
               title: Text('About App',
@@ -269,10 +300,10 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
 
 
-
-
             ListTile(
-              leading: const Icon(Icons.ios_share_rounded, color: Colors.blue,),
+              leading: const Image(image: AssetImage('assets/images/icons8-share-50.png'),
+                width: 25,
+                height: 25,),
               title: const Text(
                   'Share App', style: TextStyle(fontWeight: FontWeight.bold,fontFamily: 'apots_bold')),
               onTap: () {
@@ -291,7 +322,10 @@ class _MyHomePageState extends State<MyHomePage> {
             ListTile(
               title: const Text(
                   'Feedback', style: TextStyle(fontWeight: FontWeight.bold,fontFamily: 'apots_bold')),
-              leading: const Icon(Icons.feedback_outlined, color: Colors.blue,),
+              leading: const Image(image: AssetImage('assets/images/icons8-message-50.png'),
+                width: 25,
+                height: 25,
+              ),
               onTap: () {
                 Navigator.push(
                   context,
@@ -317,53 +351,28 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
       body: widgetList[_selectedIndex],
+
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Image(image:AssetImage('assets/images/home.png'),
-              width: 25,
-              height: 25,
-            ) ,
-            label: 'All files',
-          ),
-
-          BottomNavigationBarItem(
-            icon: Image(image:AssetImage('assets/images/icons8-clock-32.png',),
-              width: 25,
-              height: 25,
-            ) ,
-            label: 'Recent',
-          ),
-          BottomNavigationBarItem(
-            icon:Image(image:AssetImage('assets/images/icons8-favorite-folder-48.png'),
-              width: 25,
-              height: 25,
-            ) ,
-            label: 'Favourite', // Rename for clarity
-          ),
-
-          BottomNavigationBarItem(
-            icon: Image(image:AssetImage('assets/images/icons8-apps-32.png'),
-              width: 25,
-              height: 25,
-            ) ,
-            label: 'Tools', // Rename for clarity
-          ),
+          BottomNavigationBarItem(icon: Image(image:AssetImage('assets/images/home.png'), width: 25, height: 25,) , label: 'All files'),
+          BottomNavigationBarItem(icon: Image(image:AssetImage('assets/images/icons8-clock-32.png'), width: 25, height: 25) , label: 'Recent'),
+          BottomNavigationBarItem(icon:Image(image:AssetImage('assets/images/icons8-favorite-folder-48.png'), width: 25, height: 25) ,label: 'Favourite'),
+          BottomNavigationBarItem(icon: Image(image:AssetImage('assets/images/icons8-apps-32.png'),width: 25, height: 25,) ,label: 'Tools',),
 
         ],
 
 
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.black87,
+        selectedItemColor: Colors.cyan,
         unselectedItemColor: Colors.black,
+        selectedLabelStyle: const TextStyle(fontFamily: 'apots_bold'),
+        unselectedLabelStyle: const TextStyle(fontFamily: 'apots_bold'),
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: Colors.white,
         onTap: _onItemTapped,
-        selectedLabelStyle: const TextStyle(
-          fontFamily: 'apots_bold',
-        ),
-        unselectedLabelStyle: const TextStyle(
-          fontFamily: 'apots_bold',
-        ),
+
       ),
+    ),
     );
   }
 
@@ -386,12 +395,5 @@ class _MyHomePageState extends State<MyHomePage> {
       }
     });
 
-    void filterPdfFiles(String query) {
-      setState(() {
-        filteredPdfFiles = pdfFiles
-            .where((file) => file.toLowerCase().contains(query.toLowerCase()))
-            .toList();
-      });
-    }
   }
 }
