@@ -63,7 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
       var path = selectedFiles!.first.path;
       if (path != null) {
         Navigator.push(context, MaterialPageRoute(
-          builder: (context) => PDFScreen(index: 0, path: path),
+          builder: (context) => PDFScreen(index: 0, path: path, pdfPath: '', pdfName: '',),
         ),
         );
       }
@@ -75,7 +75,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   List<Widget> widgetList = const[
 
-    BrowserPage(),
+    PDFListScreen(),
     recent(),
     favorite(),
     tools(),
