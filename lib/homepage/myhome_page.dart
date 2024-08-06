@@ -104,7 +104,7 @@ class _MyHomePageState extends State<MyHomePage> {
   List<Widget> widgetList = const[
 
     PDFListScreen(),
-    recent(),
+    Recent(),
     favorite(),
     tools(),
 
