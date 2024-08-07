@@ -39,15 +39,15 @@ class DatabaseService {
     return database;
   }
 
-  void addTask(
-      String content, String filePath,
-      ) async {
+  void addTask(String content, String filePath)
+  async
+  {
     final db = await database;
     await db.insert(
       _pdfTableName,
       {
         _pdfContentColumnName: content,
-        _pdfStatusColumnName: 0,
+        _pdfStatusColumnName: filePath,
       },
     );
   }
@@ -59,8 +59,8 @@ class DatabaseService {
         .map(
           (e) => PDF(
         id: e["id"] as int,
-        status: e["status"] as int,
-        content: e["content"] as String,
+        filePath: e["status"] as String,
+        fileName: e["content"] as String,
       ),
     )
         .toList();

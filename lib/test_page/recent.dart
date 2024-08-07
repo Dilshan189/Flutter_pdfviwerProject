@@ -46,16 +46,16 @@ class _RecentState extends State<Recent> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => PDFScreen(
-                        pdfPath:pdf.content,
-                        pdfName:pdf.content ,
+                        pdfPath:pdf.filePath,
+                        pdfName:pdf.fileName ,
                         index: 0,
-                        path: pdf.content,
+                        path: pdf.fileName,
                       ),
                     ),
                   );
                   setState(() {});
                 },
-                title: Text(pdf.content,
+                title: Text(pdf.fileName,
                   style: const TextStyle(
                     fontWeight: FontWeight.w500,
                     overflow: TextOverflow.ellipsis,
@@ -67,7 +67,7 @@ class _RecentState extends State<Recent> {
                   height: 40,
                 ),
                 trailing: Checkbox(
-                  value: pdf.status == 1,
+                  value: pdf.filePath == 1,
                   onChanged: (value) {
                     _databaseService.updateTaskStatus(pdf.id, value! ? 1 : 0);
                     setState(() {});

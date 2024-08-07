@@ -1,10 +1,11 @@
 class PDF {
-  final int status, id;
-  final String content;
+  final int id;
+  final String filePath;
+  final String fileName;
 
   PDF({
     required this.id,
-    required this.status,
-    required this.content,
+    required this.filePath,
+    required this.fileName,
   });
 }
