@@ -2,10 +2,12 @@ import 'dart:io';
 import 'package:external_path/external_path.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart' as path;
+import 'package:pdf_thumbnail/pdf_thumbnail.dart';
 import 'package:pdfviwer/service/database_service.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 
+import '../floatingactionbutton/floationactionbutton.dart';
 import 'bottom_sheet.dart';
 import '../homepage/pdf_screen.dart';
 
@@ -14,6 +16,7 @@ class FileItem {
   final String path;
 
   FileItem({required this.name, required this.path});
+
 }
 
 class PDFListScreen extends StatefulWidget {
@@ -85,7 +88,7 @@ class _PDFListScreenState extends State<PDFListScreen> {
               String filePath = pdfFiles[index];
 
 
-              DatabaseService.instance.addTask(fileName, filePath,);
+              DatabaseService.instance.addPdf(fileName, filePath,);
 
               Navigator.push(
                 context,
@@ -108,11 +111,17 @@ class _PDFListScreenState extends State<PDFListScreen> {
               pdfFiles[index],
               style: const TextStyle(overflow: TextOverflow.ellipsis),
             ),
-          leading: Image.asset(
-             'assets/images/icon.png',
-                 width: 40,
-                 height: 40,
-          ),
+          // leading: SizedBox(
+          //   width: 50,
+          //   height: 180,
+          //   child: PdfThumbnail.fromFile(
+          //     scrollToCurrentPage: false,
+          //     filePath,
+          //     currentPage: 0,
+          //     height: 56,
+          //     backgroundColor: Colors.white,
+          //   ),
+          // ),
             trailing: IconButton(
               icon: const Icon(Icons.more_vert),
               onPressed: () {
@@ -129,7 +138,15 @@ class _PDFListScreenState extends State<PDFListScreen> {
       ),
 
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          showModalBottomSheet(
+            context: context,
+            builder: (BuildContext context) {
+              return const actionbutton();
+            },
+          );
+
+        },
         backgroundColor: Colors.blue,
         child: const Icon(Icons.add, color: Colors.white),
       ),

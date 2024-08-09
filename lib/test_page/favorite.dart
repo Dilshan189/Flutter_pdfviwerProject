@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 
-class favorite extends StatelessWidget {
+import '../floatingactionbutton/floationactionbutton.dart';
+
+class favorite extends StatefulWidget {
   const favorite({super.key});
 
+  @override
+  State<favorite> createState() => _favoriteState();
+}
+
+class _favoriteState extends State<favorite> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -12,7 +19,14 @@ class favorite extends StatelessWidget {
           height: 300,),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: (){},
+        onPressed: (){
+          showModalBottomSheet(
+            context: context,
+            builder: (BuildContext context) {
+              return const actionbutton();
+            },
+          );
+        },
         backgroundColor: Colors.blue,
         child: const Icon(Icons.add,color:Colors.white),
       ),

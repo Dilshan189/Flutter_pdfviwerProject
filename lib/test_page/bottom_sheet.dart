@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../service/database_service.dart';
 import 'browserpage.dart';  // Ensure this import matches
 
 class BottomSheetContent extends StatelessWidget {
@@ -15,77 +16,119 @@ class BottomSheetContent extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             ListTile(
-              leading: const Icon(Icons.edit, color: Colors.blue),
+              leading: const Icon(Icons.edit_note_outlined, color: Colors.blue,weight: 55.3,shadows: [Shadow(color: Colors.black)],),
               title: const Text(
                 'Edit PDF',
                 style: TextStyle(
                   fontWeight: FontWeight.w500,
+                  fontFamily: 'apots_bold',
                 ),
               ),
               onTap: () {
                 Navigator.pop(context);
-                // Implement PDF editing
+
               },
             ),
 
             ListTile(
-              leading: const Icon(Icons.edit, color: Colors.blue),
+              leading: const Icon(Icons.text_fields_outlined, color: Colors.blue,weight: 55.3,shadows: [Shadow(color: Colors.black)],),
               title: const Text(
-                'Edit PDF',
+                'Rename',
                 style: TextStyle(
                   fontWeight: FontWeight.w500,
+                  fontFamily: 'apots_bold',
                 ),
               ),
               onTap: () {
                 Navigator.pop(context);
-                // Implement PDF editing
+
               },
             ),
 
             ListTile(
-              leading: const Icon(Icons.edit, color: Colors.blue),
+              leading: const Icon(Icons.picture_as_pdf_outlined, color: Colors.blue,weight: 55.3,shadows: [Shadow(color: Colors.black)],),
               title: const Text(
                 'Edit PDF',
                 style: TextStyle(
                   fontWeight: FontWeight.w500,
+                  fontFamily: 'apots_bold',
                 ),
               ),
               onTap: () {
                 Navigator.pop(context);
-                // Implement PDF editing
-              },
-            ),
 
-
-            ListTile(
-              leading: const Icon(Icons.edit, color: Colors.blue),
-              title: const Text(
-                'Edit PDF',
-                style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              onTap: () {
-                Navigator.pop(context);
-                // Implement PDF editing
               },
             ),
 
 
             ListTile(
-              leading: const Icon(Icons.edit, color: Colors.blue),
+              leading: const Icon(Icons.lock_outline, color: Colors.blue,weight: 55.3,shadows: [Shadow(color: Colors.black)],),
               title: const Text(
-                'Edit PDF',
+                'Set password',
                 style: TextStyle(
                   fontWeight: FontWeight.w500,
+                  fontFamily: 'apots_bold',
                 ),
               ),
               onTap: () {
                 Navigator.pop(context);
-                // Implement PDF editing
+
               },
             ),
-            // Other ListTiles...
+
+            const Divider(),
+
+
+            ListTile(
+              leading: const Icon(Icons.ios_share_outlined, color: Colors.blue,weight: 55.3,shadows: [Shadow(color: Colors.black)],),
+              title: const Text(
+                'Share',
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontFamily: 'apots_bold',
+                ),
+              ),
+              onTap: () {
+                Navigator.pop(context);
+
+              },
+            ),
+
+
+            ListTile(
+              leading: const Icon(Icons.favorite_outline_outlined, color: Colors.blue,weight: 55.3,shadows: [Shadow(color: Colors.black)],),
+              title: const Text(
+                'Favorite',
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontFamily: 'apots_bold',
+                ),
+              ),
+              onTap: () {
+
+
+
+              },
+            ),
+
+            ListTile(
+              leading: const Icon(Icons.delete_forever_outlined, color: Colors.blue,weight: 55.3,shadows: [Shadow(color: Colors.black)],),
+              title: const Text(
+                'Delete',
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontFamily: 'apots_bold',
+                ),
+              ),
+              onTap: () {
+
+
+                Navigator.pop(context);
+              },
+            ),
+
+
+
           ],
         ),
       ),

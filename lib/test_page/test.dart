@@ -116,7 +116,7 @@ class _ToolsState extends State<tools> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const SelectedImages(),
+            builder: (context) => SelectedImages(),
           ),
         );
       }
@@ -149,7 +149,7 @@ class _ToolsState extends State<tools> {
                       case 0:
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const marge()),
+                          MaterialPageRoute(builder: (context) => const Marge()),
                         );
                         break;
 

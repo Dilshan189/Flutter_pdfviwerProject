@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:pdf_thumbnail/pdf_thumbnail.dart';
 import 'package:pdfviwer/homepage/pdf_screen.dart';
-import 'package:pdfviwer/model/task.dart';
+import 'package:pdfviwer/model/pdftask.dart';
 import 'package:pdfviwer/service/database_service.dart';
+import 'package:pdfviwer/test_page/browserpage.dart';
+
+import '../floatingactionbutton/floationactionbutton.dart';
+import 'bottom_sheet.dart';
+
 
 class Recent extends StatefulWidget {
   const Recent({super.key});
@@ -13,6 +19,7 @@ class Recent extends StatefulWidget {
 class _RecentState extends State<Recent> {
   final DatabaseService _databaseService = DatabaseService.instance;
 
+ 
 
 
   @override
@@ -20,7 +27,14 @@ class _RecentState extends State<Recent> {
     return Scaffold(
       body: _tasksList(),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          showModalBottomSheet(
+            context: context,
+            builder: (BuildContext context) {
+              return const actionbutton();
+            },
+          );
+        },
         backgroundColor: Colors.blue,
         child: const Icon(Icons.add, color: Colors.white),
       ),
@@ -29,7 +43,7 @@ class _RecentState extends State<Recent> {
 
   Widget _tasksList() {
     return FutureBuilder<List<PDF>>(
-      future: _databaseService.getTasks(),
+      future: _databaseService.getPdf(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
@@ -40,6 +54,8 @@ class _RecentState extends State<Recent> {
             itemCount: snapshot.data!.length,
             itemBuilder: (context, index) {
               PDF pdf = snapshot.data![index];
+
+
               return ListTile(
                 onTap: () {
                   Navigator.push(
@@ -55,24 +71,48 @@ class _RecentState extends State<Recent> {
                   );
                   setState(() {});
                 },
+
+
                 title: Text(pdf.fileName,
                   style: const TextStyle(
                     fontWeight: FontWeight.w500,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                leading: Image.asset(
-                  'assets/icon.png',
-                  width: 40,
-                  height: 40,
-                ),
-                trailing: Checkbox(
-                  value: pdf.filePath == 1,
-                  onChanged: (value) {
-                    _databaseService.updateTaskStatus(pdf.id, value! ? 1 : 0);
-                    setState(() {});
-                  },
-                ),
+
+
+                // leading: SizedBox(
+                //   // color: Colors.white,
+                //     height: 180,
+                //     width: 50,
+                //     child: PdfThumbnail.fromFile(
+                //       scrollToCurrentPage: false,
+                //        pdf.filePath,
+                //         currentPage: 1,
+                //         height: 56,
+                //         backgroundColor: Colors.white,
+                //     ),
+                // ),
+
+
+                // trailing: Checkbox(
+                //   value: pdf.filePath == 1,
+                //   onChanged: (value) {
+                //     _databaseService.updateTaskStatus(pdf.id, value! ? 1 : 0);
+                //     setState(() {});
+                //   },
+                // ),
+                 trailing:IconButton(
+                   onPressed: (){
+                     showModalBottomSheet(
+                       context: context,
+                       builder: (BuildContext context) {
+                         return BottomSheetContent(file: FileItem(path: 'filePath', name: 'fileName'),);
+                       },
+                     );
+                   },
+                   icon: const Icon(Icons.more_vert),
+                 ),
               );
             },
           );

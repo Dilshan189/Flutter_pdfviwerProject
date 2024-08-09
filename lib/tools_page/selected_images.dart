@@ -31,6 +31,7 @@ class _SelectedImagesState extends State<SelectedImages> {
 
     final pdf = pw.Document();
 
+
     for (final imagePath in imagesList.imagePaths) {
       final imageBytes = await File(imagePath.path).readAsBytes();
       final image = img.decodeImage(imageBytes);
@@ -54,6 +55,13 @@ class _SelectedImagesState extends State<SelectedImages> {
     await outputFile.writeAsBytes(await pdf.save());
 
     MediaScanner.loadMedia(path: outputFile.path);
+
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('PDF successfully created !')),
+    );
+
+
   }
 
   @override
@@ -66,9 +74,10 @@ class _SelectedImagesState extends State<SelectedImages> {
         foregroundColor: Colors.black38,
       ),
       bottomNavigationBar: MaterialButton(
+        materialTapTargetSize:MaterialTapTargetSize.shrinkWrap,
         color: Colors.blue,
         textColor: Colors.white,
-        padding: const EdgeInsets.symmetric(vertical: 20),
+        padding: const EdgeInsets.all(10),
         onPressed: convertImage,
         child: const Text(
           'Convert',

@@ -1,5 +1,5 @@
 import 'package:path/path.dart';
-import 'package:pdfviwer/model/task.dart';
+import 'package:pdfviwer/model/pdftask.dart';
 import 'package:sqflite/sqflite.dart';
 
 
@@ -39,7 +39,7 @@ class DatabaseService {
     return database;
   }
 
-  void addTask(String content, String filePath)
+  void addPdf(String content, String filePath)
   async
   {
     final db = await database;
@@ -52,7 +52,7 @@ class DatabaseService {
     );
   }
 
-  Future<List<PDF>> getTasks() async {
+  Future<List<PDF>> getPdf() async {
     final db = await database;
     final data = await db.query(_pdfTableName);
     List<PDF> tasks = data
@@ -67,7 +67,7 @@ class DatabaseService {
     return tasks;
   }
 
-  void updateTaskStatus(int id, int status) async {
+  void updatePdf(int id, int status) async {
     final db = await database;
     await db.update(
       _pdfTableName,
@@ -81,16 +81,14 @@ class DatabaseService {
     );
   }
 
-  void deleteTask(
-      int id,
-      ) async {
+
+  void deletePdf(int id) async {
     final db = await database;
     await db.delete(
       _pdfTableName,
-      where: 'id = ?',
-      whereArgs: [
-        id,
-      ],
+      where: '$_pdfIdColumnName = ?',
+      whereArgs: [id],
     );
+
   }
 }
