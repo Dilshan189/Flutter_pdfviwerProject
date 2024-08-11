@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:external_path/external_path.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart' as path;
-import 'package:pdf_thumbnail/pdf_thumbnail.dart';
+import 'package:pdfviwer/model/pdf_model.dart';
 import 'package:pdfviwer/service/database_service.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:device_info_plus/device_info_plus.dart';
@@ -12,10 +12,11 @@ import 'bottom_sheet.dart';
 import '../homepage/pdf_screen.dart';
 
 class FileItem {
+
   final String name;
   final String path;
 
-  FileItem({required this.name, required this.path});
+  FileItem({required this.name, required this.path, });
 
 }
 
@@ -84,11 +85,15 @@ class _PDFListScreenState extends State<PDFListScreen> {
           String filePath = pdfFiles[index];
           String fileName = path.basename(filePath);
           return ListTile(
-            onTap: () async {
+            onTap: () async
+            {
+
               String filePath = pdfFiles[index];
+              String fileName = path.basename(filePath);
 
+              PDFModel pdfModel = PDFModel(fileName: fileName, filePath: filePath);
 
-              DatabaseService.instance.addPdf(fileName, filePath,);
+              DatabaseService().insertPdf(pdfModel);
 
               Navigator.push(
                 context,
@@ -111,6 +116,8 @@ class _PDFListScreenState extends State<PDFListScreen> {
               pdfFiles[index],
               style: const TextStyle(overflow: TextOverflow.ellipsis),
             ),
+
+
           // leading: SizedBox(
           //   width: 50,
           //   height: 180,
@@ -122,13 +129,18 @@ class _PDFListScreenState extends State<PDFListScreen> {
           //     backgroundColor: Colors.white,
           //   ),
           // ),
+
+            leading:Image.asset("assets/images/icon.png",
+            width: 40,
+            height: 40,) ,
+
             trailing: IconButton(
               icon: const Icon(Icons.more_vert),
               onPressed: () {
                 showModalBottomSheet(
                   context: context,
                   builder: (BuildContext context) {
-                    return BottomSheetContent(file: FileItem(name: fileName, path: filePath));
+                    return BottomSheetContent(file: FileItem(name: fileName, path: filePath,));
                   },
                 );
               },

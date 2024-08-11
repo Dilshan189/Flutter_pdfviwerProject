@@ -62,9 +62,9 @@ dependencies:
   media_scanner:
   gap:
   pdf_thumbnail: ^0.1.6+1
-  pdf_merger: ^0.0.6
   pdf_image_renderer: ^0.7.0
   pdf: ^3.6.0
+
 
 
 

@@ -1,6 +1,11 @@
+import 'dart:ui';
+
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:pdfviwer/consts/consts.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../homepage/pdf_screen.dart';
@@ -102,7 +107,7 @@ class _AllfloatingactionbuttonState extends State<actionbutton> {
 
     return Container(
           decoration: const BoxDecoration(
-          shape: BoxShape.circle,
+            borderRadius:BorderRadius.only(bottomRight:Radius.zero,bottomLeft:Radius.zero ,topRight:Radius.zero ,topLeft:Radius.zero ) ,
           color: Colors.white70,
         ),
         child: Padding(
@@ -129,11 +134,13 @@ class _AllfloatingactionbuttonState extends State<actionbutton> {
 
            case 0:
              await pickGalleryImage();
+             Navigator.pop(context);
              break;
 
 
           default:
             pickFiles(context);
+            Navigator.pop(context);
             break;
 
        }

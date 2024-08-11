@@ -4,11 +4,13 @@ import 'package:external_path/external_path.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:path/path.dart' as path;
+import 'package:path_provider/path_provider.dart';
+import 'package:pdf/pdf.dart' as pdf;
 import 'package:pdf/widgets.dart' as pw;
-import 'package:pdf/pdf.dart';
-import 'package:pdf_thumbnail/pdf_thumbnail.dart';
+
 import 'package:permission_handler/permission_handler.dart';
 
+import '../consts/consts.dart';
 import '../homepage/search_bar.dart';
 
 class Marge extends StatefulWidget {
@@ -21,6 +23,8 @@ class Marge extends StatefulWidget {
 class _MargeState extends State<Marge> {
   List<String> pdfFiles = [];
   List<String> selectedFiles = [];
+
+  get pdfWidgets => null;
 
   @override
   void initState() {
@@ -65,6 +69,33 @@ class _MargeState extends State<Marge> {
     } catch (e) {
       debugPrint(e.toString());
     }
+  }
+
+///merge PDF file added/////////////////////////////////////////////////////////
+
+  Future<void> mergePdfs(List<String> pdfPaths) async {
+    final pdf = pw.Document();
+    for (final filePath in pdfPaths) {
+      final file = File(filePath);
+      final pdfBytes = await file.readAsBytes();
+
+      pdf.addPage(
+        pw.Page(
+          build: (pw.Context context) {
+            return pw.Center(
+              child: pw.Text('PDF Page from: ${path.basename(filePath)}'),
+            );
+          },
+        ),
+      );
+    }
+
+    final outputDirectory = await getExternalStorageDirectory();
+    final outputPath = '${outputDirectory!.path}/merged_output.pdf';
+    final outputFile = File(outputPath);
+    await outputFile.writeAsBytes(await pdf.save());
+
+    Get.snackbar('****', 'merge to pdf converted :$outputPath');
   }
 
 
@@ -124,6 +155,12 @@ class _MargeState extends State<Marge> {
             //     backgroundColor: Colors.white,
             //   ),
             // ),
+            
+            leading:Image.asset("assets/images/icon.png",
+              width: 40,
+              height: 40,) ,
+            
+            
             trailing: IconButton(
               icon: Icon(
                 isSelected ? Icons.check_box : Icons.check_box_outline_blank,
@@ -143,10 +180,16 @@ class _MargeState extends State<Marge> {
         },
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: (){},
+        onPressed: ()async {
+          if (selectedFiles.isNotEmpty) {
+            await mergePdfs(selectedFiles);
+          } else {
+            Get.snackbar('Error', 'No PDF files selected');
+          }
+        },
         backgroundColor: Colors.blue,
-        icon: const Icon(Icons.merge_type, color: Colors.white),
-        label: const Text('Merge PDFs', style: TextStyle(color: Colors.white)),
+        icon: const Icon(Icons.picture_as_pdf_outlined, color: Colors.white),
+        label: const Text('Merge PDF', style: TextStyle(color: Colors.white)),
       ),
     );
   }

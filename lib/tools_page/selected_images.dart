@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:external_path/external_path.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:media_scanner/media_scanner.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:image/image.dart' as img;
@@ -57,10 +59,7 @@ class _SelectedImagesState extends State<SelectedImages> {
     MediaScanner.loadMedia(path: outputFile.path);
 
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('PDF successfully created !')),
-    );
-
+    Get.snackbar('Thank you!', 'Image converted successful!');
 
   }
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pdf_thumbnail/pdf_thumbnail.dart';
 import 'package:pdfviwer/homepage/pdf_screen.dart';
-import 'package:pdfviwer/model/pdftask.dart';
+import 'package:pdfviwer/model/pdf_model.dart';
 import 'package:pdfviwer/service/database_service.dart';
 import 'package:pdfviwer/test_page/browserpage.dart';
 
@@ -17,10 +17,6 @@ class Recent extends StatefulWidget {
 }
 
 class _RecentState extends State<Recent> {
-  final DatabaseService _databaseService = DatabaseService.instance;
-
- 
-
 
   @override
   Widget build(BuildContext context) {
@@ -42,8 +38,8 @@ class _RecentState extends State<Recent> {
   }
 
   Widget _tasksList() {
-    return FutureBuilder<List<PDF>>(
-      future: _databaseService.getPdf(),
+    return FutureBuilder<List<PDFModel>>(
+      future: DatabaseService().getSavedPDFList(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
@@ -53,7 +49,7 @@ class _RecentState extends State<Recent> {
           return ListView.builder(
             itemCount: snapshot.data!.length,
             itemBuilder: (context, index) {
-              PDF pdf = snapshot.data![index];
+              PDFModel pdf = snapshot.data![index];
 
 
               return ListTile(
@@ -80,6 +76,7 @@ class _RecentState extends State<Recent> {
                   ),
                 ),
 
+                subtitle: Text(pdf.filePath),
 
                 // leading: SizedBox(
                 //   // color: Colors.white,
@@ -94,20 +91,18 @@ class _RecentState extends State<Recent> {
                 //     ),
                 // ),
 
+                leading:Image.asset("assets/images/icon.png",
+                  width: 40,
+                  height: 40,) ,
 
-                // trailing: Checkbox(
-                //   value: pdf.filePath == 1,
-                //   onChanged: (value) {
-                //     _databaseService.updateTaskStatus(pdf.id, value! ? 1 : 0);
-                //     setState(() {});
-                //   },
-                // ),
+
                  trailing:IconButton(
                    onPressed: (){
                      showModalBottomSheet(
                        context: context,
                        builder: (BuildContext context) {
-                         return BottomSheetContent(file: FileItem(path: 'filePath', name: 'fileName'),);
+                         return BottomSheetContent(file:FileItem(path:'',name: '',),
+                         );
                        },
                      );
                    },

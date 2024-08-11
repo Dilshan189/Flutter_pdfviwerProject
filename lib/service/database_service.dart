@@ -1,94 +1,107 @@
+import 'dart:io'as io;
 import 'package:path/path.dart';
-import 'package:pdfviwer/model/pdftask.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:pdfviwer/model/pdf_model.dart';
 import 'package:sqflite/sqflite.dart';
 
-
-class DatabaseService {
+class DatabaseService
+{
   static Database? _db;
-  static final DatabaseService instance = DatabaseService._constructor();
+  static const DB_Name = 'pdf_db.db';
 
-  final String _pdfTableName = "pdf";
-  final String _pdfIdColumnName = "id";
-  final String _pdfContentColumnName = "content";
-  final String _pdfStatusColumnName = "status";
+  final String _pdfTableName = 'tblPdf';
+  final String _pdfId = 'id';
+  final String _pdfName = 'fileName';
+  final String _pdfPath = 'filePath';
 
-  DatabaseService._constructor();
+  Future<Database?> get db async
+  {
+    if(_db != null)
+      {
+        return _db!;
+      }
 
-  Future<Database> get database async {
-    if (_db != null) return _db!;
-    _db = await getDatabase();
+    _db = await initDb();
     return _db!;
   }
 
-  Future<Database> getDatabase() async {
-    final databaseDirPath = await getDatabasesPath();
-    final databasePath = join(databaseDirPath, "master_db.db");
-    final database = await openDatabase(
-      databasePath,
-      version: 1,
-      onCreate: (db, version) {
-        db.execute('''
-        CREATE TABLE $_pdfTableName (
-          $_pdfIdColumnName INTEGER PRIMARY KEY,
-          $_pdfContentColumnName TEXT NOT NULL,
-          $_pdfStatusColumnName INTEGER NOT NULL
-        )
-        ''');
-      },
-    );
-    return database;
+  initDb() async
+  {
+    io.Directory documentDirectory = await getApplicationDocumentsDirectory();
+    String path = join(documentDirectory.path,DB_Name);
+    var db = await openDatabase(path,version: 1,onCreate: _onCreate);
+    return db;
   }
 
-  void addPdf(String content, String filePath)
+  _onCreate(Database db,int version)
   async
   {
-    final db = await database;
-    await db.insert(
-      _pdfTableName,
+    await db.execute("CREATE TABLE $_pdfTableName ($_pdfId INTEGER PRIMARY KEY,$_pdfName TEXT,$_pdfPath TEXT)");
+  }
+
+
+  /// insertPDF-----------------------------------------------------------------
+
+  Future<PDFModel> insertPdf(PDFModel pdfModel) async
+  {
+    var dbClient = await db;
+
+    pdfModel.id = await dbClient!.insert(_pdfTableName, pdfModel.toMap());
+
+    return pdfModel;
+  }
+
+  /// savedPDF------------------------------------------------------------------
+
+  Future<List<PDFModel>>getSavedPDFList()async
+  {
+    var dbClient = await db;
+
+    List<Map> maps = await dbClient!.query(_pdfTableName,columns: [_pdfId,_pdfName,_pdfPath]);
+
+    List<PDFModel>pdfList = [];
+
+    if(maps.isNotEmpty)
       {
-        _pdfContentColumnName: content,
-        _pdfStatusColumnName: filePath,
-      },
-    );
+
+        for(int i = 0; i<maps.length; i++)
+          {
+            pdfList.add(PDFModel.fromMap(Map<String,dynamic>.from(maps[i])));
+          }
+      }
+
+    return pdfList;
   }
 
-  Future<List<PDF>> getPdf() async {
-    final db = await database;
-    final data = await db.query(_pdfTableName);
-    List<PDF> tasks = data
-        .map(
-          (e) => PDF(
-        id: e["id"] as int,
-        filePath: e["status"] as String,
-        fileName: e["content"] as String,
-      ),
-    )
-        .toList();
-    return tasks;
+
+  /// deletePDF-----------------------------------------------------------------
+
+  Future<int> deletePDF(int id) async
+  {
+    var dbClient = await db;
+
+    return await dbClient!.delete(_pdfTableName,where: '$_pdfId = ?',whereArgs: [id]);
   }
 
-  void updatePdf(int id, int status) async {
-    final db = await database;
-    await db.update(
-      _pdfTableName,
-      {
-        _pdfStatusColumnName : status,
-      },
-      where: 'id = ?',
-      whereArgs: [
-        id,
-      ],
+  ///updatePDF------------------------------------------------------------------
+
+  Future<int> updatePDF(PDFModel pdfModel) async
+  {
+    var dbClient = await db;
+
+    return await dbClient!.update(_pdfTableName, pdfModel.toMap(),
+    where: '$_pdfId = ?',whereArgs: [pdfModel.id]
     );
   }
 
 
-  void deletePdf(int id) async {
-    final db = await database;
-    await db.delete(
-      _pdfTableName,
-      where: '$_pdfIdColumnName = ?',
-      whereArgs: [id],
-    );
+  /// deleteAllPDF--------------------------------------------------------------
 
+  Future<int> deleteAllPDF() async
+  {
+    var dbClient = await db;
+    return await dbClient!.delete(_pdfTableName);
   }
+
+
 }

@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import '../service/database_service.dart';
-import 'browserpage.dart';  // Ensure this import matches
+import 'browserpage.dart';
 
-class BottomSheetContent extends StatelessWidget {
+class BottomSheetContent extends StatefulWidget {
   final FileItem file;
 
   const BottomSheetContent({super.key, required this.file});
 
+  @override
+  State<BottomSheetContent> createState() => _BottomSheetContentState();
+}
+
+class _BottomSheetContentState extends State<BottomSheetContent> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -16,7 +21,12 @@ class BottomSheetContent extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             ListTile(
-              leading: const Icon(Icons.edit_note_outlined, color: Colors.blue,weight: 55.3,shadows: [Shadow(color: Colors.black)],),
+              leading: const Icon(
+                Icons.edit_note_outlined,
+                color: Colors.blue,
+                weight: 55.3,
+                shadows: [Shadow(color: Colors.black)],
+              ),
               title: const Text(
                 'Edit PDF',
                 style: TextStyle(
@@ -26,12 +36,15 @@ class BottomSheetContent extends StatelessWidget {
               ),
               onTap: () {
                 Navigator.pop(context);
-
               },
             ),
-
             ListTile(
-              leading: const Icon(Icons.text_fields_outlined, color: Colors.blue,weight: 55.3,shadows: [Shadow(color: Colors.black)],),
+              leading: const Icon(
+                Icons.text_fields_outlined,
+                color: Colors.blue,
+                weight: 55.3,
+                shadows: [Shadow(color: Colors.black)],
+              ),
               title: const Text(
                 'Rename',
                 style: TextStyle(
@@ -41,12 +54,15 @@ class BottomSheetContent extends StatelessWidget {
               ),
               onTap: () {
                 Navigator.pop(context);
-
               },
             ),
-
             ListTile(
-              leading: const Icon(Icons.picture_as_pdf_outlined, color: Colors.blue,weight: 55.3,shadows: [Shadow(color: Colors.black)],),
+              leading: const Icon(
+                Icons.picture_as_pdf_outlined,
+                color: Colors.blue,
+                weight: 55.3,
+                shadows: [Shadow(color: Colors.black)],
+              ),
               title: const Text(
                 'Edit PDF',
                 style: TextStyle(
@@ -56,13 +72,15 @@ class BottomSheetContent extends StatelessWidget {
               ),
               onTap: () {
                 Navigator.pop(context);
-
               },
             ),
-
-
             ListTile(
-              leading: const Icon(Icons.lock_outline, color: Colors.blue,weight: 55.3,shadows: [Shadow(color: Colors.black)],),
+              leading: const Icon(
+                Icons.lock_outline,
+                color: Colors.blue,
+                weight: 55.3,
+                shadows: [Shadow(color: Colors.black)],
+              ),
               title: const Text(
                 'Set password',
                 style: TextStyle(
@@ -72,15 +90,16 @@ class BottomSheetContent extends StatelessWidget {
               ),
               onTap: () {
                 Navigator.pop(context);
-
               },
             ),
-
             const Divider(),
-
-
             ListTile(
-              leading: const Icon(Icons.ios_share_outlined, color: Colors.blue,weight: 55.3,shadows: [Shadow(color: Colors.black)],),
+              leading: const Icon(
+                Icons.ios_share_outlined,
+                color: Colors.blue,
+                weight: 55.3,
+                shadows: [Shadow(color: Colors.black)],
+              ),
               title: const Text(
                 'Share',
                 style: TextStyle(
@@ -90,13 +109,15 @@ class BottomSheetContent extends StatelessWidget {
               ),
               onTap: () {
                 Navigator.pop(context);
-
               },
             ),
-
-
             ListTile(
-              leading: const Icon(Icons.favorite_outline_outlined, color: Colors.blue,weight: 55.3,shadows: [Shadow(color: Colors.black)],),
+              leading: const Icon(
+                Icons.favorite_outline_outlined,
+                color: Colors.blue,
+                weight: 55.3,
+                shadows: [Shadow(color: Colors.black)],
+              ),
               title: const Text(
                 'Favorite',
                 style: TextStyle(
@@ -105,14 +126,16 @@ class BottomSheetContent extends StatelessWidget {
                 ),
               ),
               onTap: () {
-
-
-
+                Navigator.pop(context);
               },
             ),
-
             ListTile(
-              leading: const Icon(Icons.delete_forever_outlined, color: Colors.blue,weight: 55.3,shadows: [Shadow(color: Colors.black)],),
+              leading: const Icon(
+                Icons.delete_forever_outlined,
+                color: Colors.blue,
+                weight: 55.3,
+                shadows: [Shadow(color: Colors.black)],
+              ),
               title: const Text(
                 'Delete',
                 style: TextStyle(
@@ -120,15 +143,37 @@ class BottomSheetContent extends StatelessWidget {
                   fontFamily: 'apots_bold',
                 ),
               ),
-              onTap: () {
+              onTap: () async {
+                bool? confirmDelete = await showDialog<bool>(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text("Confirm Delete"),
+                      content: const Text("Are you sure you want to delete this PDF?"),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.of(context).pop(false),
+                          child: const Text("Cancel"),
+                        ),
+                        TextButton(
+                          onPressed: () => Navigator.of(context).pop(true),
+                          child: const Text("Delete"),
+                        ),
+                      ],
+                    );
+                  },
+                );
 
+                if (confirmDelete == true) {
+                 // DatabaseService().deletePDF(pdfModel.id);
+                  Navigator.pop(context);
 
-                Navigator.pop(context);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text("PDF deleted successfully")),
+                  );
+                }
               },
             ),
-
-
-
           ],
         ),
       ),
