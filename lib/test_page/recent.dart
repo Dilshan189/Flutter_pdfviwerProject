@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pdf_thumbnail/pdf_thumbnail.dart';
 import 'package:pdfviwer/homepage/pdf_screen.dart';
 import 'package:pdfviwer/model/pdf_model.dart';
 import 'package:pdfviwer/service/database_service.dart';
@@ -21,7 +20,7 @@ class _RecentState extends State<Recent> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _tasksList(),
+      body: _PDFtasksList(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           showModalBottomSheet(
@@ -37,14 +36,27 @@ class _RecentState extends State<Recent> {
     );
   }
 
-  Widget _tasksList() {
+  Widget _PDFtasksList() {
     return FutureBuilder<List<PDFModel>>(
       future: DatabaseService().getSavedPDFList(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return const Center(child: Text("No data found"));
+          return Center(child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset('assets/images/paper_2.png',
+                width: 200,
+                height: 200,
+              ),
+              const SizedBox(height: 2,),
+              const Text("No data found",
+                style: TextStyle(fontSize: 18,color: Colors.black,fontWeight: FontWeight.w500),)
+
+            ],
+          ));
+
         } else {
           return ListView.builder(
             itemCount: snapshot.data!.length,

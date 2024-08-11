@@ -12,11 +12,14 @@ import 'bottom_sheet.dart';
 import '../homepage/pdf_screen.dart';
 
 class FileItem {
-
   final String name;
   final String path;
 
   FileItem({required this.name, required this.path, });
+
+
+
+
 
 }
 

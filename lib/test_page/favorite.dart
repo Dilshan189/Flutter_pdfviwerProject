@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
-
 import '../floatingactionbutton/floationactionbutton.dart';
+import '../homepage/pdf_screen.dart';
+import '../model/pdf_favourite_model.dart';
+import '../service/database_service_favourite.dart';
+import 'bottom_sheet.dart';
+import 'browserpage.dart';
+
+
+
 
 class favorite extends StatefulWidget {
   const favorite({super.key});
@@ -13,11 +20,7 @@ class _favoriteState extends State<favorite> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Image.asset('assets/images/paper_2.png',
-          width: 500,
-          height: 300,),
-      ),
+      body: _PDFfavouriteList(),
       floatingActionButton: FloatingActionButton(
         onPressed: (){
           showModalBottomSheet(
@@ -32,4 +35,96 @@ class _favoriteState extends State<favorite> {
       ),
     );
   }
+  Widget _PDFfavouriteList() {
+    return FutureBuilder<List<PdfFavouriteModel>>(
+      future: DatabaseServiceFavourite().fagetSavedPDFList(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          return Center(child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset('assets/images/paper_2.png',
+                width: 200,
+                height: 200,
+                ),
+                const SizedBox(height: 2,),
+                const Text("No data found",
+                style: TextStyle(fontSize: 18,color: Colors.black,fontWeight: FontWeight.w500),)
+
+              ],
+          ));
+
+        } else {
+          return ListView.builder(
+            itemCount: snapshot.data!.length,
+            itemBuilder: (context, index) {
+              PdfFavouriteModel pdf = snapshot.data![index];
+
+
+              return ListTile(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => PDFScreen(
+                        pdfPath:pdf.filePath,
+                        pdfName:pdf.fileName ,
+                        index: 0,
+                        path: pdf.fileName,
+                      ),
+                    ),
+                  );
+                  setState(() {});
+                },
+
+
+                title: Text(pdf.fileName,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w500,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+
+                subtitle: Text(pdf.filePath),
+
+                // leading: SizedBox(
+                //   // color: Colors.white,
+                //     height: 180,
+                //     width: 50,
+                //     child: PdfThumbnail.fromFile(
+                //       scrollToCurrentPage: false,
+                //        pdf.filePath,
+                //         currentPage: 1,
+                //         height: 56,
+                //         backgroundColor: Colors.white,
+                //     ),
+                // ),
+
+                leading:Image.asset("assets/images/icon.png",
+                  width: 40,
+                  height: 40,) ,
+
+
+                trailing:IconButton(
+                  onPressed: (){
+                    showModalBottomSheet(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return BottomSheetContent(file:FileItem(path:'',name: '',),
+                        );
+                      },
+                    );
+                  },
+                  icon: const Icon(Icons.more_vert),
+                ),
+              );
+            },
+          );
+        }
+      },
+    );
+  }
+
 }

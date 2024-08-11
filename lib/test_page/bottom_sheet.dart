@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
-import '../service/database_service.dart';
+import 'package:pdfviwer/service/database_service_favourite.dart';
+import 'package:share/share.dart';
+import '../model/pdf_favourite_model.dart';
+import 'package:path/path.dart' as path;
 import 'browserpage.dart';
+
 
 class BottomSheetContent extends StatefulWidget {
   final FileItem file;
@@ -28,7 +32,7 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
                 shadows: [Shadow(color: Colors.black)],
               ),
               title: const Text(
-                'Edit PDF',
+                'Edit Text',
                 style: TextStyle(
                   fontWeight: FontWeight.w500,
                   fontFamily: 'apots_bold',
@@ -89,6 +93,7 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
                 ),
               ),
               onTap: () {
+
                 Navigator.pop(context);
               },
             ),
@@ -108,6 +113,13 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
                 ),
               ),
               onTap: () {
+
+                final RenderBox box = context.findRenderObject() as RenderBox;
+                Share.share(
+                    'Hi , Im using PDF Reader. Its so easy and convenient to view & edit PDFs...',
+                    subject: 'PDF Viewer App',
+                    sharePositionOrigin: box.localToGlobal(Offset.zero) & box
+                        .size);
                 Navigator.pop(context);
               },
             ),
@@ -125,7 +137,18 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
                   fontFamily: 'apots_bold',
                 ),
               ),
-              onTap: () {
+
+
+
+              onTap: () async
+              {
+               //  String? filePath =  widget.file.filePath;
+               //  String fileName = path.basename(filePath!);
+               //
+               //
+               //  PdfFavouriteModel pdfFavouriteModel= PdfFavouriteModel(fileName: fileName, filePath: filePath);
+               //
+               // await DatabaseServiceFavourite().fainsertPdf(pdfFavouriteModel);
                 Navigator.pop(context);
               },
             ),
