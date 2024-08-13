@@ -105,7 +105,7 @@ class _MargeState extends State<Marge> {
       appBar: AppBar(
         title: const Text(
           'Selected',
-          style: TextStyle(fontSize: 20, color: Colors.black, fontWeight: FontWeight.w500),
+          style: TextStyle(fontSize: 20,  fontWeight: FontWeight.w500),
         ),
         actions: [
           IconButton(
@@ -123,50 +123,15 @@ class _MargeState extends State<Marge> {
           String fileName = path.basename(filePath);
           final isSelected = selectedFiles.contains(filePath);
 
-          return ListTile(
-            onTap: () {
-              setState(() {
-                if (isSelected) {
-                  selectedFiles.remove(filePath);
-                } else {
-                  selectedFiles.add(filePath);
-                }
-              });
-            },
-            title: Text(
-              fileName,
-              style: const TextStyle(
-                fontWeight: FontWeight.w500,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-            subtitle: Text(
-              filePath,
-              style: const TextStyle(overflow: TextOverflow.ellipsis),
-            ),
-            // leading: SizedBox(
-            //   width: 50,
-            //   height: 180,
-            //   child: PdfThumbnail.fromFile(
-            //     scrollToCurrentPage: false,
-            //     filePath,
-            //     currentPage: 0,
-            //     height: 56,
-            //     backgroundColor: Colors.white,
-            //   ),
-            // ),
-            
-            leading:Image.asset("assets/images/icon.png",
-              width: 40,
-              height: 40,) ,
-            
-            
-            trailing: IconButton(
-              icon: Icon(
-                isSelected ? Icons.check_box : Icons.check_box_outline_blank,
-                color: isSelected ? Colors.blue : Colors.black,
-              ),
-              onPressed: () {
+          return Card(
+              shadowColor: Colors.grey,
+              margin: const EdgeInsets.symmetric(vertical: 5,horizontal: 8),
+          shape:  RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(5),
+          ),
+
+            child: ListTile(
+              onTap: () {
                 setState(() {
                   if (isSelected) {
                     selectedFiles.remove(filePath);
@@ -175,6 +140,49 @@ class _MargeState extends State<Marge> {
                   }
                 });
               },
+              title: Text(
+                fileName,
+                style: const TextStyle(
+                  fontWeight: FontWeight.w500,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              subtitle: Text(
+                filePath,
+                style: const TextStyle(overflow: TextOverflow.ellipsis),
+              ),
+              // leading: SizedBox(
+              //   width: 50,
+              //   height: 180,
+              //   child: PdfThumbnail.fromFile(
+              //     scrollToCurrentPage: false,
+              //     filePath,
+              //     currentPage: 0,
+              //     height: 56,
+              //     backgroundColor: Colors.white,
+              //   ),
+              // ),
+
+              leading:Image.asset("assets/images/icon.png",
+                width: 40,
+                height: 40,) ,
+
+
+              trailing: IconButton(
+                icon: Icon(
+                  isSelected ? Icons.check_box : Icons.check_box_outline_blank,
+                  color: isSelected ? Colors.blue : Colors.black,
+                ),
+                onPressed: () {
+                  setState(() {
+                    if (isSelected) {
+                      selectedFiles.remove(filePath);
+                    } else {
+                      selectedFiles.add(filePath);
+                    }
+                  });
+                },
+              ),
             ),
           );
         },

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:pdfviwer/consts/consts.dart';
 import 'package:pdfx/pdfx.dart';
 import 'package:share/share.dart';
 import '../const.dart';
@@ -74,10 +76,11 @@ class _PDFScreenState extends State<PDFScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.white,
         actions: [
           IconButton(
             onPressed: _rotateScreen,
-            icon: const Icon(Icons.autorenew_rounded, color: Colors.black38),
+            icon: const Icon(Icons.autorenew_rounded,color: Colors.black,),
           ),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -97,26 +100,32 @@ class _PDFScreenState extends State<PDFScreen> {
             Navigator.pop(context);
           },
           icon: const Icon(Icons.arrow_back_ios_new_rounded),
-          focusColor: Colors.black38,
+          color: Colors.black,
         ),
       ),
       body: Center(
         child: PdfView(controller: pdfController),
       ),
 
-      ///PDF Reader bottomnavigationbar added///////////////////////////////////
 
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            _buildBottomNavigationBarItem(Icons.pages_outlined, 'Page', 0),
-            _buildBottomNavigationBarItem(Icons.view_array_outlined, 'View mode', 1),
-            _buildBottomNavigationBarItem(Icons.edit_note, 'Edit', 2),
-            _buildBottomNavigationBarItem(Icons.ios_share_outlined, 'Share', 3),
-          ],
-        ),
+      bottomNavigationBar: BottomNavigationBar(
+        items:const [
+          BottomNavigationBarItem(icon: Icon(Icons.pages_outlined),label: 'Pages'),
+          BottomNavigationBarItem(icon: Icon(Icons.edit_note_outlined),label: 'Edit'),
+          BottomNavigationBarItem(icon: Icon(Icons.menu_book_outlined),label: 'View mode'),
+          BottomNavigationBarItem(icon: Icon(Icons.ios_share),label: 'Share'),
+        ],
+
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.black,
+        unselectedItemColor: Colors.black,
+        selectedLabelStyle: GoogleFonts.roboto(fontWeight: FontWeight.w500),
+        unselectedLabelStyle: GoogleFonts.roboto(fontWeight: FontWeight.w500),
+        backgroundColor: Colors.white,
+        type: BottomNavigationBarType.fixed,
+        onTap: _onItemTapped,
+
+
       ),
     );
   }
@@ -137,29 +146,6 @@ class _PDFScreenState extends State<PDFScreen> {
     }
   }
 
-  ///Bottomnavigationbar////////////////////////////////////////////////////////
-
-  Widget _buildBottomNavigationBarItem(IconData icon, String label, int index) {
-    return GestureDetector(
-      onTap: () => _onItemTapped(index),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            icon,
-            color: _selectedIndex == index ? Colors.cyan : Colors.black,
-          ),
-          Text(
-            label,
-            style: const TextStyle(fontWeight: FontWeight.w600).copyWith(
-              color: _selectedIndex == index ? Colors.cyan : Colors.black,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 
   void _onItemTapped(int index) {
     setState(() {

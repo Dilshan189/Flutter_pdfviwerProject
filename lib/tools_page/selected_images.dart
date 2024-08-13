@@ -1,13 +1,15 @@
 import 'dart:io';
 
 import 'package:external_path/external_path.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:media_scanner/media_scanner.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:image/image.dart' as img;
+import 'package:pdfviwer/consts/consts.dart';
 import 'images_list.dart';
 
 class SelectedImages extends StatefulWidget {
@@ -23,7 +25,45 @@ class _SelectedImagesState extends State<SelectedImages> {
   late bool isExporting = false;
   late int convertedImage = 0;
 
+  Future<String?> _showFileNameDialog() async {
+    String? fileName;
+    await showDialog<String>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Enter File Name',style: GoogleFonts.poppins(fontWeight: FontWeight.w500),),
+          content: TextField(
+            onChanged: (value) {
+              fileName = value;
+            },
+            decoration:InputDecoration(
+                hintText: "Enter file name",
+                border: const OutlineInputBorder(
+                    borderRadius:BorderRadius.all(Radius.circular(8))),
+                hintStyle: GoogleFonts.poppins(fontWeight: FontWeight.w400)),
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(fileName);
+              },
+              child: Text('OK',style:GoogleFonts.poppins(fontWeight: FontWeight.w400)),
+            ),
+          ],
+        );
+      },
+    );
+    return fileName;
+  }
+
   void convertImage() async {
+    String? fileName = await _showFileNameDialog();
+
+    if (fileName == null || fileName.isEmpty) {
+      Get.snackbar('Error', 'File name cannot be empty.',backgroundColor: Colors.black12);
+      return;
+    }
+
     setState(() {
       isExporting = true;
     });
@@ -32,7 +72,6 @@ class _SelectedImagesState extends State<SelectedImages> {
         ExternalPath.DIRECTORY_DOCUMENTS);
 
     final pdf = pw.Document();
-
 
     for (final imagePath in imagesList.imagePaths) {
       final imageBytes = await File(imagePath.path).readAsBytes();
@@ -53,14 +92,12 @@ class _SelectedImagesState extends State<SelectedImages> {
       });
     }
 
-    final outputFile = File('$pathToSave/NewPdf.pdf');
+    final outputFile = File('$pathToSave/$fileName.pdf');
     await outputFile.writeAsBytes(await pdf.save());
 
     MediaScanner.loadMedia(path: outputFile.path);
 
-
-    Get.snackbar('Thank you!', 'Image converted successful!');
-
+    Get.snackbar('Thank you!', 'Image converted successfully!');
   }
 
   @override
@@ -69,11 +106,9 @@ class _SelectedImagesState extends State<SelectedImages> {
       appBar: AppBar(
         title: const Text("Selected Images"),
         centerTitle: true,
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black38,
       ),
       bottomNavigationBar: MaterialButton(
-        materialTapTargetSize:MaterialTapTargetSize.shrinkWrap,
+        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
         color: Colors.blue,
         textColor: Colors.white,
         padding: const EdgeInsets.all(10),

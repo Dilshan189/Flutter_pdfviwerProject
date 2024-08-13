@@ -85,7 +85,7 @@ class DatabaseServiceFavourite
     return await dbClient!.delete(_pdffavouriteTableName,where: '$_pdffavouriteId = ?',whereArgs: [id]);
   }
 
-  ///updatePDF------------------------------------------------------------------
+  /// updatePDF------------------------------------------------------------------
 
   Future<int> faupdatePDF(PdfFavouriteModel pdfFavouriteModel) async
   {

@@ -78,23 +78,33 @@ class _spiltpdfState extends State<spiltpdf> {
         itemBuilder: (context, index) {
           String filePath = pdfFiles[index];
           String fileName = path.basename(filePath);
-          return ListTile(
-            onTap: () {
 
-            },
-            title: Text(fileName,
-              style: const TextStyle(
-                fontWeight: FontWeight.w500,
-                overflow: TextOverflow.ellipsis,),
-            ),
-            subtitle:  Text(
-              pdfFiles[index],
-              style: const TextStyle(overflow: TextOverflow.ellipsis),
-            ),
-            leading: Image.asset(
-              'assets/images/icon.png',
-              width: 40,
-              height: 40,
+
+          return Card(
+            shadowColor: Colors.grey,
+            margin: const EdgeInsets.symmetric(vertical: 5,horizontal: 8),
+            shape:  RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(5),
+          ),
+
+            child: ListTile(
+              onTap: () {
+
+              },
+              title: Text(fileName,
+                style: const TextStyle(
+                  fontWeight: FontWeight.w500,
+                  overflow: TextOverflow.ellipsis,),
+              ),
+              subtitle:  Text(
+                pdfFiles[index],
+                style: const TextStyle(overflow: TextOverflow.ellipsis),
+              ),
+              leading: Image.asset(
+                'assets/images/icon.png',
+                width: 40,
+                height: 40,
+              ),
             ),
           );
         },

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../floatingactionbutton/floationactionbutton.dart';
 import '../homepage/pdf_screen.dart';
 import '../model/pdf_favourite_model.dart';
 import '../service/database_service_favourite.dart';
 import 'bottom_sheet.dart';
 import 'browserpage.dart';
-
 
 
 
@@ -46,13 +46,13 @@ class _favoriteState extends State<favorite> {
             mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.asset('assets/images/paper_2.png',
-                width: 200,
-                height: 200,
+                width: 150,
+                height: 150,
                 ),
                 const SizedBox(height: 2,),
-                const Text("No data found",
-                style: TextStyle(fontSize: 18,color: Colors.black,fontWeight: FontWeight.w500),)
-
+                 Text("No data found",
+                style: GoogleFonts.poppins(fontSize: 15,fontWeight: FontWeight.w400,color:Colors.black54),
+                 ),
               ],
           ));
 

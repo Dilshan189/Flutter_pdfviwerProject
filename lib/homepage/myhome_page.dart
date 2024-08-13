@@ -2,11 +2,13 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pdfviwer/bottom/SecurityQuestionPage.dart';
 import 'package:pdfviwer/consts/consts.dart';
 import 'package:pdfviwer/homepage/pdf_screen.dart';
 import 'package:pdfviwer/homepage/search_bar.dart';
+import 'package:pdfviwer/test_page/change_screen.dart';
 import 'package:share/share.dart';
 import '../bottom/FeedbackPage.dart';
 import '../bottom/featureRequset.dart';
@@ -132,19 +134,18 @@ class _MyHomePageState extends State<MyHomePage> {
     child:Scaffold(
       appBar: AppBar(
         title: Text(appBarTitle),
-        backgroundColor: Colors.white54,
         actions: [
-          IconButton(
-            icon: const Image(image: AssetImage('assets/images/icons8-search-50.png',),
-            width: 23,
-            height: 23,),
-            onPressed: () {
-              Get.to(() => const Searchbar());
-            },
+          IconButton(onPressed: (){
+            Get.to(()=> const Searchbar());
+          },
+              icon:const Icon(Icons.search_rounded),
           ),
+
           IconButton(
-            icon: const Icon(Icons.credit_score_outlined),
-            onPressed: () {},
+            icon: const Icon(Icons.credit_card_rounded),
+            onPressed: () {
+              Get.to(() => const ChangeScreen());
+            },
           ),
         ],
 
@@ -166,18 +167,18 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
 
              ListTile(
-              title: const Text('PDF Reader',
-                  style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.w500,fontFamily: 'apots_bold')),
+              title: Text('PDF Reader',
+                  style:GoogleFonts.poppins(fontWeight: FontWeight.bold,fontSize: 25)),
                   trailing: IconButton(onPressed:_showImage,
-                      icon: const Icon(Icons.star_border_purple500_outlined, color: Colors.black,size: 45,shadows: [Shadow(color: Colors.black87)])),
+                      icon: const Icon(Icons.star_border_purple500_outlined, size: 45,shadows: [Shadow(color: Colors.black87)])),
             ),
 
             const Divider(thickness: 1),
 
             ListTile(
-                title: const Text(
+                title:Text(
                   'Import PDF',
-                  style: TextStyle(fontWeight: FontWeight.bold,fontFamily: 'apots_bold'),
+                  style:GoogleFonts.poppins(fontWeight: FontWeight.w400),
                 ),
                 leading:const Image(image: AssetImage('assets/images/icons8-folder-26.png'),
                   width: 20,
@@ -188,8 +189,9 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
 
             ListTile(
-              title: const Text(
-                'FAQ', style: TextStyle(fontFamily: 'apots_bold',fontWeight: FontWeight.w500),
+              title:  Text(
+                'FAQ',
+                style: GoogleFonts.poppins(fontWeight: FontWeight.w400),
               ),
               leading: const Image(image: AssetImage('assets/images/icons8-question-48.png'),
                 width: 25,
@@ -204,7 +206,10 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
 
             ListTile(
-              title: const Text('Request a new feature', style: TextStyle(fontWeight: FontWeight.bold,fontFamily: 'apots_bold')),
+              title: Text(
+                  'Request a new feature',
+                  style:GoogleFonts.poppins(fontWeight: FontWeight.w400),
+              ),
               leading: const Image(image: AssetImage('assets/images/icons8-copy-48.png'),
                 width: 25,
                 height: 25,),
@@ -220,15 +225,16 @@ class _MyHomePageState extends State<MyHomePage> {
             const Divider(thickness: 1,),
 
 
-            const ListTile(
+             ListTile(
               title: Text('Settings',
-                style: TextStyle(fontSize: 16.0,fontFamily: 'apots_bold'),
+                style:GoogleFonts.poppins(fontWeight: FontWeight.w800) ,
               ),
             ),
 
             SwitchListTile(
-              title: const Text(
-                  'DarkMode', style: TextStyle(fontWeight: FontWeight.bold,fontFamily: 'apots_bold')),
+              title: Text(
+                  'DarkMode',
+                  style: GoogleFonts.poppins(fontWeight: FontWeight.w400)),
               secondary: const Image(image: AssetImage('assets/images/icons8-dark-30.png'),
                 width: 25,
                 height: 25,
@@ -243,8 +249,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
             SwitchListTile(
-                title: const Text('Keep screen on',
-                    style: TextStyle(fontWeight: FontWeight.bold,fontFamily: 'apots_bold')),
+                title:  Text(
+                    'Keep screen on',
+                    style: GoogleFonts.poppins(fontWeight: FontWeight.w400)),
                 secondary: const Image(image: AssetImage('assets/images/icons8-google-mobile-30.png'),
                   width: 25,
                   height: 25,),
@@ -260,8 +267,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
             SwitchListTile(
-              title: const Text('Security question',
-                  style: TextStyle(fontWeight: FontWeight.bold,fontFamily: 'apots_bold')),
+              title:Text('Security question',
+                  style: GoogleFonts.poppins(fontWeight: FontWeight.w400)),
               secondary: const Image(image: AssetImage('assets/images/icons8-question-48.png'),
                 width: 25,
                 height: 25,),
@@ -281,8 +288,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
             ListTile(
-              title: const Text('Language Options',
-                  style: TextStyle(fontWeight: FontWeight.bold,fontFamily: 'apots_bold')),
+              title:Text('Language Options',
+                  style: GoogleFonts.poppins(fontWeight: FontWeight.w400)),
               leading: const Image(image: AssetImage('assets/images/icons8-world-50.png'),
                 width: 25,
                 height: 25,),
@@ -293,9 +300,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
             const Divider(thickness: 1,),
 
-            const ListTile(
+             ListTile(
               title: Text('About App',
-                style: TextStyle(fontSize: 16.0,fontFamily: 'apots_bold'),
+                style: GoogleFonts.poppins(fontWeight: FontWeight.w800),
               ),
             ),
 
@@ -304,8 +311,8 @@ class _MyHomePageState extends State<MyHomePage> {
               leading: const Image(image: AssetImage('assets/images/icons8-share-50.png'),
                 width: 25,
                 height: 25,),
-              title: const Text(
-                  'Share App', style: TextStyle(fontWeight: FontWeight.bold,fontFamily: 'apots_bold')),
+              title:Text(
+                  'Share App', style: GoogleFonts.poppins(fontWeight: FontWeight.w400)),
               onTap: () {
                 final RenderBox box = context.findRenderObject() as RenderBox;
                 Share.share(
@@ -320,8 +327,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
             ListTile(
-              title: const Text(
-                  'Feedback', style: TextStyle(fontWeight: FontWeight.bold,fontFamily: 'apots_bold')),
+              title:Text(
+                  'Feedback', style: GoogleFonts.poppins(fontWeight: FontWeight.w400)),
               leading: const Image(image: AssetImage('assets/images/icons8-message-50.png'),
                 width: 25,
                 height: 25,
@@ -336,9 +343,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
 
-            const ListTile(
+             ListTile(
               title: Text('Version:1.3.8L',
-                style: TextStyle(fontSize: 16.0,fontFamily: 'apots_bold'),
+                style: GoogleFonts.poppins(fontWeight: FontWeight.w800),
               ),
             ),
 
@@ -354,7 +361,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Image(image:AssetImage('assets/images/home.png'), width: 25, height: 25,) , label: 'All files'),
+          BottomNavigationBarItem(icon: Image(image:AssetImage('assets/images/home.png'), width: 25, height: 25,) , label: 'All files',),
           BottomNavigationBarItem(icon: Image(image:AssetImage('assets/images/icons8-clock-32.png'), width: 25, height: 25) , label: 'Recent'),
           BottomNavigationBarItem(icon:Image(image:AssetImage('assets/images/icons8-favorite-folder-48.png'), width: 25, height: 25) ,label: 'Favourite'),
           BottomNavigationBarItem(icon: Image(image:AssetImage('assets/images/icons8-apps-32.png'),width: 25, height: 25,) ,label: 'Tools',),
@@ -363,7 +370,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.cyan,
+        selectedItemColor: Colors.black,
         unselectedItemColor: Colors.black,
         selectedLabelStyle: const TextStyle(fontFamily: 'apots_bold'),
         unselectedLabelStyle: const TextStyle(fontFamily: 'apots_bold'),

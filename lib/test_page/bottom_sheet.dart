@@ -1,13 +1,15 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:pdfviwer/service/database_service_favourite.dart';
+import 'package:pdfviwer/service/database_service.dart';
 import 'package:share/share.dart';
-import '../model/pdf_favourite_model.dart';
 import 'package:path/path.dart' as path;
 import 'browserpage.dart';
 
 
 class BottomSheetContent extends StatefulWidget {
   final FileItem file;
+
 
   const BottomSheetContent({super.key, required this.file});
 
@@ -16,6 +18,8 @@ class BottomSheetContent extends StatefulWidget {
 }
 
 class _BottomSheetContentState extends State<BottomSheetContent> {
+
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -24,6 +28,7 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+
             ListTile(
               leading: const Icon(
                 Icons.edit_note_outlined,
@@ -42,6 +47,8 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
                 Navigator.pop(context);
               },
             ),
+
+
             ListTile(
               leading: const Icon(
                 Icons.text_fields_outlined,
@@ -60,6 +67,8 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
                 Navigator.pop(context);
               },
             ),
+
+
             ListTile(
               leading: const Icon(
                 Icons.picture_as_pdf_outlined,
@@ -78,6 +87,8 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
                 Navigator.pop(context);
               },
             ),
+
+
             ListTile(
               leading: const Icon(
                 Icons.lock_outline,
@@ -97,7 +108,10 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
                 Navigator.pop(context);
               },
             ),
+
             const Divider(),
+
+
             ListTile(
               leading: const Icon(
                 Icons.ios_share_outlined,
@@ -123,6 +137,8 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
                 Navigator.pop(context);
               },
             ),
+
+
             ListTile(
               leading: const Icon(
                 Icons.favorite_outline_outlined,
@@ -138,64 +154,68 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
                 ),
               ),
 
-
-
               onTap: () async
               {
-               //  String? filePath =  widget.file.filePath;
-               //  String fileName = path.basename(filePath!);
-               //
-               //
-               //  PdfFavouriteModel pdfFavouriteModel= PdfFavouriteModel(fileName: fileName, filePath: filePath);
-               //
-               // await DatabaseServiceFavourite().fainsertPdf(pdfFavouriteModel);
+                //  String? filePath =  widget.file.filePath;
+                //  String fileName = path.basename(filePath!);
+                //
+                //
+                //  PdfFavouriteModel pdfFavouriteModel= PdfFavouriteModel(fileName: fileName, filePath: filePath);
+                //
+                // await DatabaseServiceFavourite().fainsertPdf(pdfFavouriteModel);
                 Navigator.pop(context);
               },
             ),
+
+
             ListTile(
-              leading: const Icon(
-                Icons.delete_forever_outlined,
-                color: Colors.blue,
-                weight: 55.3,
-                shadows: [Shadow(color: Colors.black)],
-              ),
-              title: const Text(
-                'Delete',
-                style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontFamily: 'apots_bold',
+                leading: const Icon(
+                  Icons.delete_forever_outlined,
+                  color: Colors.blue,
+                  weight: 55.3,
+                  shadows: [Shadow(color: Colors.black)],
                 ),
-              ),
-              onTap: () async {
-                bool? confirmDelete = await showDialog<bool>(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: const Text("Confirm Delete"),
-                      content: const Text("Are you sure you want to delete this PDF?"),
-                      actions: [
-                        TextButton(
-                          onPressed: () => Navigator.of(context).pop(false),
-                          child: const Text("Cancel"),
-                        ),
-                        TextButton(
-                          onPressed: () => Navigator.of(context).pop(true),
-                          child: const Text("Delete"),
-                        ),
-                      ],
-                    );
-                  },
-                );
+                title: const Text(
+                  'Delete',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontFamily: 'apots_bold',
+                  ),
+                ),
 
-                if (confirmDelete == true) {
-                 // DatabaseService().deletePDF(pdfModel.id);
-                  Navigator.pop(context);
-
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text("PDF deleted successfully")),
+                onTap: () async {
+                  bool? confirmDelete = await showDialog<bool>(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text("Confirm Delete"),
+                        content: const Text("Are you sure you want to delete this PDF?"),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.of(context).pop(false),
+                            child: const Text("Cancel"),
+                          ),
+                          TextButton(
+                            onPressed: () => Navigator.of(context).pop(true),
+                            child: const Text("Delete"),
+                          ),
+                        ],
+                      );
+                    },
                   );
+
+                  if (confirmDelete == true) {
+
+                   // DatabaseService().deletePDF(pdf.id as int);
+                    setState(() {
+
+                    });
+
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('PDF deleted Successfully')),
+                    );
+                  }
                 }
-              },
             ),
           ],
         ),

@@ -83,7 +83,7 @@ class DatabaseService
     return await dbClient!.delete(_pdfTableName,where: '$_pdfId = ?',whereArgs: [id]);
   }
 
-  ///updatePDF------------------------------------------------------------------
+  /// updatePDF------------------------------------------------------------------
 
   Future<int> updatePDF(PDFModel pdfModel) async
   {

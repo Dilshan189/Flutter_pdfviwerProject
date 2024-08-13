@@ -4,6 +4,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pdfviwer/consts/consts.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -27,8 +28,8 @@ class _AllfloatingactionbuttonState extends State<actionbutton> {
   ];
 
   List<Color> cateColors = [
-    const Color(0xFF21D9EA),
-    const Color(0xFFF6F6AE),
+    const Color(0xFFEEDADA),
+    const Color(0xFFEBCAEE),
   ];
 
   List<Icon> cateIcons = [
@@ -94,7 +95,7 @@ class _AllfloatingactionbuttonState extends State<actionbutton> {
   Navigator.push(
   context,
   MaterialPageRoute(
-  builder: (context) =>  SelectedImages(),
+  builder: (context) =>  const SelectedImages(),
   ),
   );
   }
@@ -108,7 +109,6 @@ class _AllfloatingactionbuttonState extends State<actionbutton> {
     return Container(
           decoration: const BoxDecoration(
             borderRadius:BorderRadius.only(bottomRight:Radius.zero,bottomLeft:Radius.zero ,topRight:Radius.zero ,topLeft:Radius.zero ) ,
-          color: Colors.white70,
         ),
         child: Padding(
         padding: const EdgeInsets.all(45),
@@ -134,7 +134,6 @@ class _AllfloatingactionbuttonState extends State<actionbutton> {
 
            case 0:
              await pickGalleryImage();
-             Navigator.pop(context);
              break;
 
 
@@ -169,10 +168,7 @@ class _AllfloatingactionbuttonState extends State<actionbutton> {
 
     Center(
       child: Text(cateNames[index],
-      style: const TextStyle(fontSize: 15,
-        fontWeight: FontWeight.w500,
-        color: Colors.black,
-      ),
+      style:GoogleFonts.poppins(fontWeight: FontWeight.w400,fontSize: 16),
     ),
     ),
        ],

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'homepage/myhome_page.dart';
 
@@ -44,18 +45,13 @@ class _SplashScreenState extends State<SplashScreen> {
               width: 10,
             ),
             const SizedBox(height: 5,),
-            const Center(
+             Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Text(
                     'PDF Reader',
-                    style: TextStyle(
-                      fontFamily: 'apots_bold',
-                      fontWeight: FontWeight.w500,
-                      fontSize: 22,
-                      color: Color.fromARGB(255, 255, 7, 26),
-                    ),
+                    style: GoogleFonts.poppins(fontSize: 20,fontWeight: FontWeight.bold,color: const Color.fromARGB(255, 225, 28, 10)),
                   ),
                 ],
               ),

@@ -1,9 +1,14 @@
 import 'dart:io';
 import 'package:external_path/external_path.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:path/path.dart' as path;
+import 'package:pdf_thumbnail/pdf_thumbnail.dart';
+import 'package:pdfviwer/consts/consts.dart';
 import 'package:pdfviwer/model/pdf_model.dart';
 import 'package:pdfviwer/service/database_service.dart';
+import 'package:pdfviwer/test_page/change_screen.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 
@@ -16,9 +21,6 @@ class FileItem {
   final String path;
 
   FileItem({required this.name, required this.path, });
-
-
-
 
 
 }
@@ -82,74 +84,94 @@ class _PDFListScreenState extends State<PDFListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView.builder(
-        itemCount: pdfFiles.length,
-        itemBuilder: (context, index) {
-          String filePath = pdfFiles[index];
-          String fileName = path.basename(filePath);
-          return ListTile(
-            onTap: () async
-            {
+      body: Container(
+        padding: const EdgeInsets.all(2),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(18),
 
-              String filePath = pdfFiles[index];
-              String fileName = path.basename(filePath);
+        ),
+        child: ListView.builder(
+          itemCount: pdfFiles.length,
+          itemBuilder: (context, index) {
+            String filePath = pdfFiles[index];
+            String fileName = path.basename(filePath);
 
-              PDFModel pdfModel = PDFModel(fileName: fileName, filePath: filePath);
 
-              DatabaseService().insertPdf(pdfModel);
+            return Card(
 
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => PDFScreen(
-                    pdfPath: filePath,
-                    pdfName: fileName,
-                    index: 0,
-                    path: filePath,
-                  ),
+              shadowColor: Colors.grey,
+              margin: const EdgeInsets.symmetric(vertical: 5,horizontal: 8),
+              shape:  RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5),
+              ),
+
+              child: ListTile(
+                onTap: () async
+                {
+                  String filePath = pdfFiles[index];
+                  String fileName = path.basename(filePath);
+
+                  PDFModel pdfModel = PDFModel(fileName: fileName, filePath: filePath);
+
+                  DatabaseService().insertPdf(pdfModel);
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => PDFScreen(
+                        pdfPath: filePath,
+                        pdfName: fileName,
+                        index: 0,
+                        path: filePath,
+                      ),
+                    ),
+                  );
+                },
+                title: Text(fileName,
+                style: const TextStyle(
+              fontWeight: FontWeight.w500,
+              overflow: TextOverflow.ellipsis,),
                 ),
-              );
-            },
-            title: Text(fileName,
-            style: const TextStyle(
-          fontWeight: FontWeight.w500,
-          overflow: TextOverflow.ellipsis,),
-            ),
-            subtitle:  Text(
-              pdfFiles[index],
-              style: const TextStyle(overflow: TextOverflow.ellipsis),
-            ),
+                subtitle:  Text(
+                  pdfFiles[index],
+                  style: const TextStyle(overflow: TextOverflow.ellipsis),
+                ),
 
+              // leading: SizedBox(
+              //   width: 50,
+              //   height: 180,
+              //   child: PdfThumbnail.fromFile(
+              //     scrollToCurrentPage: false,
+              //     filePath,
+              //     currentPage: 0,
+              //     height: 56,
+              //     backgroundColor: Colors.white,
+              //   ),
+              // ),
 
-          // leading: SizedBox(
-          //   width: 50,
-          //   height: 180,
-          //   child: PdfThumbnail.fromFile(
-          //     scrollToCurrentPage: false,
-          //     filePath,
-          //     currentPage: 0,
-          //     height: 56,
-          //     backgroundColor: Colors.white,
-          //   ),
-          // ),
+                leading:Image.asset("assets/images/icon.png",
+                width: 40,
+                height: 40,) ,
 
-            leading:Image.asset("assets/images/icon.png",
-            width: 40,
-            height: 40,) ,
-
-            trailing: IconButton(
-              icon: const Icon(Icons.more_vert),
-              onPressed: () {
-                showModalBottomSheet(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return BottomSheetContent(file: FileItem(name: fileName, path: filePath,));
+                trailing: IconButton(
+                  icon: const Icon(Icons.more_vert),
+                  onPressed: () {
+                    showModalBottomSheet(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return BottomSheetContent(file: FileItem(name: fileName, path: filePath,));
+                      },
+                    );
                   },
-                );
-              },
-            ),
-          );
-        },
+                ),
+                onLongPress: (){
+                  Get.to(()=>const ChangeScreen());
+                },
+
+              ),
+            );
+          },
+        ),
       ),
 
       floatingActionButton: FloatingActionButton(

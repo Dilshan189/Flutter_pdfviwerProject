@@ -9,17 +9,16 @@ class Searchbar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
     appBar: AppBar(
-      backgroundColor: lightGrey,
+      // backgroundColor: lightGrey,
       title: Container(
         alignment: Alignment.center,
         height: 40,
         child: TextFormField(
           decoration: const InputDecoration(
             border: OutlineInputBorder(
-              borderSide: BorderSide.none,
               borderRadius: BorderRadius.all(Radius.circular(5)),
             ),
-            suffixIcon: Icon(Icons.search, color: Colors.black26),
+            suffixIcon: Icon(Icons.search,),
             // added search Button
             filled: true,
             fillColor: whiteColor,

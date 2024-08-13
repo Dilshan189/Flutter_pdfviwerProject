@@ -1,5 +1,6 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pdfviwer/tools_page/addtext.dart';
 import 'package:pdfviwer/tools_page/editpdf.dart';
@@ -116,7 +117,7 @@ class _ToolsState extends State<tools> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => SelectedImages(),
+            builder: (context) => const SelectedImages(),
           ),
         );
       }
@@ -125,131 +126,129 @@ class _ToolsState extends State<tools> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
-        color: Colors.white70,
-      ),
-      child: Padding(
-        padding: const EdgeInsets.only(top: 20, left: 15, right: 15),
-        child: Column(
-          children: [
-            GridView.builder(
-              itemCount: cateNames.length,
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                childAspectRatio: 1.0,
-              ),
-              itemBuilder: (context, index) {
-                return GestureDetector(
-                  onTap: () async {
-                    switch (index) {
-                      case 0:
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const Marge()),
-                        );
-                        break;
-
-                      case 1:
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const spiltpdf()),
-                        );
-                        break;
-
-                      case 2:
-                        await pickGalleryImage();
-                        break;
-
-                      case 3:
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const editpdf()),
-                        );
-                        break;
-
-                      case 4:
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const addtext()),
-                        );
-                        break;
-
-                      case 5:
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const lockpdf()),
-                        );
-                        break;
-
-                      case 6:
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const unlockpdf()),
-                        );
-                        break;
-
-                      case 7:
-                        pickFiles(context);
-                        break;
-
-                      default:
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const hardwea()),
-                        );
-                        break;
-                    }
-                  },
-                  child: Column(
-                    children: [
-                      Container(
-                        height: 65,
-                        width: 70,
-                        decoration: BoxDecoration(
-                          color: cateColors[index],
-                          shape: BoxShape.circle,
-                          boxShadow: const [
-                            BoxShadow(
-                              color: Colors.black12,
-                              blurRadius: 1,
-                              spreadRadius: 1,
-                              offset: Offset(2, 2),
-                            )
-                          ],
-                        ),
-                        child: Center(
-                          child: cateIcons[index],
-                        ),
-                      ),
-                      Center(
-                        child: Text(
-                          cateNames[index],
-                          style: const TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black,
+    return SingleChildScrollView(
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15),
+          // color: Colors.white70,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.only(top: 20, left: 15, right: 15),
+          child: Column(
+            children: [
+              GridView.builder(
+                itemCount: cateNames.length,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  childAspectRatio: 1.0,
+                ),
+                itemBuilder: (context, index) {
+                  return GestureDetector(
+                    onTap: () async {
+                      switch (index) {
+                        case 0:
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const Marge()),
+                          );
+                          break;
+      
+                        case 1:
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const spiltpdf()),
+                          );
+                          break;
+      
+                        case 2:
+                          await pickGalleryImage();
+                          break;
+      
+                        case 3:
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const editpdf()),
+                          );
+                          break;
+      
+                        case 4:
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const addtext()),
+                          );
+                          break;
+      
+                        case 5:
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const lockpdf()),
+                          );
+                          break;
+      
+                        case 6:
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const unlockpdf()),
+                          );
+                          break;
+      
+                        case 7:
+                          pickFiles(context);
+                          break;
+      
+                        default:
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const hardwea()),
+                          );
+                          break;
+                      }
+                    },
+                    child: Column(
+                      children: [
+                        Container(
+                          height: 65,
+                          width: 70,
+                          decoration: BoxDecoration(
+                            color: cateColors[index],
+                            shape: BoxShape.circle,
+                            boxShadow: const [
+                              BoxShadow(
+                                color: Colors.black12,
+                                blurRadius: 1,
+                                spreadRadius: 1,
+                                offset: Offset(2, 2),
+                              )
+                            ],
+                          ),
+                          child: Center(
+                            child: cateIcons[index],
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
-            Card(
-              elevation: 10,
-              child: ListTile(
-                leading: const Icon(Icons.hail, color: Colors.amber),
-                title: const Text("Hi Friends How are you?", style: TextStyle(fontWeight: FontWeight.w800,fontFamily: 'Calibri')),
-                subtitle: const Text("I'm fine", style: TextStyle(fontWeight: FontWeight.bold,fontFamily: 'Calibri')),
-                onTap: () {},
+                        Center(
+                          child: Text(
+                            cateNames[index],
+                            style:GoogleFonts.poppins(fontWeight: FontWeight.w600,fontSize: 15),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
               ),
-            ),
-          ],
+              Card(
+                elevation: 10,
+                child: ListTile(
+                  leading: const Icon(Icons.hail, color: Colors.amber),
+                  title: Text("Hi Friends How are you?", style: GoogleFonts.poppins(fontWeight: FontWeight.w600)),
+                  subtitle:Text("I'm fine", style: GoogleFonts.poppins(fontWeight: FontWeight.w600)),
+                  onTap: () {},
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

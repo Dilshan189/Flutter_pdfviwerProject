@@ -57,6 +57,7 @@ dependencies:
   velocity_x: ^4.1.2
   path: ^1.8.2
   sqflite: ^2.3.3
+  google_fonts: ^4.0.4
   image:
   #pdf:
   media_scanner:
@@ -119,6 +120,7 @@ flutter:
     - assets/images/pdf.png
     - assets/icon/Animation - 1722676878214.json
     - assets/icon/Animation - 1722878584548.json
+    
 
 
 
