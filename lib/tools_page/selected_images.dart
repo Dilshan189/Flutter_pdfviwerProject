@@ -97,7 +97,7 @@ class _SelectedImagesState extends State<SelectedImages> {
 
     MediaScanner.loadMedia(path: outputFile.path);
 
-    Get.snackbar('Thank you!', 'Image converted successfully!');
+    Get.snackbar('Thank you!', 'Image converted successfully!',backgroundColor: Colors.black12);
   }
 
   @override

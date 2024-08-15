@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:pdfviwer/service/database_service.dart';
 import 'package:share/share.dart';
 import 'package:path/path.dart' as path;
@@ -36,12 +38,9 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
                 weight: 55.3,
                 shadows: [Shadow(color: Colors.black)],
               ),
-              title: const Text(
+              title: Text(
                 'Edit Text',
-                style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontFamily: 'apots_bold',
-                ),
+                style:GoogleFonts.poppins(fontWeight: FontWeight.w400,),
               ),
               onTap: () {
                 Navigator.pop(context);
@@ -56,12 +55,9 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
                 weight: 55.3,
                 shadows: [Shadow(color: Colors.black)],
               ),
-              title: const Text(
+              title:Text(
                 'Rename',
-                style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontFamily: 'apots_bold',
-                ),
+                style:GoogleFonts.poppins(fontWeight: FontWeight.w400),
               ),
               onTap: () {
                 Navigator.pop(context);
@@ -76,12 +72,9 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
                 weight: 55.3,
                 shadows: [Shadow(color: Colors.black)],
               ),
-              title: const Text(
+              title:  Text(
                 'Edit PDF',
-                style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontFamily: 'apots_bold',
-                ),
+                style:GoogleFonts.poppins(fontWeight: FontWeight.w400),
               ),
               onTap: () {
                 Navigator.pop(context);
@@ -96,12 +89,9 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
                 weight: 55.3,
                 shadows: [Shadow(color: Colors.black)],
               ),
-              title: const Text(
+              title: Text(
                 'Set password',
-                style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontFamily: 'apots_bold',
-                ),
+                style:GoogleFonts.poppins(fontWeight: FontWeight.w400),
               ),
               onTap: () {
 
@@ -119,12 +109,9 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
                 weight: 55.3,
                 shadows: [Shadow(color: Colors.black)],
               ),
-              title: const Text(
+              title:  Text(
                 'Share',
-                style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontFamily: 'apots_bold',
-                ),
+                style:GoogleFonts.poppins(fontWeight: FontWeight.w400),
               ),
               onTap: () {
 
@@ -146,12 +133,9 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
                 weight: 55.3,
                 shadows: [Shadow(color: Colors.black)],
               ),
-              title: const Text(
+              title: Text(
                 'Favorite',
-                style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontFamily: 'apots_bold',
-                ),
+                style: GoogleFonts.poppins(fontWeight: FontWeight.w400),
               ),
 
               onTap: () async
@@ -175,12 +159,9 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
                   weight: 55.3,
                   shadows: [Shadow(color: Colors.black)],
                 ),
-                title: const Text(
+                title: Text(
                   'Delete',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontFamily: 'apots_bold',
-                  ),
+                  style:GoogleFonts.poppins(fontWeight: FontWeight.w400),
                 ),
 
                 onTap: () async {
@@ -188,8 +169,8 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        title: const Text("Confirm Delete"),
-                        content: const Text("Are you sure you want to delete this PDF?"),
+                        title: Text("Confirm Delete",style: GoogleFonts.poppins(),),
+                        content:  Text("Are you sure you want to delete this PDF?",style: GoogleFonts.poppins(),),
                         actions: [
                           TextButton(
                             onPressed: () => Navigator.of(context).pop(false),
@@ -205,16 +186,15 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
                   );
 
                   if (confirmDelete == true) {
-
-                   // DatabaseService().deletePDF(pdf.id as int);
                     setState(() {
+
 
                     });
 
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('PDF deleted Successfully')),
-                    );
+                     Get.snackbar('Confirm','Delete Succesfull!');
+
                   }
+                  Navigator.pop(context);
                 }
             ),
           ],

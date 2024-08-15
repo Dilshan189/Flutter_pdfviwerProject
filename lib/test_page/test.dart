@@ -230,7 +230,7 @@ class _ToolsState extends State<tools> {
                         Center(
                           child: Text(
                             cateNames[index],
-                            style:GoogleFonts.poppins(fontWeight: FontWeight.w600,fontSize: 15),
+                            style:GoogleFonts.poppins(fontWeight: FontWeight.w400,fontSize: 15),
                           ),
                         ),
                       ],
@@ -242,8 +242,8 @@ class _ToolsState extends State<tools> {
                 elevation: 10,
                 child: ListTile(
                   leading: const Icon(Icons.hail, color: Colors.amber),
-                  title: Text("Hi Friends How are you?", style: GoogleFonts.poppins(fontWeight: FontWeight.w600)),
-                  subtitle:Text("I'm fine", style: GoogleFonts.poppins(fontWeight: FontWeight.w600)),
+                  title: Text("Hi Friends How are you?", style: GoogleFonts.poppins(fontWeight: FontWeight.w400)),
+                  subtitle:Text("I'm fine", style: GoogleFonts.poppins(fontWeight: FontWeight.w400)),
                   onTap: () {},
                 ),
               ),

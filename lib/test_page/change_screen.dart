@@ -79,39 +79,7 @@ class _ChangeScreenState extends State<ChangeScreen> {
         ),
         actions: [
           IconButton(
-            onPressed: () async {
-              bool? confirmDelete = await showDialog<bool>(
-              context: context,
-              builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: const Text("Confirm Delete"),
-                    content: const Text("Are you sure you want to delete this All PDF?"),
-                    actions: [
-                         TextButton(
-                             onPressed: () => Navigator.of(context).pop(false),
-                             child: const Text("Cancel"),
-                           ),
-
-                        TextButton(
-                              onPressed: () => Navigator.of(context).pop(true),
-                              child: const Text("Delete"),
-                          ),
-                       ],
-                    );
-                  },
-              );
-
-               if (confirmDelete == true) {
-                setState(() {
-                  DatabaseService().deleteAllPDF();
-
-               });
-
-              ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('PDF deleted Successfully')),
-          );
-        }
-      },
+            onPressed: () {},
             icon: const Icon(Icons.apps_rounded),
           ),
         ],
@@ -141,11 +109,40 @@ class _ChangeScreenState extends State<ChangeScreen> {
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
-              subtitle: Text(
-                filePath,
-                style: const TextStyle(overflow: TextOverflow.ellipsis),
-              ),
+              subtitle:  Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
 
+                  children: [
+                    Text(
+                      filePath,
+                      style: const TextStyle(
+                          overflow: TextOverflow.ellipsis
+                      ),
+                    ),
+
+
+                    const SizedBox(height: 5,),
+
+                    Row(
+                        children: [
+
+                          const Icon(Icons.folder_copy_rounded,
+                            weight: 50,
+                            size: 15,
+                          ),
+
+                          const SizedBox(width: 5,),
+
+                          Text('PDF',
+                            style: GoogleFonts.poppins(fontWeight: FontWeight.w400,
+                                fontSize: 12,
+                                color: Colors.grey),
+                          ),
+                        ]
+                    ),
+
+                  ]
+              ),
 
               leading:Image.asset("assets/images/icon.png",
                 width: 40,

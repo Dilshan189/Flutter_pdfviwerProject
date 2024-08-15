@@ -10,6 +10,7 @@ import 'package:pdfviwer/homepage/pdf_screen.dart';
 import 'package:pdfviwer/homepage/search_bar.dart';
 import 'package:pdfviwer/test_page/change_screen.dart';
 import 'package:share/share.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../bottom/FeedbackPage.dart';
 import '../bottom/featureRequset.dart';
 import '../bottom/featurebottomsheet.dart';
@@ -21,7 +22,6 @@ import '../test_page/recent.dart';
 import '../test_page/test.dart';
 
 
-
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
 
@@ -30,28 +30,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
-  void _showImage() {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          content: Lottie.asset('assets/icon/Animation - 1722878584548.json'),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('Close',
-              style: TextStyle(color: Colors.black),),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
 
   List<PlatformFile>? selectedFiles;
   final String _imagePath = 'assets/images/image.png';
@@ -169,7 +147,17 @@ class _MyHomePageState extends State<MyHomePage> {
              ListTile(
               title: Text('PDF Reader',
                   style:GoogleFonts.poppins(fontWeight: FontWeight.bold,fontSize: 25)),
-                  trailing: IconButton(onPressed:_showImage,
+                  trailing: IconButton(onPressed:(){
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        backgroundColor: Colors.transparent,
+                        content: Lottie.asset(
+                          'assets/icon/success.json',
+                        ),
+                      ),
+                    );
+                  },
                       icon: const Icon(Icons.star_border_purple500_outlined, size: 45,shadows: [Shadow(color: Colors.black87)])),
             ),
 
@@ -207,19 +195,25 @@ class _MyHomePageState extends State<MyHomePage> {
 
             ListTile(
               title: Text(
-                  'Request a new feature',
-                  style:GoogleFonts.poppins(fontWeight: FontWeight.w400),
+                'Request a new feature',
+                style: GoogleFonts.poppins(fontWeight: FontWeight.w400),
               ),
-              leading: const Image(image: AssetImage('assets/images/icons8-copy-48.png'),
+              leading: const Image(
+                image: AssetImage('assets/images/icons8-copy-48.png'),
                 width: 25,
-                height: 25,),
-              onTap: () => showModalBottomSheet<void>(
-                context: context,
-                builder: (BuildContext context) {
-                  return FeatureRequestBottomSheet(imagePath: _imagePath);
-                },
+                height: 25,
               ),
+              onTap: () {
+                Navigator.of(context).pop(); // First, close the Drawer
+                showModalBottomSheet<void>(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return FeatureRequestBottomSheet(imagePath: _imagePath);
+                  },
+                );
+              },
             ),
+
 
 
             const Divider(thickness: 1,),
@@ -227,7 +221,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
              ListTile(
               title: Text('Settings',
-                style:GoogleFonts.poppins(fontWeight: FontWeight.w800) ,
+                style:GoogleFonts.poppins(fontWeight: FontWeight.w500,color: Colors.grey) ,
               ),
             ),
 
@@ -259,6 +253,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 onChanged: (val) {
                   setState(() {
                     isScreenKeptOff = val;
+                    Navigator.of(context).pop();
                   });
                 }
             ),
@@ -285,24 +280,35 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
 
 
-
-
             ListTile(
-              title:Text('Language Options',
+              title: Text('Browse page',
                   style: GoogleFonts.poppins(fontWeight: FontWeight.w400)),
-              leading: const Image(image: AssetImage('assets/images/icons8-world-50.png'),
+              leading: const Image(
+                image: AssetImage('assets/images/icons8-world-50.png'),
                 width: 25,
-                height: 25,),
-              onTap: () {
-
+                height: 25,
+              ),
+              onTap: () async {
+                final Uri url = Uri.parse('https://www.google.com');
+                if (await canLaunchUrl(url)) {
+                  await launchUrl(
+                    url,
+                    mode: LaunchMode.externalApplication,
+                  );
+                } else {
+                  throw 'Could not launch $url';
+                }
               },
             ),
+
+
+
 
             const Divider(thickness: 1,),
 
              ListTile(
               title: Text('About App',
-                style: GoogleFonts.poppins(fontWeight: FontWeight.w800),
+                style: GoogleFonts.poppins(fontWeight: FontWeight.w400,color: Colors.grey),
               ),
             ),
 
@@ -320,6 +326,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     subject: 'PDF Viewer App',
                     sharePositionOrigin: box.localToGlobal(Offset.zero) & box
                         .size);
+                Navigator.of(context).pop();
               },
             ),
 
@@ -334,9 +341,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 height: 25,
               ),
               onTap: () {
+                Navigator.of(context).pop();
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const FeedbackPage()),
+
                 );
               },
             ),
@@ -345,7 +354,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
              ListTile(
               title: Text('Version:1.3.8L',
-                style: GoogleFonts.poppins(fontWeight: FontWeight.w800),
+                style: GoogleFonts.poppins(fontWeight: FontWeight.w500,color: Colors.grey),
               ),
             ),
 

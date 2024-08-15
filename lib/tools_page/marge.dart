@@ -3,6 +3,7 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:external_path/external_path.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart' as pdf;
@@ -147,10 +148,42 @@ class _MargeState extends State<Marge> {
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
-              subtitle: Text(
-                filePath,
-                style: const TextStyle(overflow: TextOverflow.ellipsis),
+
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+
+                children: [
+                  Text(
+                  filePath,
+                  style: const TextStyle(
+                      overflow: TextOverflow.ellipsis
+                  ),
+                ),
+
+
+                  const SizedBox(height: 5,),
+
+                  Row(
+                    children: [
+
+                      const Icon(Icons.folder_copy_rounded,
+                      weight: 50,
+                      size: 15,
+                      ),
+
+                      const SizedBox(width: 5,),
+
+                      Text('PDF',
+                    style: GoogleFonts.poppins(fontWeight: FontWeight.w400,
+                        fontSize: 12,
+                        color: Colors.grey),
+                    ),
+                    ]
+                  ),
+
+                ]
               ),
+
               // leading: SizedBox(
               //   width: 50,
               //   height: 180,
@@ -197,7 +230,7 @@ class _MargeState extends State<Marge> {
         },
         backgroundColor: Colors.blue,
         icon: const Icon(Icons.picture_as_pdf_outlined, color: Colors.white),
-        label: const Text('Merge PDF', style: TextStyle(color: Colors.white)),
+        label: Text('Merge PDF', style:GoogleFonts.poppins(color: Colors.white,fontWeight: FontWeight.bold) ),
       ),
     );
   }

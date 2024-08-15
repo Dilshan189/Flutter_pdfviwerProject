@@ -3,6 +3,7 @@ import 'package:external_path/external_path.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:path/path.dart' as path;
 import 'package:pdf_thumbnail/pdf_thumbnail.dart';
 import 'package:pdfviwer/consts/consts.dart';
@@ -19,10 +20,10 @@ import '../homepage/pdf_screen.dart';
 class FileItem {
   final String name;
   final String path;
+  final String size;
+  final String modifiedDate;
 
-  FileItem({required this.name, required this.path, });
-
-
+  FileItem({required this.name, required this.path, required this.size, required this.modifiedDate});
 }
 
 class PDFListScreen extends StatefulWidget {
@@ -33,7 +34,7 @@ class PDFListScreen extends StatefulWidget {
 }
 
 class _PDFListScreenState extends State<PDFListScreen> {
-  List<String> pdfFiles = [];
+  List<FileItem> pdfFiles = [];
 
   @override
   void initState() {
@@ -67,9 +68,19 @@ class _PDFListScreenState extends State<PDFListScreen> {
       await for (var element in directories) {
         if (element is File) {
           if (element.path.split(".").last == "pdf") {
+            var fileStat = await element.stat();
+            var modifiedDate = "${fileStat.modified.month}/${fileStat.modified.day}/${fileStat.modified.year}";
+            var fileSize = fileStat.size;
             debugPrint("PDF File Name : ${element.path.split("/").last}");
+            debugPrint("Modified Date: $modifiedDate");
+            debugPrint("File Size: $fileSize bytes");
             setState(() {
-              pdfFiles.add(element.path);
+              pdfFiles.add(FileItem(
+                name: path.basename(element.path),
+                path: element.path,
+                size: '${(fileSize / 1024).toStringAsFixed(2)} KB',
+                modifiedDate: modifiedDate,
+              ));
             });
           }
         } else if (element is Directory) {
@@ -81,37 +92,33 @@ class _PDFListScreenState extends State<PDFListScreen> {
     }
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        padding: const EdgeInsets.all(2),
+        padding: const EdgeInsets.all(5),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(18),
-
+          borderRadius: BorderRadius.circular(5),
         ),
+
         child: ListView.builder(
           itemCount: pdfFiles.length,
           itemBuilder: (context, index) {
-            String filePath = pdfFiles[index];
-            String fileName = path.basename(filePath);
-
+            FileItem fileItem = pdfFiles[index];
 
             return Card(
-
-              shadowColor: Colors.grey,
-              margin: const EdgeInsets.symmetric(vertical: 5,horizontal: 8),
-              shape:  RoundedRectangleBorder(
+              shadowColor: Colors.black,
+              margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 15),
+              shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(5),
               ),
-
               child: ListTile(
-                onTap: () async
-                {
-                  String filePath = pdfFiles[index];
-                  String fileName = path.basename(filePath);
-
-                  PDFModel pdfModel = PDFModel(fileName: fileName, filePath: filePath);
+                onTap: () async {
+                  PDFModel pdfModel = PDFModel(
+                    fileName: fileItem.name,
+                    filePath: fileItem.path,
+                  );
 
                   DatabaseService().insertPdf(pdfModel);
 
@@ -119,39 +126,89 @@ class _PDFListScreenState extends State<PDFListScreen> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => PDFScreen(
-                        pdfPath: filePath,
-                        pdfName: fileName,
+                        pdfPath: fileItem.path,
+                        pdfName: fileItem.name,
                         index: 0,
-                        path: filePath,
+                        path: fileItem.path,
                       ),
                     ),
                   );
                 },
-                title: Text(fileName,
-                style: const TextStyle(
-              fontWeight: FontWeight.w500,
-              overflow: TextOverflow.ellipsis,),
-                ),
-                subtitle:  Text(
-                  pdfFiles[index],
-                  style: const TextStyle(overflow: TextOverflow.ellipsis),
+
+
+                title: Text(
+                  fileItem.name,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w500,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
 
-              // leading: SizedBox(
-              //   width: 50,
-              //   height: 180,
-              //   child: PdfThumbnail.fromFile(
-              //     scrollToCurrentPage: false,
-              //     filePath,
-              //     currentPage: 0,
-              //     height: 56,
-              //     backgroundColor: Colors.white,
-              //   ),
-              // ),
+                subtitle: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      fileItem.path,
+                      style: const TextStyle(overflow: TextOverflow.ellipsis),
+                    ),
 
-                leading:Image.asset("assets/images/icon.png",
-                width: 40,
-                height: 40,) ,
+
+                    Row(
+
+                      children: [Text(
+                        fileItem.modifiedDate,
+                        style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12,
+                          color: Colors.grey,
+                        ),
+                       ),
+
+
+                     const SizedBox(width:10),
+
+                     Text(
+                      'Size: ${fileItem.size}',
+                      style: GoogleFonts.poppins(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 12,
+                        color: Colors.grey,
+                      ),
+                    ),
+                ]
+              ),
+
+                    const SizedBox(height: 4,),
+
+                    Row(
+                        children:
+                        [
+                          const Icon(
+                            Icons.folder_copy_rounded
+                            ,size: 15,
+                            weight: 50,
+                          ),
+
+                          const SizedBox(width: 5,),
+
+                          Text('PDF',
+                            style: GoogleFonts.poppins(fontWeight: FontWeight.bold,
+                              fontSize: 12,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ]
+                    ),
+
+                  ],
+                ),
+
+
+                leading: Image.asset(
+                  "assets/images/icon.png",
+                  width: 40,
+                  height: 40,
+                ),
 
                 trailing: IconButton(
                   icon: const Icon(Icons.more_vert),
@@ -159,21 +216,21 @@ class _PDFListScreenState extends State<PDFListScreen> {
                     showModalBottomSheet(
                       context: context,
                       builder: (BuildContext context) {
-                        return BottomSheetContent(file: FileItem(name: fileName, path: filePath,));
+                        return BottomSheetContent(
+                          file: fileItem,
+                        );
                       },
                     );
                   },
                 ),
-                onLongPress: (){
-                  Get.to(()=>const ChangeScreen());
+                onLongPress: () {
+                  Get.to(() => const ChangeScreen());
                 },
-
               ),
             );
           },
         ),
       ),
-
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           showModalBottomSheet(
@@ -182,7 +239,6 @@ class _PDFListScreenState extends State<PDFListScreen> {
               return const actionbutton();
             },
           );
-
         },
         backgroundColor: Colors.blue,
         child: const Icon(Icons.add, color: Colors.white),

@@ -14,6 +14,7 @@ class DatabaseService
   final String _pdfName = 'fileName';
   final String _pdfPath = 'filePath';
 
+
   Future<Database?> get db async
   {
     if(_db != null)
@@ -36,7 +37,7 @@ class DatabaseService
   _onCreate(Database db,int version)
   async
   {
-    await db.execute("CREATE TABLE $_pdfTableName ($_pdfId INTEGER PRIMARY KEY,$_pdfName TEXT,$_pdfPath TEXT)");
+    await db.execute("CREATE TABLE $_pdfTableName ($_pdfId INTEGER PRIMARY KEY,$_pdfName TEXT,$_pdfPath TEXT,)");
   }
 
 
@@ -57,7 +58,7 @@ class DatabaseService
   {
     var dbClient = await db;
 
-    List<Map> maps = await dbClient!.query(_pdfTableName,columns: [_pdfId,_pdfName,_pdfPath]);
+    List<Map> maps = await dbClient!.query(_pdfTableName,columns: [_pdfId,_pdfName,_pdfPath,]);
 
     List<PDFModel>pdfList = [];
 

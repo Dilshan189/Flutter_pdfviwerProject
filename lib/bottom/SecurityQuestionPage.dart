@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+import '../homepage/myhome_page.dart';
 
 class SecurityQuestionPage extends StatefulWidget {
   const SecurityQuestionPage({Key? key}) : super(key: key);
@@ -26,66 +30,85 @@ class _SecurityQuestionPageState extends State<SecurityQuestionPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Security Questions',style: TextStyle(fontWeight: FontWeight.bold),),
+        title: Text('Security Questions',style:GoogleFonts.poppins(fontWeight: FontWeight.bold)),
       ),
+
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
+
           child: Card(
             elevation: 6,
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  const Text('Answer the security questions:',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 26),),
-                  const SizedBox(height: 40),
-                  _buildSecurityQuestionDropdown(),
+
+                mainAxisAlignment: MainAxisAlignment.center,
+                children:
+                [
+
+                  const SizedBox(height: 50),
+
+                   Text('Answer the security Questions',style:GoogleFonts.poppins(fontWeight: FontWeight.w400,fontSize: 20)),
+
                   const SizedBox(height: 30),
+
+                  _buildSecurityQuestionDropdown(),
+
+
+                  const SizedBox(height: 30),
+
                   TextField(
                     onChanged: (value) {
                       setState(() {
                         _selectedAnswer = value;
                       });
+
                     },
-                    decoration: const InputDecoration(
+
+                    decoration: InputDecoration(
                       labelText: 'Enter your answer',
-                      border: OutlineInputBorder(),
+                      labelStyle:GoogleFonts.poppins(fontWeight: FontWeight.w400),
+                      border: const OutlineInputBorder(),
                     ),
                   ),
-                  const SizedBox(height: 20),
+
+                  const SizedBox(height: 50),
+
+                  const Icon( Icons.mood_outlined  ,size: 50,weight: 500.04,color: Colors.blue,),
+
+                  const SizedBox(height: 50),
+
+
                   ElevatedButton(
-                    onPressed: () {
-                      if (_selectedSecurityQuestion != null && _selectedAnswer != null) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Row(
-                              children: [
-                                Text('Thank for your Answer!',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16)),
-                                Icon(Icons.gpp_good, size: 40, color: Colors.yellow), // Adjust size and color as needed
-                              ],
-                            ),
-                            duration: Duration(seconds: 2),
-                          ),
-                        );
-                        Navigator.popUntil(context, ModalRoute.withName('/'));
-                      }
-                      else
+                    onPressed: ()
+                    {
+                      if (_selectedSecurityQuestion != null && _selectedAnswer != null)
                       {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Row(
-                              children: [
-                                Text('Please select a security \n question and enter an answer',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16)),
-                                Icon(Icons.error_outline, size: 40, color: Colors.yellow), // Adjust size and color as needed
-                              ],
-                            ),
-                            duration: Duration(seconds: 2),
-                          ),
-                        );
+
+                        Get.snackbar('Very Good', 'Thank for your Answer',backgroundColor: Colors.black12);
+
+                        Get.to(()=> const MyHomePage());
+                      }
+
+                      else
+
+                      {
+                        Get.snackbar('Select the security Question..',''
+                            'Enter your Answer..',backgroundColor: Colors.black12);
                       }
                     },
-                    child: const Text('OK'),
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.white,
+                      backgroundColor: Colors.blue,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      minimumSize: const Size(350, 50)
+                    ),
+                    child: Text('Submit',style:GoogleFonts.poppins(fontWeight: FontWeight.w400,fontSize: 18)),
+
+
                   ),
                 ],
               ),
@@ -98,6 +121,8 @@ class _SecurityQuestionPageState extends State<SecurityQuestionPage> {
 
   Widget _buildSecurityQuestionDropdown() {
     return DropdownButton<String>(
+      dropdownColor: Colors.white,
+      focusColor: Colors.grey,
       isExpanded: true,
       value: _selectedSecurityQuestion,
       onChanged: (String? newValue) {
@@ -111,7 +136,7 @@ class _SecurityQuestionPageState extends State<SecurityQuestionPage> {
           child: Text(value),
         );
       }).toList(),
-      hint: const Text('Select a security question',style: TextStyle(fontWeight: FontWeight.bold),),
+            hint: Text('Select the Question',style: GoogleFonts.poppins(fontWeight: FontWeight.w400),),
     );
   }
 }

@@ -27,40 +27,7 @@ class _RecentDeleteState extends State<RecentDelete> {
         actions: [
 
           IconButton(
-            onPressed: () async {
-              bool? confirmDelete = await showDialog<bool>(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: const Text("Confirm Delete"),
-                    content: const Text("Are you sure you want to delete this All PDF?"),
-                    actions: [
-                      TextButton(
-                        onPressed: () => Navigator.of(context).pop(false),
-                        child: const Text("Cancel"),
-                      ),
-
-                      TextButton(
-                        onPressed: () => Navigator.of(context).pop(true),
-                        child: const Text("Delete"),
-                      ),
-                    ],
-                  );
-                },
-              );
-
-              if (confirmDelete == true) {
-                setState(() {
-                  DatabaseService().deleteAllPDF();
-
-                });
-
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('PDF deleted Successfully')),
-                );
-              }
-            },
-
+            onPressed: () {},
             icon: const Icon(Icons.apps_rounded),
           ),
         ],
@@ -110,7 +77,7 @@ class _RecentDeleteState extends State<RecentDelete> {
               return Card(
                 shadowColor: Colors.grey,
                 margin:
-                const EdgeInsets.symmetric(vertical: 5, horizontal: 8),
+                const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5),
                 ),
@@ -124,7 +91,25 @@ class _RecentDeleteState extends State<RecentDelete> {
                   ),
 
 
-                  subtitle: Text(pdf.filePath),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+
+                    children:[
+                      Text(pdf.filePath,
+                        overflow: TextOverflow.ellipsis,
+                    ),
+                      Text('PDF',
+                      style: GoogleFonts.poppins(fontWeight: FontWeight.w400,fontSize: 12,color: Colors.grey),
+                      ),
+                ]
+                ),
+
+
+
+
+
+
+
                   leading: Image.asset(
                     "assets/images/icon.png",
                     width: 40,

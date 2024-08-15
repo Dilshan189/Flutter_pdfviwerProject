@@ -58,6 +58,7 @@ dependencies:
   path: ^1.8.2
   sqflite: ^2.3.3
   google_fonts: ^4.0.4
+  url_launcher: ^6.3.0
   image:
   #pdf:
   media_scanner:
@@ -120,6 +121,10 @@ flutter:
     - assets/images/pdf.png
     - assets/icon/Animation - 1722676878214.json
     - assets/icon/Animation - 1722878584548.json
+    - assets/icon/success.json
+    - assets/images/icons8-chat-message-94.png
+    - assets/images/icons8-key-40.png
+    - assets/icon/Animation - 1723713721850.json
     
 
 

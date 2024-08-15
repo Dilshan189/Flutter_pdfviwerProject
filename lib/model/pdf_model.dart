@@ -3,10 +3,12 @@ class PDFModel {
   String fileName;
   String filePath;
 
+
   PDFModel({
     this.id,
     required this.fileName,
     required this.filePath,
+
 });
 
 
@@ -22,6 +24,7 @@ class PDFModel {
     map['fileName'] = fileName;
     map['filePath'] = filePath;
 
+
     return map;
   }
 
@@ -32,6 +35,7 @@ class PDFModel {
         id: map['id'],
         fileName: map['fileName'],
         filePath: map['filePath'],
+
     );
   }
 }

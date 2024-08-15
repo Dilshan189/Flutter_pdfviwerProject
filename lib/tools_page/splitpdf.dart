@@ -3,6 +3,7 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:external_path/external_path.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:path/path.dart' as path;
 
@@ -96,10 +97,43 @@ class _spiltpdfState extends State<spiltpdf> {
                   fontWeight: FontWeight.w500,
                   overflow: TextOverflow.ellipsis,),
               ),
-              subtitle:  Text(
-                pdfFiles[index],
-                style: const TextStyle(overflow: TextOverflow.ellipsis),
+
+
+              subtitle:  Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+
+                  children: [
+                    Text(
+                      filePath,
+                      style: const TextStyle(
+                          overflow: TextOverflow.ellipsis
+                      ),
+                    ),
+
+
+                    const SizedBox(height: 5,),
+
+                    Row(
+                        children: [
+
+                          const Icon(Icons.folder_copy_rounded,
+                            weight: 50,
+                            size: 15,
+                          ),
+
+                          const SizedBox(width: 5,),
+
+                          Text('PDF',
+                            style: GoogleFonts.poppins(fontWeight: FontWeight.w400,
+                                fontSize: 12,
+                                color: Colors.grey),
+                          ),
+                        ]
+                    ),
+
+                  ]
               ),
+
               leading: Image.asset(
                 'assets/images/icon.png',
                 width: 40,

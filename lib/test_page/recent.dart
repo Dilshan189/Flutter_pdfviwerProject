@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
+import 'package:path/path.dart';
+import 'package:pdf_thumbnail/pdf_thumbnail.dart';
 import 'package:pdfviwer/homepage/pdf_screen.dart';
 import 'package:pdfviwer/model/pdf_model.dart';
 import 'package:pdfviwer/service/database_service.dart';
@@ -51,14 +54,14 @@ class _RecentState extends State<Recent> {
           return Center(child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset('assets/images/paper_2.png',
+              Lottie.asset('assets/icon/Animation - 1722676878214.json',
                 width: 150,
                 height: 150,
               ),
               const SizedBox(height: 2,),
 
                Text("No data found",
-                style:GoogleFonts.poppins(fontSize: 15,fontWeight: FontWeight.w400,color:Colors.black54),
+                style:GoogleFonts.poppins(fontSize: 15,fontWeight: FontWeight.w400,),
               ),
 
             ],
@@ -73,7 +76,7 @@ class _RecentState extends State<Recent> {
               return Card(
 
                 shadowColor: Colors.grey,
-                margin: const EdgeInsets.symmetric(vertical: 5,horizontal: 8),
+                margin: const EdgeInsets.symmetric(vertical: 4,horizontal: 15),
                 shape:  RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(5),
 
@@ -102,20 +105,53 @@ class _RecentState extends State<Recent> {
                     ),
                   ),
 
-                  subtitle: Text(pdf.filePath),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
 
+                    children:
+                    [
+                      Text(pdf.filePath,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+
+
+
+
+                      Row(
+                        children:
+                        [
+                          const Icon(
+                            Icons.folder_copy_rounded
+                            ,size: 15,
+                            weight: 50,
+                          ),
+
+                          const SizedBox(width: 5,),
+
+                          Text('PDF',
+                            style: GoogleFonts.poppins(fontWeight: FontWeight.bold,
+                            fontSize: 12,
+                            color: Colors.grey,
+                         ),
+                        ),
+                       ]
+                      ),
+                     ]
+                  ),
+
+                  //
                   // leading: SizedBox(
-                  //   // color: Colors.white,
                   //     height: 180,
                   //     width: 50,
                   //     child: PdfThumbnail.fromFile(
                   //       scrollToCurrentPage: false,
                   //        pdf.filePath,
-                  //         currentPage: 1,
+                  //         currentPage: 0,
                   //         height: 56,
-                  //         backgroundColor: Colors.white,
+                  //         backgroundColor: Colors.transparent,
                   //     ),
                   // ),
+
 
                   leading:Image.asset("assets/images/icon.png",
                     width: 40,
@@ -127,7 +163,7 @@ class _RecentState extends State<Recent> {
                        showModalBottomSheet(
                          context: context,
                          builder: (BuildContext context) {
-                           return BottomSheetContent(file:FileItem(path:'filePath',name: 'fileName',),
+                           return BottomSheetContent(file:FileItem(path:'filePath',name: 'fileName', size: '', modifiedDate: ''),
                            );
                          },
                        );

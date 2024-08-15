@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 import '../floatingactionbutton/floationactionbutton.dart';
 import '../homepage/pdf_screen.dart';
 import '../model/pdf_favourite_model.dart';
@@ -45,7 +46,7 @@ class _favoriteState extends State<favorite> {
           return Center(child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset('assets/images/paper_2.png',
+                Lottie.asset('assets/icon/Animation - 1722676878214.json',
                 width: 150,
                 height: 150,
                 ),
@@ -112,7 +113,7 @@ class _favoriteState extends State<favorite> {
                     showModalBottomSheet(
                       context: context,
                       builder: (BuildContext context) {
-                        return BottomSheetContent(file:FileItem(path:'',name: '',),
+                        return BottomSheetContent(file:FileItem(path:'',name: '', size: '', modifiedDate: '',),
                         );
                       },
                     );
