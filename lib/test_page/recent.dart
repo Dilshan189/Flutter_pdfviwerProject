@@ -3,8 +3,6 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
-import 'package:path/path.dart';
-import 'package:pdf_thumbnail/pdf_thumbnail.dart';
 import 'package:pdfviwer/homepage/pdf_screen.dart';
 import 'package:pdfviwer/model/pdf_model.dart';
 import 'package:pdfviwer/service/database_service.dart';
@@ -13,7 +11,7 @@ import 'package:pdfviwer/test_page/recent_delete.dart';
 
 import '../floatingactionbutton/floationactionbutton.dart';
 import 'bottom_sheet.dart';
-import 'change_screen.dart';
+
 
 
 class Recent extends StatefulWidget {
@@ -68,6 +66,7 @@ class _RecentState extends State<Recent> {
           ));
 
         } else {
+
           return ListView.builder(
             itemCount: snapshot.data!.length,
             itemBuilder: (context, index) {
@@ -79,8 +78,12 @@ class _RecentState extends State<Recent> {
                 margin: const EdgeInsets.symmetric(vertical: 4,horizontal: 15),
                 shape:  RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(5),
+                    side:const BorderSide(
+                        style:BorderStyle.solid
+                    )
 
               ),
+                
                 child: ListTile(
                   onTap: () {
                     Navigator.push(
@@ -96,6 +99,7 @@ class _RecentState extends State<Recent> {
                     );
                     setState(() {});
                   },
+                  
 
 
                   title: Text(pdf.fileName,
@@ -105,23 +109,49 @@ class _RecentState extends State<Recent> {
                     ),
                   ),
 
-                  subtitle: Column(
+                  subtitle:
+                  Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
 
                     children:
+                        
                     [
                       Text(pdf.filePath,
                       overflow: TextOverflow.ellipsis,
                     ),
 
+                      Row(
+                        children: [
+                          Text(
+                            pdf.modifiedDate,
+                            style: GoogleFonts.poppins(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 12,
+                              color: Colors.grey,
+                            ),
+                          ),
+
+                          const SizedBox(width: 10),
+
+                          Text(
+                            'Size: ${pdf.size}',
+                            style: GoogleFonts.poppins(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 12,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ],
+                      ),
 
 
+                      const SizedBox(height: 4),
 
                       Row(
                         children:
                         [
                           const Icon(
-                            Icons.folder_copy_rounded
+                            Icons.folder_copy_outlined
                             ,size: 15,
                             weight: 50,
                           ),
@@ -139,18 +169,6 @@ class _RecentState extends State<Recent> {
                      ]
                   ),
 
-                  //
-                  // leading: SizedBox(
-                  //     height: 180,
-                  //     width: 50,
-                  //     child: PdfThumbnail.fromFile(
-                  //       scrollToCurrentPage: false,
-                  //        pdf.filePath,
-                  //         currentPage: 0,
-                  //         height: 56,
-                  //         backgroundColor: Colors.transparent,
-                  //     ),
-                  // ),
 
 
                   leading:Image.asset("assets/images/icon.png",
@@ -163,11 +181,17 @@ class _RecentState extends State<Recent> {
                        showModalBottomSheet(
                          context: context,
                          builder: (BuildContext context) {
-                           return BottomSheetContent(file:FileItem(path:'filePath',name: 'fileName', size: '', modifiedDate: ''),
+                           return BottomSheetContent(
+                             file:FileItem(
+                               path:'',
+                               name:'',
+                               size: '',
+                               modifiedDate: ''),
                            );
                          },
                        );
                      },
+
                      icon: const Icon(Icons.more_vert),
                    ),
                   onLongPress: (){

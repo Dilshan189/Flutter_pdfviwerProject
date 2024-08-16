@@ -1,12 +1,14 @@
-import 'dart:io';
+import 'dart:io'as io;
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:pdfviwer/service/database_service.dart';
+import 'package:pdfviwer/consts/consts.dart';
+import 'package:pdfviwer/model/pdf_favourite_model.dart';
 import 'package:share/share.dart';
 import 'package:path/path.dart' as path;
 import 'browserpage.dart';
+import '../service/database_service_favourite.dart';
 
 
 class BottomSheetContent extends StatefulWidget {
@@ -140,14 +142,20 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
 
               onTap: () async
               {
-                //  String? filePath =  widget.file.filePath;
-                //  String fileName = path.basename(filePath!);
-                //
-                //
-                //  PdfFavouriteModel pdfFavouriteModel= PdfFavouriteModel(fileName: fileName, filePath: filePath);
-                //
-                // await DatabaseServiceFavourite().fainsertPdf(pdfFavouriteModel);
-                Navigator.pop(context);
+
+                PDFModelFa pdfModelFa = PDFModelFa(
+                    fileName:  widget.file.name,
+                    filePath: widget.file.path,
+                    size:  widget.file.size,
+                    modifiedDate:  widget.file.modifiedDate);
+
+                DatabaseService().insertPdffa(pdfModelFa);
+
+                Get.snackbar('Successful', 'Favourite added successful!');
+
+                Navigator.of(context).pop();
+
+
               },
             ),
 
@@ -188,7 +196,7 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
                   if (confirmDelete == true) {
                     setState(() {
 
-
+                   //DatabaseService().deletePDF(pdfModel. id as int);
                     });
 
                      Get.snackbar('Confirm','Delete Succesfull!');
@@ -201,5 +209,6 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
         ),
       ),
     );
+
   }
 }

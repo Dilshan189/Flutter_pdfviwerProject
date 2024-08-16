@@ -1,12 +1,13 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
+import 'package:pdfviwer/model/pdf_favourite_model.dart';
 import '../floatingactionbutton/floationactionbutton.dart';
 import '../homepage/pdf_screen.dart';
-import '../model/pdf_favourite_model.dart';
 import '../service/database_service_favourite.dart';
-import 'bottom_sheet.dart';
-import 'browserpage.dart';
+
 
 
 
@@ -37,8 +38,8 @@ class _favoriteState extends State<favorite> {
     );
   }
   Widget _PDFfavouriteList() {
-    return FutureBuilder<List<PdfFavouriteModel>>(
-      future: DatabaseServiceFavourite().fagetSavedPDFList(),
+    return FutureBuilder<List<PDFModelFa>>(
+      future: DatabaseService().getSavedPDFListfa(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
@@ -52,7 +53,7 @@ class _favoriteState extends State<favorite> {
                 ),
                 const SizedBox(height: 2,),
                  Text("No data found",
-                style: GoogleFonts.poppins(fontSize: 15,fontWeight: FontWeight.w400,color:Colors.black54),
+                style: GoogleFonts.poppins(fontSize: 15,fontWeight: FontWeight.w400,),
                  ),
               ],
           ));
@@ -61,66 +62,126 @@ class _favoriteState extends State<favorite> {
           return ListView.builder(
             itemCount: snapshot.data!.length,
             itemBuilder: (context, index) {
-              PdfFavouriteModel pdf = snapshot.data![index];
+              PDFModelFa pdf = snapshot.data![index];
 
 
-              return ListTile(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => PDFScreen(
-                        pdfPath:pdf.filePath,
-                        pdfName:pdf.fileName ,
-                        index: 0,
-                        path: pdf.fileName,
+              return Card(
+                margin: const EdgeInsets.symmetric(vertical: 5,horizontal: 8),
+                shape:  RoundedRectangleBorder(
+                   borderRadius: BorderRadius.circular(5),
+                  side:const BorderSide(
+                    style:BorderStyle.solid
+                  )
+
+
+                ),
+
+
+                child: ListTile(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PDFScreen(
+                          pdfPath:pdf.filePath,
+                          pdfName:pdf.fileName ,
+                          index: 0,
+                          path: pdf.fileName,
+                        ),
                       ),
+                    );
+                    setState(() {});
+                  },
+
+
+                  title: Text(pdf.fileName,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w500,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                  );
-                  setState(() {});
-                },
+                  ),
+
+                  subtitle:
+                  Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+
+                      children:
+
+                      [
+                        Text(pdf.filePath,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+
+                        Row(
+                          children: [
+                            Text(
+                              pdf.modifiedDate,
+                              style: GoogleFonts.poppins(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 12,
+                                color: Colors.grey,
+                              ),
+                            ),
+
+                            const SizedBox(width: 10),
+
+                            Text(
+                              'Size: ${pdf.size}',
+                              style: GoogleFonts.poppins(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 12,
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ],
+                        ),
+
+                        const SizedBox(height: 4),
+
+                        Row(
+                            children:
+                            [
+                              const Icon(
+                                Icons.folder_copy_outlined
+                                ,size: 15,
+                                weight: 50,
+                              ),
+
+                              const SizedBox(width: 5,),
+
+                              Text('PDF',
+                                style: GoogleFonts.poppins(fontWeight: FontWeight.bold,
+                                  fontSize: 12,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ]
+                        ),
+                      ]
+                  ),
+
+                  leading:Image.asset("assets/images/icon.png",
+                    width: 40,
+                    height: 40,) ,
 
 
-                title: Text(pdf.fileName,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w500,
-                    overflow: TextOverflow.ellipsis,
+                  trailing:IconButton(
+                    onPressed: (){
+
+                        setState(() {
+                          DatabaseService().deletePDFfa(pdf.id as int);
+                        });
+
+
+                      Get.snackbar('Delete','Successful!');
+
+
+                    },
+                    icon: const Icon(Icons.delete_forever_outlined,color:Colors.blue),
                   ),
                 ),
-
-                subtitle: Text(pdf.filePath),
-
-                // leading: SizedBox(
-                //   // color: Colors.white,
-                //     height: 180,
-                //     width: 50,
-                //     child: PdfThumbnail.fromFile(
-                //       scrollToCurrentPage: false,
-                //        pdf.filePath,
-                //         currentPage: 1,
-                //         height: 56,
-                //         backgroundColor: Colors.white,
-                //     ),
-                // ),
-
-                leading:Image.asset("assets/images/icon.png",
-                  width: 40,
-                  height: 40,) ,
-
-
-                trailing:IconButton(
-                  onPressed: (){
-                    showModalBottomSheet(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return BottomSheetContent(file:FileItem(path:'',name: '', size: '', modifiedDate: '',),
-                        );
-                      },
-                    );
-                  },
-                  icon: const Icon(Icons.more_vert),
-                ),
               );
+
             },
           );
         }

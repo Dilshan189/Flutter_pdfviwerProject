@@ -113,19 +113,67 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(appBarTitle),
         actions: [
-          IconButton(onPressed: (){
-            Get.to(()=> const Searchbar());
-          },
-              icon:const Icon(Icons.search_rounded),
-          ),
 
+          if (_selectedIndex == 0) ...[
           IconButton(
-            icon: const Icon(Icons.credit_card_rounded),
-            onPressed: () {
-              Get.to(() => const ChangeScreen());
-            },
-          ),
+          onPressed: () {
+          Get.to(() => const Searchbar());
+      },
+
+      icon: const Icon(Icons.search_rounded),
+
+        ),
+
+            IconButton(
+              onPressed: () {
+                Get.to(() => const ChangeScreen());
+              },
+              icon: const Icon(Icons.credit_card_rounded),
+            ),
+
         ],
+
+
+          if (_selectedIndex == 1) ...[
+            IconButton(
+              onPressed: () {
+                Get.to(() => const Searchbar());
+              },
+
+              icon: const Icon(Icons.search_rounded),
+
+            ),
+
+            IconButton(
+              onPressed: () {
+                Get.to(() => const ChangeScreen());
+              },
+              icon: const Icon(Icons.credit_card_rounded),
+            ),
+
+          ],
+
+
+          if (_selectedIndex == 2) ...[
+            IconButton(
+              onPressed: () {
+                Get.to(() => const Searchbar());
+              },
+
+              icon: const Icon(Icons.search_rounded),
+
+            ),
+
+            IconButton(
+              onPressed: () {
+                Get.to(() => const ChangeScreen());
+              },
+              icon: const Icon(Icons.credit_card_rounded),
+            ),
+
+          ],
+        ],
+
 
         leading: Builder(
           builder: (context) => IconButton(onPressed: () {
@@ -381,8 +429,8 @@ class _MyHomePageState extends State<MyHomePage> {
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.black,
         unselectedItemColor: Colors.black,
-        selectedLabelStyle: const TextStyle(fontFamily: 'apots_bold'),
-        unselectedLabelStyle: const TextStyle(fontFamily: 'apots_bold'),
+        selectedLabelStyle:GoogleFonts.poppins(fontWeight: FontWeight.w500),
+        unselectedLabelStyle:GoogleFonts.poppins(fontWeight: FontWeight.w500),
         type: BottomNavigationBarType.fixed,
         backgroundColor: Colors.white,
         onTap: _onItemTapped,

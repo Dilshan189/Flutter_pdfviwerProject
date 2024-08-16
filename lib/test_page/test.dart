@@ -183,14 +183,14 @@ class _ToolsState extends State<tools> {
                         case 5:
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => const lockpdf()),
+                            MaterialPageRoute(builder: (context) => const LockPdf()),
                           );
                           break;
       
                         case 6:
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => const unlockpdf()),
+                            MaterialPageRoute(builder: (context) => const  UnlockPdf()),
                           );
                           break;
       

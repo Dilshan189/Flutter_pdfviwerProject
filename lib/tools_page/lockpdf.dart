@@ -1,6 +1,8 @@
 import 'dart:io';
+import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:external_path/external_path.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -8,21 +10,19 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:path/path.dart' as path;
 
 import '../homepage/search_bar.dart';
+import '../model/lockpdf_model.dart';
+import '../service/database_service_lockpdf.dart';
+import 'pdflock_thankyou_screen.dart';
 
-class lockpdf extends StatefulWidget {
-  const lockpdf ({super.key});
+class LockPdf extends StatefulWidget {
+  const LockPdf({super.key});
 
   @override
-  State<lockpdf> createState() => _lockpdfState();
+  State<LockPdf> createState() => _LockPdfState();
 }
 
-class _lockpdfState extends State<lockpdf> {
-
-
+class _LockPdfState extends State<LockPdf> {
   List<String> pdfFiles = [];
-
-
-
 
   @override
   void initState() {
@@ -70,16 +70,22 @@ class _lockpdfState extends State<lockpdf> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Select a file ',style: TextStyle(fontSize:20,color: Colors.black,fontWeight: FontWeight.w500),),
-        actions: [IconButton(onPressed: (){
-          Get.to(()=> const Searchbar());
-        },
-            icon: const  Icon(Icons.search_rounded))],
+        title: const Text(
+          'Select a file',
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+        ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Get.to(() => const Searchbar());
+            },
+            icon: const Icon(Icons.search_rounded),
+          )
+        ],
       ),
       body: ListView.builder(
         itemCount: pdfFiles.length,
@@ -87,59 +93,55 @@ class _lockpdfState extends State<lockpdf> {
           String filePath = pdfFiles[index];
           String fileName = path.basename(filePath);
 
-
           return Card(
             shadowColor: Colors.grey,
-            margin: const EdgeInsets.symmetric(vertical: 5,horizontal: 8),
-            shape:  RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(5),
-          ),
+            margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 8),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5),
+                side:const BorderSide(
+                    style:BorderStyle.solid
+                )
 
+            ),
             child: ListTile(
               onTap: () {
-
+                _showLockDialog(context, filePath, fileName,);
               },
-              title: Text(fileName,
+              title: Text(
+                fileName,
                 style: const TextStyle(
                   fontWeight: FontWeight.w500,
-                  overflow: TextOverflow.ellipsis,),
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
-
-              subtitle:  Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-
-                  children: [
-                    Text(
-                      filePath,
-                      style: const TextStyle(
-                          overflow: TextOverflow.ellipsis
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    filePath,
+                    style: const TextStyle(overflow: TextOverflow.ellipsis),
+                  ),
+                  const SizedBox(height: 5),
+                  Row(
+                    children: [
+                      const Icon(
+                        Icons.folder_copy_outlined,
+                        weight: 50,
+                        size: 15,
                       ),
-                    ),
-
-
-                    const SizedBox(height: 5,),
-
-                    Row(
-                        children: [
-
-                          const Icon(Icons.folder_copy_rounded,
-                            weight: 50,
-                            size: 15,
-                          ),
-
-                          const SizedBox(width: 5,),
-
-                          Text('PDF',
-                            style: GoogleFonts.poppins(fontWeight: FontWeight.w400,
-                                fontSize: 12,
-                                color: Colors.grey),
-                          ),
-                        ]
-                    ),
-
-                  ]
+                      const SizedBox(width: 5),
+                      Text(
+                        'PDF',
+                        style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 12,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
-
               leading: Image.asset(
                 'assets/images/icon.png',
                 width: 40,
@@ -149,6 +151,98 @@ class _lockpdfState extends State<lockpdf> {
           );
         },
       ),
+    );
+  }
+
+  void _showLockDialog(BuildContext context, String filePath, String fileName) {
+    TextEditingController passwordController = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            "Set Password\n$fileName",
+            style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
+          ),
+          content: TextField(
+            controller: passwordController,
+            obscureText: true,
+            decoration: InputDecoration(
+              border: const OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(8))),
+              labelText: "Password",
+              labelStyle: GoogleFonts.poppins(fontWeight: FontWeight.w400),
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              style: TextButton.styleFrom(
+                foregroundColor: Colors.black,
+                backgroundColor: Colors.grey,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5),
+                ),
+              ),
+              child: Text(
+                "Cancel",
+                style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
+              ),
+            ),
+            TextButton(
+              onPressed: () async {
+                String filePassword = passwordController.text;
+
+                LockpdfModel lockpdfModel = LockpdfModel(
+                  fileName: fileName,
+                  filePath: filePath,
+                  filePassword: filePassword,
+
+                );
+
+
+               DatabaseService().insertlockpdf(lockpdfModel);
+
+                if(filePassword.isNotEmpty) {
+
+                  Navigator.of(context).pop();
+
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const PdfLock(),
+                    ),
+                  );
+                }
+                else
+
+                {
+                  AnimatedSnackBar.material(
+                    'Please enter the value number in password',
+                    type: AnimatedSnackBarType.error,
+                    mobileSnackBarPosition: MobileSnackBarPosition.bottom,
+                    desktopSnackBarPosition: DesktopSnackBarPosition.topRight,
+                    duration:const Duration(seconds: 5),
+                    borderRadius: BorderRadius.circular(15),
+                  ).show(context);
+                }
+              },
+              style: TextButton.styleFrom(
+                foregroundColor: Colors.white,
+                backgroundColor: Colors.blue,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5),
+                ),
+              ),
+              child: const Text("OK"),
+            ),
+          ],
+        );
+      },
     );
   }
 }

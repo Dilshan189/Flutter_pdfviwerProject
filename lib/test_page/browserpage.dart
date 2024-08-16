@@ -2,20 +2,17 @@ import 'dart:io';
 import 'package:external_path/external_path.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:path/path.dart' as path;
-import 'package:pdf_thumbnail/pdf_thumbnail.dart';
-import 'package:pdfviwer/consts/consts.dart';
-import 'package:pdfviwer/model/pdf_model.dart';
-import 'package:pdfviwer/service/database_service.dart';
-import 'package:pdfviwer/test_page/change_screen.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../floatingactionbutton/floationactionbutton.dart';
 import 'bottom_sheet.dart';
 import '../homepage/pdf_screen.dart';
+import '../model/pdf_model.dart';
+import '../service/database_service.dart';
+import 'change_screen.dart';
 
 class FileItem {
   final String name;
@@ -24,6 +21,8 @@ class FileItem {
   final String modifiedDate;
 
   FileItem({required this.name, required this.path, required this.size, required this.modifiedDate});
+
+
 }
 
 class PDFListScreen extends StatefulWidget {
@@ -34,6 +33,7 @@ class PDFListScreen extends StatefulWidget {
 }
 
 class _PDFListScreenState extends State<PDFListScreen> {
+
   List<FileItem> pdfFiles = [];
 
   @override
@@ -92,33 +92,38 @@ class _PDFListScreenState extends State<PDFListScreen> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        padding: const EdgeInsets.all(5),
+        padding: const EdgeInsets.all(2),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5),
+          borderRadius: BorderRadius.circular(18),
         ),
 
         child: ListView.builder(
           itemCount: pdfFiles.length,
           itemBuilder: (context, index) {
             FileItem fileItem = pdfFiles[index];
+            String filePath = fileItem.path;
+            String fileName = fileItem.name;
 
             return Card(
-              shadowColor: Colors.black,
-              margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 15),
+              shadowColor: Colors.grey,
+              margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 8),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(5),
+                  side:const BorderSide(
+                      style:BorderStyle.solid
+                  )
               ),
               child: ListTile(
                 onTap: () async {
                   PDFModel pdfModel = PDFModel(
-                    fileName: fileItem.name,
-                    filePath: fileItem.path,
-                  );
+                      fileName: fileItem.name,
+                      filePath: fileItem.path,
+                      size: fileItem.size,
+                      modifiedDate:fileItem.modifiedDate);
 
                   DatabaseService().insertPdf(pdfModel);
 
@@ -126,10 +131,10 @@ class _PDFListScreenState extends State<PDFListScreen> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => PDFScreen(
-                        pdfPath: fileItem.path,
-                        pdfName: fileItem.name,
+                        pdfPath: filePath,
+                        pdfName: fileName,
                         index: 0,
-                        path: fileItem.path,
+                        path: filePath,
                       ),
                     ),
                   );
@@ -137,7 +142,7 @@ class _PDFListScreenState extends State<PDFListScreen> {
 
 
                 title: Text(
-                  fileItem.name,
+                  fileName,
                   style: const TextStyle(
                     fontWeight: FontWeight.w500,
                     overflow: TextOverflow.ellipsis,
@@ -152,58 +157,51 @@ class _PDFListScreenState extends State<PDFListScreen> {
                       style: const TextStyle(overflow: TextOverflow.ellipsis),
                     ),
 
-
                     Row(
-
-                      children: [Text(
-                        fileItem.modifiedDate,
-                        style: GoogleFonts.poppins(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 12,
-                          color: Colors.grey,
+                      children: [
+                        Text(
+                          fileItem.modifiedDate,
+                          style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 12,
+                            color: Colors.grey,
+                          ),
                         ),
-                       ),
 
+                        const SizedBox(width: 10),
 
-                     const SizedBox(width:10),
-
-                     Text(
-                      'Size: ${fileItem.size}',
-                      style: GoogleFonts.poppins(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 12,
-                        color: Colors.grey,
-                      ),
+                        Text(
+                          'Size: ${fileItem.size}',
+                          style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 12,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ],
                     ),
-                ]
-              ),
 
-                    const SizedBox(height: 4,),
+                    const SizedBox(height: 4),
 
                     Row(
-                        children:
-                        [
-                          const Icon(
-                            Icons.folder_copy_rounded
-                            ,size: 15,
-                            weight: 50,
+                      children: [
+                        const Icon(
+                          Icons.folder_copy_outlined,
+                          size: 15,
+                        ),
+                        const SizedBox(width: 5),
+                        Text(
+                          'PDF',
+                          style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12,
+                            color: Colors.grey,
                           ),
-
-                          const SizedBox(width: 5,),
-
-                          Text('PDF',
-                            style: GoogleFonts.poppins(fontWeight: FontWeight.bold,
-                              fontSize: 12,
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ]
+                        ),
+                      ],
                     ),
-
                   ],
                 ),
-
-
                 leading: Image.asset(
                   "assets/images/icon.png",
                   width: 40,
@@ -216,9 +214,7 @@ class _PDFListScreenState extends State<PDFListScreen> {
                     showModalBottomSheet(
                       context: context,
                       builder: (BuildContext context) {
-                        return BottomSheetContent(
-                          file: fileItem,
-                        );
+                        return BottomSheetContent(file: fileItem);
                       },
                     );
                   },
