@@ -70,6 +70,7 @@ class _UnlockPdfState extends State<UnlockPdf> {
             itemBuilder: (context, index) {
               LockpdfModel lockpdf = snapshot.data![index];
 
+
               return Card(
                 shadowColor: Colors.grey,
                 margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 15),
@@ -119,25 +120,13 @@ class _UnlockPdfState extends State<UnlockPdf> {
                     ],
                   ),
 
-                  leading: Stack(
-                    children: [
-                      Image.asset(
-                        "assets/images/icon.png",
-                        width: 40,
-                        height: 40,
-                      ),
-                      if (lockpdf.isLocked)
-                        const Positioned(
-                          top: 0,
-                          right: 0,
-                          child: Icon(
-                            Icons.lock,
-                            size: 15,
-                            color: Colors.black,
-                          ),
-                        ),
-                    ],
-                  ),
+                  leading: Image.asset('assets/images/icons8-lock-50.png',
+                  width: 40,
+                  height: 40,),
+
+                  trailing:const Icon(Icons.done_sharp,
+                  color: Colors.blue,),
+
                 ),
               );
             },

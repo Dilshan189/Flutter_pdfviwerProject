@@ -4,6 +4,8 @@ import 'package:external_path/external_path.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pdf_thumbnail/pdf_thumbnail.dart';
+import 'package:pdfviwer/searchbar/SpliteSearchbar.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:path/path.dart' as path;
 
@@ -68,9 +70,10 @@ class _spiltpdfState extends State<spiltpdf> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Select a file ',style: TextStyle(fontSize:20,color: Colors.black,fontWeight: FontWeight.w500),),
+        title: const Text('Select a file ',
+          style: TextStyle(fontSize:20,color: Colors.black,fontWeight: FontWeight.w500),),
         actions: [IconButton(onPressed: (){
-          Get.to(()=> const Searchbar());
+          Get.to(()=> const SpliteSearchbar(),arguments: pdfFiles);
         },
             icon: const  Icon(Icons.search_rounded))],
       ),
@@ -86,6 +89,9 @@ class _spiltpdfState extends State<spiltpdf> {
             margin: const EdgeInsets.symmetric(vertical: 5,horizontal: 8),
             shape:  RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(5),
+              side:const BorderSide(
+                style: BorderStyle.solid
+              )
           ),
 
             child: ListTile(
@@ -116,7 +122,7 @@ class _spiltpdfState extends State<spiltpdf> {
                     Row(
                         children: [
 
-                          const Icon(Icons.folder_copy_rounded,
+                          const Icon(Icons.folder_copy_outlined,
                             weight: 50,
                             size: 15,
                           ),
@@ -124,7 +130,7 @@ class _spiltpdfState extends State<spiltpdf> {
                           const SizedBox(width: 5,),
 
                           Text('PDF',
-                            style: GoogleFonts.poppins(fontWeight: FontWeight.w400,
+                            style: GoogleFonts.poppins(fontWeight: FontWeight.bold,
                                 fontSize: 12,
                                 color: Colors.grey),
                           ),
@@ -134,11 +140,18 @@ class _spiltpdfState extends State<spiltpdf> {
                   ]
               ),
 
-              leading: Image.asset(
-                'assets/images/icon.png',
-                width: 40,
-                height: 40,
+              leading: SizedBox(
+                width: 50,
+                height: 188,
+                child: PdfThumbnail.fromFile(
+                  scrollToCurrentPage: false,
+                  filePath,
+                  currentPage: 0,
+                  height: 56,
+                  backgroundColor: Colors.transparent,
+                ),
               ),
+
             ),
           );
         },

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
+import 'package:pdf_thumbnail/pdf_thumbnail.dart';
 import 'package:pdfviwer/homepage/pdf_screen.dart';
 import 'package:pdfviwer/model/pdf_model.dart';
 import 'package:pdfviwer/service/database_service.dart';
@@ -71,6 +72,7 @@ class _RecentState extends State<Recent> {
             itemCount: snapshot.data!.length,
             itemBuilder: (context, index) {
               PDFModel pdf = snapshot.data![index];
+              var filePath =pdf.filePath;
 
               return Card(
 
@@ -101,8 +103,8 @@ class _RecentState extends State<Recent> {
                   },
                   
 
-
-                  title: Text(pdf.fileName,
+                  title: Text(
+                    pdf.fileName,
                     style: const TextStyle(
                       fontWeight: FontWeight.w500,
                       overflow: TextOverflow.ellipsis,
@@ -170,10 +172,17 @@ class _RecentState extends State<Recent> {
                   ),
 
 
-
-                  leading:Image.asset("assets/images/icon.png",
-                    width: 40,
-                    height: 40,) ,
+                  leading: SizedBox(
+                    width: 50,
+                    height: 188,
+                    child: PdfThumbnail.fromFile(
+                      scrollToCurrentPage: false,
+                      filePath,
+                      currentPage: 0,
+                      height: 56,
+                      backgroundColor: Colors.transparent,
+                    ),
+                  ),
 
 
                    trailing:IconButton(
@@ -183,10 +192,10 @@ class _RecentState extends State<Recent> {
                          builder: (BuildContext context) {
                            return BottomSheetContent(
                              file:FileItem(
-                               path:'',
-                               name:'',
-                               size: '',
-                               modifiedDate: ''),
+                               path:pdf.filePath,
+                               name:pdf.fileName,
+                               size: pdf.size,
+                               modifiedDate: pdf.modifiedDate),
                            );
                          },
                        );

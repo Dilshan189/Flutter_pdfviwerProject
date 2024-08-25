@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:path/path.dart' as path;
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:pdf_thumbnail/pdf_thumbnail.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../floatingactionbutton/floationactionbutton.dart';
@@ -125,7 +126,18 @@ class _PDFListScreenState extends State<PDFListScreen> {
                       size: fileItem.size,
                       modifiedDate:fileItem.modifiedDate);
 
-                  DatabaseService().insertPdf(pdfModel);
+
+                  /// Check if the PDF already exists in the database
+                  bool pdfExists = await DatabaseService().pdfExists(fileItem.path);
+
+
+
+                  /// If the PDF doesn't exist, insert it into the database
+                  if (!pdfExists) {
+                    await DatabaseService().insertPdf(pdfModel);
+                  }
+
+
 
                   Navigator.push(
                     context,
@@ -202,11 +214,19 @@ class _PDFListScreenState extends State<PDFListScreen> {
                     ),
                   ],
                 ),
-                leading: Image.asset(
-                  "assets/images/icon.png",
-                  width: 40,
-                  height: 40,
-                ),
+
+            leading: SizedBox(
+            width: 50,
+            height: 188,
+            child: PdfThumbnail.fromFile(
+            scrollToCurrentPage: false,
+            filePath,
+            currentPage: 0,
+            height: 56,
+            backgroundColor: Colors.transparent,
+            ),
+            ),
+
 
                 trailing: IconButton(
                   icon: const Icon(Icons.more_vert),

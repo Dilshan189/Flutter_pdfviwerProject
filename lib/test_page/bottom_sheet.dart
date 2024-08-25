@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pdfviwer/consts/consts.dart';
 import 'package:pdfviwer/model/pdf_favourite_model.dart';
+import 'package:pdfviwer/tools_page/lockpdf.dart';
 import 'package:share/share.dart';
 import 'package:path/path.dart' as path;
 import 'browserpage.dart';
@@ -96,8 +97,9 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
                 style:GoogleFonts.poppins(fontWeight: FontWeight.w400),
               ),
               onTap: () {
-
                 Navigator.pop(context);
+
+                Get.to(()=> const LockPdf());
               },
             ),
 
@@ -149,8 +151,14 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
                     size:  widget.file.size,
                     modifiedDate:  widget.file.modifiedDate);
 
-                DatabaseService().insertPdffa(pdfModelFa);
 
+
+
+                bool pdfExistsFa = await DatabaseService().pdfExistsFa(widget.file.path);
+
+                if(!pdfExistsFa) {
+                  DatabaseService().insertPdffa(pdfModelFa);
+                }
                 Get.snackbar('Successful', 'Favourite added successful!');
 
                 Navigator.of(context).pop();
@@ -196,7 +204,9 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
                   if (confirmDelete == true) {
                     setState(() {
 
-                   //DatabaseService().deletePDF(pdfModel. id as int);
+                   // var pdfModelFa;
+                   // DatabaseService().deletePDFfa(pdfModelFa.id as int);
+
                     });
 
                      Get.snackbar('Confirm','Delete Succesfull!');

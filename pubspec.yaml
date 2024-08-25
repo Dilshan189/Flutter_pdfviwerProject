@@ -60,6 +60,7 @@ dependencies:
   google_fonts: ^4.0.4
   url_launcher: ^6.3.0
   animated_snack_bar: ^0.4.0
+  printing: ^5.13.2
   image:
   #pdf:
   media_scanner:
@@ -126,6 +127,7 @@ flutter:
     - assets/images/icons8-chat-message-94.png
     - assets/images/icons8-key-40.png
     - assets/icon/Animation - 1723713721850.json
+    - assets/images/icons8-lock-50.png
     
 
 

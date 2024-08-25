@@ -6,9 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:path/path.dart' as path;
+import 'package:pdf_thumbnail/pdf_thumbnail.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../homepage/search_bar.dart';
+import '../searchbar/editesearchbar.dart';
 
 class editpdf extends StatefulWidget {
   const editpdf({super.key});
@@ -71,7 +73,7 @@ class _editpdfState extends State<editpdf> {
       appBar: AppBar(
         title: const Text('Select a file ',style: TextStyle(fontSize:20,color: Colors.black,fontWeight: FontWeight.w500),),
         actions: [IconButton(onPressed: (){
-          Get.to(()=> const Searchbar());
+          Get.to(()=> const Editebar(),arguments: pdfFiles);
         },
             icon: const  Icon(Icons.search_rounded))],
       ),
@@ -87,6 +89,9 @@ class _editpdfState extends State<editpdf> {
             margin: const EdgeInsets.symmetric(vertical: 5,horizontal: 8),
             shape:  RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(5),
+              side:const BorderSide(
+                style: BorderStyle.solid
+              )
           ),
 
             child: ListTile(
@@ -118,7 +123,7 @@ class _editpdfState extends State<editpdf> {
                     Row(
                         children: [
 
-                          const Icon(Icons.folder_copy_rounded,
+                          const Icon(Icons.folder_copy_outlined,
                             weight: 50,
                             size: 15,
                           ),
@@ -126,7 +131,7 @@ class _editpdfState extends State<editpdf> {
                           const SizedBox(width: 5,),
 
                           Text('PDF',
-                            style: GoogleFonts.poppins(fontWeight: FontWeight.w400,
+                            style: GoogleFonts.poppins(fontWeight: FontWeight.bold,
                                 fontSize: 12,
                                 color: Colors.grey),
                           ),
@@ -136,11 +141,18 @@ class _editpdfState extends State<editpdf> {
                   ]
               ),
 
-              leading: Image.asset(
-                'assets/images/icon.png',
-                width: 40,
-                height: 40,
+              leading: SizedBox(
+                width: 50,
+                height: 188,
+                child: PdfThumbnail.fromFile(
+                  scrollToCurrentPage: false,
+                  filePath,
+                  currentPage: 0,
+                  height: 56,
+                  backgroundColor: Colors.transparent,
+                ),
               ),
+
 
             ),
           );

@@ -77,7 +77,10 @@ class _ToolsState extends State<tools> {
       var path = selectedFiles!.first.path;
       if (path != null) {
         Navigator.push(context, MaterialPageRoute(
-            builder: (context) => PDFScreen(index: 0, path: path,pdfPath: path, pdfName: path.split('/').last),
+            builder: (context) => PDFScreen(index: 0,
+                path: path,
+                pdfPath: path,
+                pdfName: path.split('/').last),
           ),
         );
       }

@@ -98,6 +98,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
   @override
+
   Widget build(BuildContext context) {
     return WillPopScope(
         onWillPop: () async {
@@ -137,7 +138,7 @@ class _MyHomePageState extends State<MyHomePage> {
           if (_selectedIndex == 1) ...[
             IconButton(
               onPressed: () {
-                Get.to(() => const Searchbar());
+                Get.to(() => const Searchbar(),arguments: pdfFiles);
               },
 
               icon: const Icon(Icons.search_rounded),
@@ -153,25 +154,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
           ],
 
-
-          if (_selectedIndex == 2) ...[
-            IconButton(
-              onPressed: () {
-                Get.to(() => const Searchbar());
-              },
-
-              icon: const Icon(Icons.search_rounded),
-
-            ),
-
-            IconButton(
-              onPressed: () {
-                Get.to(() => const ChangeScreen());
-              },
-              icon: const Icon(Icons.credit_card_rounded),
-            ),
-
-          ],
         ],
 
 

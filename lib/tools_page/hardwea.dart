@@ -6,7 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:path/path.dart' as path;
+import 'package:pdf/pdf.dart';
+import 'package:pdf_thumbnail/pdf_thumbnail.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:printing/printing.dart';
 
 import '../homepage/search_bar.dart';
 
@@ -76,6 +79,7 @@ class _hardweaState extends State<hardwea> {
         },
             icon: const  Icon(Icons.search_rounded))],
       ),
+
       body: ListView.builder(
         itemCount: pdfFiles.length,
         itemBuilder: (context, index) {
@@ -91,9 +95,13 @@ class _hardweaState extends State<hardwea> {
           ),
 
             child: ListTile(
-              onTap: () {
 
+
+              onTap: () async {
+                String filePath = pdfFiles[index];
+                 printDoc(filePath);
               },
+
               title: Text(fileName,
                 style: const TextStyle(
                   fontWeight: FontWeight.w500,
@@ -118,7 +126,7 @@ class _hardweaState extends State<hardwea> {
                     Row(
                         children: [
 
-                          const Icon(Icons.folder_copy_rounded,
+                          const Icon(Icons.folder_copy_outlined,
                             weight: 50,
                             size: 15,
                           ),
@@ -136,16 +144,34 @@ class _hardweaState extends State<hardwea> {
                   ]
               ),
 
-
-              leading: Image.asset(
-                'assets/images/icon.png',
-                width: 40,
-                height: 40,
+              leading: SizedBox(
+                width: 50,
+                height: 188,
+                child: PdfThumbnail.fromFile(
+                  scrollToCurrentPage: false,
+                  filePath,
+                  currentPage: 0,
+                  height: 56,
+                  backgroundColor: Colors.transparent,
+                ),
               ),
+
             ),
           );
         },
       ),
     );
   }
+
+  /// printing method ---------------------------------------------------------
+
+  Future<void> printDoc(String filePath) async {
+    final File file = File(filePath);
+
+    await Printing.layoutPdf(
+      onLayout: (PdfPageFormat format) async => file.readAsBytes(),
+    );
+  }
+
+
 }

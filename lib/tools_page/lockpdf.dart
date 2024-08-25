@@ -6,11 +6,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pdf_thumbnail/pdf_thumbnail.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:path/path.dart' as path;
 
-import '../homepage/search_bar.dart';
+
 import '../model/lockpdf_model.dart';
+import '../searchbar/lockpdf_searchbar.dart';
 import '../service/database_service_lockpdf.dart';
 import 'pdflock_thankyou_screen.dart';
 
@@ -81,7 +83,7 @@ class _LockPdfState extends State<LockPdf> {
         actions: [
           IconButton(
             onPressed: () {
-              Get.to(() => const Searchbar());
+              Get.to(() => const LockSearbar(),arguments: pdfFiles);
             },
             icon: const Icon(Icons.search_rounded),
           )
@@ -98,14 +100,11 @@ class _LockPdfState extends State<LockPdf> {
             margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 8),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(5),
-                side:const BorderSide(
-                    style:BorderStyle.solid
-                )
-
+              side: const BorderSide(style: BorderStyle.solid),
             ),
             child: ListTile(
               onTap: () {
-                _showLockDialog(context, filePath, fileName,);
+                _showLockDialog(context, filePath, fileName);
               },
               title: Text(
                 fileName,
@@ -142,11 +141,22 @@ class _LockPdfState extends State<LockPdf> {
                   ),
                 ],
               ),
-              leading: Image.asset(
-                'assets/images/icon.png',
-                width: 40,
-                height: 40,
+
+
+              leading: SizedBox(
+                width: 50,
+                height: 188,
+                child: PdfThumbnail.fromFile(
+                  scrollToCurrentPage: false,
+                  filePath,
+                  currentPage: 0,
+                  height: 56,
+                  backgroundColor: Colors.transparent,
+
+
+                ),
               ),
+
             ),
           );
         },
@@ -168,9 +178,11 @@ class _LockPdfState extends State<LockPdf> {
           content: TextField(
             controller: passwordController,
             obscureText: true,
+            keyboardType: TextInputType.number,
             decoration: InputDecoration(
               border: const OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(8))),
+                borderRadius: BorderRadius.all(Radius.circular(8)),
+              ),
               labelText: "Password",
               labelStyle: GoogleFonts.poppins(fontWeight: FontWeight.w400),
             ),
@@ -194,22 +206,19 @@ class _LockPdfState extends State<LockPdf> {
             ),
             TextButton(
               onPressed: () async {
-                String filePassword = passwordController.text;
+                String filePassword = passwordController.text.trim();
 
-                LockpdfModel lockpdfModel = LockpdfModel(
-                  fileName: fileName,
-                  filePath: filePath,
-                  filePassword: filePassword,
+                if (filePassword.isNotEmpty && RegExp(r'^\d+$').hasMatch(filePassword)) {
+                  LockpdfModel lockpdfModel = LockpdfModel(
+                    fileName: fileName,
+                    filePath: filePath,
+                    filePassword: filePassword,
+                  );
 
-                );
 
-
-               DatabaseService().insertlockpdf(lockpdfModel);
-
-                if(filePassword.isNotEmpty) {
+                  DatabaseService().insertlockpdf(lockpdfModel);
 
                   Navigator.of(context).pop();
-
 
                   Navigator.push(
                     context,
@@ -217,16 +226,13 @@ class _LockPdfState extends State<LockPdf> {
                       builder: (context) => const PdfLock(),
                     ),
                   );
-                }
-                else
-
-                {
+                } else {
                   AnimatedSnackBar.material(
-                    'Please enter the value number in password',
+                    'Please enter a numeric value for the password',
                     type: AnimatedSnackBarType.error,
                     mobileSnackBarPosition: MobileSnackBarPosition.bottom,
                     desktopSnackBarPosition: DesktopSnackBarPosition.topRight,
-                    duration:const Duration(seconds: 5),
+                    duration: const Duration(seconds: 5),
                     borderRadius: BorderRadius.circular(15),
                   ).show(context);
                 }
@@ -245,4 +251,5 @@ class _LockPdfState extends State<LockPdf> {
       },
     );
   }
+
 }

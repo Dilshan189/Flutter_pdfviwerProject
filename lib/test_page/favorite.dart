@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
+import 'package:pdf_thumbnail/pdf_thumbnail.dart';
 import 'package:pdfviwer/model/pdf_favourite_model.dart';
 import '../floatingactionbutton/floationactionbutton.dart';
 import '../homepage/pdf_screen.dart';
@@ -63,6 +64,7 @@ class _favoriteState extends State<favorite> {
             itemCount: snapshot.data!.length,
             itemBuilder: (context, index) {
               PDFModelFa pdf = snapshot.data![index];
+              var filePath = pdf.filePath;
 
 
               return Card(
@@ -160,9 +162,17 @@ class _favoriteState extends State<favorite> {
                       ]
                   ),
 
-                  leading:Image.asset("assets/images/icon.png",
-                    width: 40,
-                    height: 40,) ,
+                  leading: SizedBox(
+                    width: 50,
+                    height: 188,
+                    child: PdfThumbnail.fromFile(
+                      scrollToCurrentPage: false,
+                      filePath,
+                      currentPage: 0,
+                      height: 56,
+                      backgroundColor: Colors.transparent,
+                    ),
+                  ),
 
 
                   trailing:IconButton(

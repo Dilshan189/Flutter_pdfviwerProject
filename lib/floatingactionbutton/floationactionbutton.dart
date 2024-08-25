@@ -55,7 +55,10 @@ class _AllfloatingactionbuttonState extends State<actionbutton> {
   var path = selectedFiles!.first.path;
   if (path != null) {
   Navigator.push(context, MaterialPageRoute(
-  builder: (context) => PDFScreen(index: 0, path: path,pdfPath: path, pdfName: path.split('/').last),
+  builder: (context) => PDFScreen(index: 0,
+      path: path,
+      pdfPath: path,
+      pdfName: path.split('/').last),
   ),
   );
   }
@@ -130,6 +133,7 @@ class _AllfloatingactionbuttonState extends State<actionbutton> {
     itemBuilder: (context, index) {
        return GestureDetector(
           onTap: () async {
+
            switch (index) {
 
            case 0:
@@ -139,7 +143,6 @@ class _AllfloatingactionbuttonState extends State<actionbutton> {
 
           default:
             pickFiles(context);
-            Navigator.pop(context);
             break;
 
        }

@@ -5,14 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:path/path.dart' as path;
-import 'package:path_provider/path_provider.dart';
-import 'package:pdf/pdf.dart' as pdf;
-import 'package:pdf/widgets.dart' as pw;
-
+import 'package:pdf_thumbnail/pdf_thumbnail.dart';
+import 'package:pdfviwer/model/merge_pdf_model.dart';
+import 'package:pdfviwer/service/database_service_merge_pdf.dart';
+import 'package:pdfviwer/tools_page/pdfmerge_two.dart';
 import 'package:permission_handler/permission_handler.dart';
-
 import '../consts/consts.dart';
-import '../homepage/search_bar.dart';
+import '../searchbar/mearge_searchbar.dart';
 
 class Marge extends StatefulWidget {
   const Marge({super.key});
@@ -24,8 +23,11 @@ class Marge extends StatefulWidget {
 class _MargeState extends State<Marge> {
   List<String> pdfFiles = [];
   List<String> selectedFiles = [];
+  bool firstIconClicked = false;
+  bool secondIconClicked = false;
+  bool mergeButtonVisible = false;
 
-  get pdfWidgets => null;
+
 
   @override
   void initState() {
@@ -72,51 +74,24 @@ class _MargeState extends State<Marge> {
     }
   }
 
-///merge PDF file added/////////////////////////////////////////////////////////
-
-  Future<void> mergePdfs(List<String> pdfPaths) async {
-    final pdf = pw.Document();
-    for (final filePath in pdfPaths) {
-      final file = File(filePath);
-      final pdfBytes = await file.readAsBytes();
-
-      pdf.addPage(
-        pw.Page(
-          build: (pw.Context context) {
-            return pw.Center(
-              child: pw.Text('PDF Page from: ${path.basename(filePath)}'),
-            );
-          },
-        ),
-      );
-    }
-
-    final outputDirectory = await getExternalStorageDirectory();
-    final outputPath = '${outputDirectory!.path}/merged_output.pdf';
-    final outputFile = File(outputPath);
-    await outputFile.writeAsBytes(await pdf.save());
-
-    Get.snackbar('****', 'merge to pdf converted :$outputPath');
-  }
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
           'Selected',
-          style: TextStyle(fontSize: 20,  fontWeight: FontWeight.w500),
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
         ),
         actions: [
           IconButton(
             onPressed: () {
-              Get.to(() => const Searchbar());
+              Get.to(() => MeargeSearchbar(),arguments: pdfFiles);
             },
-            icon: const Icon(Icons.search_rounded),
+            icon:const Icon(Icons.search_rounded),
           ),
         ],
       ),
+
       body: ListView.builder(
         itemCount: pdfFiles.length,
         itemBuilder: (context, index) {
@@ -125,22 +100,45 @@ class _MargeState extends State<Marge> {
           final isSelected = selectedFiles.contains(filePath);
 
           return Card(
-              shadowColor: Colors.grey,
-              margin: const EdgeInsets.symmetric(vertical: 5,horizontal: 8),
-          shape:  RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(5),
-          ),
-
+            shadowColor: Colors.grey,
+            margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5),
+              side:const BorderSide(
+                style: BorderStyle.solid,
+              ),
+            ),
             child: ListTile(
               onTap: () {
                 setState(() {
                   if (isSelected) {
                     selectedFiles.remove(filePath);
-                  } else {
+                    if (selectedFiles.isEmpty) {
+                      mergeButtonVisible = false;
+                      firstIconClicked = false;
+                      secondIconClicked = false;
+                    }
+
+
+                  }
+                  else
+                  {
                     selectedFiles.add(filePath);
+                    if (!firstIconClicked) {
+                      firstIconClicked = true;
+                    }
+                    else if (!secondIconClicked) {
+                      secondIconClicked = true;
+                    }
+
+                    if (firstIconClicked && secondIconClicked) {
+                      mergeButtonVisible = true;
+                    }
                   }
                 });
               },
+
+
               title: Text(
                 fileName,
                 style: const TextStyle(
@@ -148,70 +146,82 @@ class _MargeState extends State<Marge> {
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
-
               subtitle: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-
                 children: [
                   Text(
-                  filePath,
-                  style: const TextStyle(
-                      overflow: TextOverflow.ellipsis
+                    filePath,
+                    style: const TextStyle(overflow: TextOverflow.ellipsis),
                   ),
-                ),
-
-
-                  const SizedBox(height: 5,),
-
+                  const SizedBox(height: 5),
                   Row(
                     children: [
-
-                      const Icon(Icons.folder_copy_rounded,
-                      weight: 50,
-                      size: 15,
+                      const Icon(
+                        Icons.folder_copy_outlined,
+                        weight: 50,
+                        size: 15,
                       ),
-
-                      const SizedBox(width: 5,),
-
-                      Text('PDF',
-                    style: GoogleFonts.poppins(fontWeight: FontWeight.w400,
-                        fontSize: 12,
-                        color: Colors.grey),
-                    ),
-                    ]
+                      const SizedBox(width: 5),
+                      Text(
+                        'PDF',
+                        style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 12,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ],
                   ),
-
-                ]
+                ],
               ),
 
-              // leading: SizedBox(
-              //   width: 50,
-              //   height: 180,
-              //   child: PdfThumbnail.fromFile(
-              //     scrollToCurrentPage: false,
-              //     filePath,
-              //     currentPage: 0,
-              //     height: 56,
-              //     backgroundColor: Colors.white,
-              //   ),
-              // ),
-
-              leading:Image.asset("assets/images/icon.png",
-                width: 40,
-                height: 40,) ,
-
+              leading: SizedBox(
+                width: 50,
+                height: 188,
+                child: PdfThumbnail.fromFile(
+                  scrollToCurrentPage: false,
+                  filePath,
+                  currentPage: 0,
+                  height: 56,
+                  backgroundColor: Colors.transparent,
+                ),
+              ),
 
               trailing: IconButton(
                 icon: Icon(
                   isSelected ? Icons.check_box : Icons.check_box_outline_blank,
                   color: isSelected ? Colors.blue : Colors.black,
                 ),
+
                 onPressed: () {
                   setState(() {
-                    if (isSelected) {
+                    if (isSelected)
+                    {
                       selectedFiles.remove(filePath);
-                    } else {
+                      if (selectedFiles.isEmpty)
+                      {
+                        mergeButtonVisible = false;
+                        firstIconClicked = false;
+                        secondIconClicked = false;
+                      }
+
+                    }
+                    else
+                    {
                       selectedFiles.add(filePath);
+                      if (!firstIconClicked)
+                      {
+                        firstIconClicked = true;
+                      }
+                      else if (!secondIconClicked)
+                      {
+                        secondIconClicked = true;
+                      }
+                      if (firstIconClicked && secondIconClicked)
+
+                      {
+                        mergeButtonVisible = true;
+                      }
                     }
                   });
                 },
@@ -220,18 +230,51 @@ class _MargeState extends State<Marge> {
           );
         },
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: ()async {
-          if (selectedFiles.isNotEmpty) {
-            await mergePdfs(selectedFiles);
-          } else {
-            Get.snackbar('Error', 'No PDF files selected');
+
+      floatingActionButton: mergeButtonVisible
+          ? FloatingActionButton.extended(
+        onPressed: () async {
+          if (selectedFiles.length ==2) {
+
+            String combinedFileName ='${path.basenameWithoutExtension(selectedFiles[0])}_${path.basenameWithoutExtension(selectedFiles[1])}.pdf';
+            String combinedFilePath =
+            path.join(path.dirname(selectedFiles[0]), combinedFileName);
+
+
+            MeargePDF meargePDF = MeargePDF(
+              fileName: combinedFileName,
+              filePath: combinedFilePath,
+            );
+
+
+            await DatabaseService().insertMargePdf(meargePDF);
+
+
+            Get.to(() => const PDFmerge(), arguments: selectedFiles);
+
+
+
           }
+          else
+
+          {
+
+            Get.snackbar('Error', 'Please select two PDF files to merge.',
+                snackPosition: SnackPosition.TOP);
+          }
+
         },
         backgroundColor: Colors.blue,
         icon: const Icon(Icons.picture_as_pdf_outlined, color: Colors.white),
-        label: Text('Merge PDF', style:GoogleFonts.poppins(color: Colors.white,fontWeight: FontWeight.bold) ),
-      ),
+        label: Text(
+          'Merge PDF',
+          style: GoogleFonts.poppins(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      )
+          : null,
     );
   }
 }

@@ -96,4 +96,20 @@ class DatabaseService {
     return await dbClient!.delete(_pdfTableNameFa);
 
   }
+
+
+  Future<bool> pdfExistsFa(String filePath) async {
+
+    var  dbClient = await db;
+
+    var result = await dbClient!.query(
+      _pdfTableNameFa,
+      where: '$_pdfPathFa = ?',
+      whereArgs: [filePath],
+    );
+
+    return result.isNotEmpty;
+  }
+
+
 }
