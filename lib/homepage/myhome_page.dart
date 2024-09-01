@@ -177,18 +177,6 @@ class _MyHomePageState extends State<MyHomePage> {
              ListTile(
               title: Text('PDF Reader',
                   style:GoogleFonts.poppins(fontWeight: FontWeight.bold,fontSize: 25)),
-                  trailing: IconButton(onPressed:(){
-                    showDialog(
-                      context: context,
-                      builder: (context) => AlertDialog(
-                        backgroundColor: Colors.transparent,
-                        content: Lottie.asset(
-                          'assets/icon/success.json',
-                        ),
-                      ),
-                    );
-                  },
-                      icon: const Icon(Icons.star_border_purple500_outlined, size: 45,shadows: [Shadow(color: Colors.black87)])),
             ),
 
             const Divider(thickness: 1),
@@ -218,7 +206,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const featureRequset()),
+                      builder: (context) => const FeatureRequest()),
                 );
               },
             ),

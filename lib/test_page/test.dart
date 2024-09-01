@@ -161,7 +161,7 @@ class _ToolsState extends State<tools> {
                         case 1:
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => const spiltpdf()),
+                            MaterialPageRoute(builder: (context) => const Spiltpdf()),
                           );
                           break;
       
