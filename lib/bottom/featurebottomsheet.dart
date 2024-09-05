@@ -25,7 +25,7 @@ class _FeatureRequestBottomSheetState extends State<FeatureRequestBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
+    return SingleChildScrollView(
       child: Container(
         width: MediaQuery.of(context).size.width * 0.99,
         height: MediaQuery.of(context).size.height * 0.99,
@@ -51,117 +51,115 @@ class _FeatureRequestBottomSheetState extends State<FeatureRequestBottomSheet> {
       
             const SizedBox(height: 20.0),
       
-            Expanded(
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Card(
-                            shape: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            child: TextButton.icon(
-                              onPressed: _selectedCard.isEmpty || _selectedCard == 'Scan to PDF'
-                                  ? () => _selectCard('Scan to PDF')
-                                  : null,
-                              icon: const Icon(Icons.document_scanner_outlined, color: Colors.blue),
-                              label: Text('Scan to PDF', style: GoogleFonts.poppins(fontWeight: FontWeight.w400)),
-                            ),
-                          ),
-      
-                          const SizedBox(width: 18),
-      
-                          Card(
-                            shape: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            child: TextButton.icon(
-                              onPressed: _selectedCard.isEmpty || _selectedCard == 'Cloud Sync'
-                                  ? () => _selectCard('Cloud Sync')
-                                  : null,
-                              icon: const Icon(Icons.cloud_done_outlined, color: Colors.blue),
-                              label: Text('Cloud Sync', style: GoogleFonts.poppins(fontWeight: FontWeight.w400)),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-      
-      
-      
-                  Expanded(
-                    child: Row(
+            Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Card(
                           shape: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(15),
                           ),
                           child: TextButton.icon(
-                            onPressed: _selectedCard.isEmpty || _selectedCard == 'Create Folders'
-                                ? () => _selectCard('Create Folders')
+                            onPressed: _selectedCard.isEmpty || _selectedCard == 'Scan to PDF'
+                                ? () => _selectCard('Scan to PDF')
                                 : null,
-                            icon: const Icon(Icons.create_new_folder_outlined, color: Colors.blue),
-                            label: Text('Create Folders', style: GoogleFonts.poppins(fontWeight: FontWeight.w400)),
+                            icon: const Icon(Icons.document_scanner_outlined, color: Colors.blue),
+                            label: Text('Scan to PDF', style: GoogleFonts.poppins(fontWeight: FontWeight.w400)),
                           ),
                         ),
+      
                         const SizedBox(width: 18),
+      
                         Card(
                           shape: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(15),
                           ),
                           child: TextButton.icon(
-                            onPressed: _selectedCard.isEmpty || _selectedCard == 'Contents'
-                                ? () => _selectCard('Contents')
+                            onPressed: _selectedCard.isEmpty || _selectedCard == 'Cloud Sync'
+                                ? () => _selectCard('Cloud Sync')
                                 : null,
-                            icon: const Icon(Icons.bookmark_add_outlined, color: Colors.blue),
-                            label: Text('Contents', style: GoogleFonts.poppins(fontWeight: FontWeight.w400)),
+                            icon: const Icon(Icons.cloud_done_outlined, color: Colors.blue),
+                            label: Text('Cloud Sync', style: GoogleFonts.poppins(fontWeight: FontWeight.w400)),
                           ),
                         ),
                       ],
                     ),
-                  ),
+                  ],
+                ),
       
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Card(
-                        shape: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        child: TextButton.icon(
-                          onPressed: _selectedCard.isEmpty || _selectedCard == 'PDF to Images'
-                              ? () => _selectCard('PDF to Images')
-                              : null,
-                          icon: const Icon(Icons.image_outlined, color: Colors.blue),
-                          label: Text('PDF to Images', style: GoogleFonts.poppins(fontWeight: FontWeight.w400)),
-                        ),
+      
+      
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Card(
+                      shape: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
                       ),
-                      const SizedBox(width: 18),
-                      Card(
-                        shape: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        child: TextButton.icon(
-                          onPressed: _selectedCard.isEmpty || _selectedCard == 'Others'
-                              ? () => _selectCard('Others')
-                              : null,
-                          icon: const Icon(Icons.offline_bolt_outlined, color: Colors.blue),
-                          label: Text('Others', style: GoogleFonts.poppins(fontWeight: FontWeight.w400)),
-                        ),
+                      child: TextButton.icon(
+                        onPressed: _selectedCard.isEmpty || _selectedCard == 'Create Folders'
+                            ? () => _selectCard('Create Folders')
+                            : null,
+                        icon: const Icon(Icons.create_new_folder_outlined, color: Colors.blue),
+                        label: Text('Create Folders', style: GoogleFonts.poppins(fontWeight: FontWeight.w400)),
                       ),
-                    ],
-                  ),
-                ],
-              ),
+                    ),
+                    const SizedBox(width: 18),
+                    Card(
+                      shape: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: TextButton.icon(
+                        onPressed: _selectedCard.isEmpty || _selectedCard == 'Contents'
+                            ? () => _selectCard('Contents')
+                            : null,
+                        icon: const Icon(Icons.bookmark_add_outlined, color: Colors.blue),
+                        label: Text('Contents', style: GoogleFonts.poppins(fontWeight: FontWeight.w400)),
+                      ),
+                    ),
+                  ],
+                ),
+      
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Card(
+                      shape: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: TextButton.icon(
+                        onPressed: _selectedCard.isEmpty || _selectedCard == 'PDF to Images'
+                            ? () => _selectCard('PDF to Images')
+                            : null,
+                        icon: const Icon(Icons.image_outlined, color: Colors.blue),
+                        label: Text('PDF to Images', style: GoogleFonts.poppins(fontWeight: FontWeight.w400)),
+                      ),
+                    ),
+                    const SizedBox(width: 18),
+                    Card(
+                      shape: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: TextButton.icon(
+                        onPressed: _selectedCard.isEmpty || _selectedCard == 'Others'
+                            ? () => _selectCard('Others')
+                            : null,
+                        icon: const Icon(Icons.offline_bolt_outlined, color: Colors.blue),
+                        label: Text('Others', style: GoogleFonts.poppins(fontWeight: FontWeight.w400)),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
-            const SizedBox(height: 60),
+      
+            const SizedBox(height: 15),
+      
             if (_isSubmitButtonVisible)
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,

@@ -155,9 +155,9 @@ class _PDFListScreenState extends State<PDFListScreen> {
 
                 title: Text(
                   fileName,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w500,
-                    overflow: TextOverflow.ellipsis,
+                  style: GoogleFonts.poppins(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
                   ),
                 ),
 

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pdfviwer/consts/consts.dart';
+import 'FeedbackPage.dart';
 
-import 'featurebottomsheet.dart';
 
 class FeatureRequest extends StatefulWidget {
   const FeatureRequest({super.key});
@@ -11,6 +14,8 @@ class FeatureRequest extends StatefulWidget {
 }
 
 class _FeatureRequestState extends State<FeatureRequest> {
+
+
   bool _isExpanded1 = false;
   bool _isExpanded2 = false;
   bool _isExpanded3 = false;
@@ -22,7 +27,6 @@ class _FeatureRequestState extends State<FeatureRequest> {
   bool _isExpanded9 = false;
   bool _isExpanded10 = false;
 
-  final String _imagePath = 'assets/images/image.png';
 
   @override
   Widget build(BuildContext context) {
@@ -35,25 +39,6 @@ class _FeatureRequestState extends State<FeatureRequest> {
             fontSize: 25,
           ),
         ),
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => FeatureRequestBottomSheet(
-                    imagePath: _imagePath,
-                  ),
-                ),
-              );
-            },
-            icon: Image.asset(
-              'assets/images/icons8-copy-48.png',
-              width: 45,
-              height: 35,
-            ),
-          ),
-        ],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -87,7 +72,7 @@ class _FeatureRequestState extends State<FeatureRequest> {
                     leading: const Icon(
                       Icons.watch_later_outlined,
                       size: 30,
-                      color: Colors.blue,
+                      color: Color(0xFF4A00E0),
                     ),
                     trailing: IconButton(
                       icon: Icon(
@@ -118,35 +103,44 @@ class _FeatureRequestState extends State<FeatureRequest> {
                           ),
                         ),
 
-                           Row(
-                             mainAxisAlignment: MainAxisAlignment.center,
+                          const SizedBox(height: 5),
+
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              TextButton(onPressed:(){},
-                                style: TextButton.styleFrom(
-                                  foregroundColor: Colors.black,
-                                  backgroundColor: Colors.white70,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
+                              ElevatedButton(onPressed: (){
+
+                                Get.snackbar("Thank you!", "Your FeedBack...");
+
+                              },
+                                  style: ElevatedButton.styleFrom(
+                                      foregroundColor: Colors.black,
+                                      backgroundColor: Colors.white,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      minimumSize: const Size(150, 40)
                                   ),
-                                ),
-                                  child: const Text('YES'),
-                              ),
+                                  child:const Text('YES')),
 
                               const SizedBox(width: 25),
 
-                              TextButton(onPressed: (){},
-                                style: TextButton.styleFrom(
-                                  foregroundColor: Colors.black,
-                                  backgroundColor: Colors.white70,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
+                              ElevatedButton(onPressed: (){
+                                Get.to(()=>const FeedbackPage());
+                              },
+                                  style: ElevatedButton.styleFrom(
+                                      foregroundColor: Colors.black,
+                                      backgroundColor: Colors.white,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      minimumSize: const Size(150, 40)
                                   ),
-                                ),
-                                child: const Text('NO'),
+                                  child:const Text('NO'),
                               ),
-
                             ],
                           ),
+
                       ],
                       ),
                     ),
@@ -167,7 +161,7 @@ class _FeatureRequestState extends State<FeatureRequest> {
                   leading: const Icon(
                     Icons.key_outlined,
                     size: 30,
-                    color: Colors.blue,
+                    color: Color(0xFF4A00E0),
                   ),
                   trailing: IconButton(
                     icon: Icon(
@@ -201,37 +195,41 @@ class _FeatureRequestState extends State<FeatureRequest> {
                           ),
                         ),
 
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          TextButton(onPressed: (){
+                          const SizedBox(height: 5),
 
-                          },
-                            style: TextButton.styleFrom(
-                              foregroundColor: Colors.black,
-                              backgroundColor: Colors.white70,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
-                            child: const Text('YES'),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              ElevatedButton(onPressed: (){
+                                Get.snackbar("Thank you!", "Your FeedBack...");
+                              },
+                                  style: ElevatedButton.styleFrom(
+                                      foregroundColor: Colors.black,
+                                      backgroundColor: Colors.white,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      minimumSize: const Size(150, 40)
+                                  ),
+                                  child:const Text('YES')),
+
+                              const SizedBox(width: 25),
+
+                              ElevatedButton(onPressed: (){
+                                Get.to(()=>const FeedbackPage());
+                              },
+                                  style: ElevatedButton.styleFrom(
+                                      foregroundColor: Colors.black,
+                                      backgroundColor: Colors.white,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      minimumSize: const Size(150, 40)
+                                  ),
+                                  child:const Text('NO')),
+
+                            ],
                           ),
-
-                          const SizedBox(width: 25),
-
-                          TextButton(onPressed: (){},
-                            style: TextButton.styleFrom(
-                              foregroundColor: Colors.black,
-                              backgroundColor: Colors.white70,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
-                            child: const Text('NO'),
-                          ),
-
-                        ],
-                      ),
                       ],
                       ),
                     ),
@@ -253,7 +251,7 @@ class _FeatureRequestState extends State<FeatureRequest> {
                   leading: const Icon(
                     Icons.file_open_outlined,
                     size: 30,
-                    color: Colors.blue,
+                    color: Color(0xFF4A00E0),
                   ),
                   trailing: IconButton(
                     icon: Icon(
@@ -272,17 +270,64 @@ class _FeatureRequestState extends State<FeatureRequest> {
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 16.0, vertical: 8.0),
-                      child: Text(
-                        'If your files are opening slowly, try clearing the app cache or freeing up device storage space. Ensure that the files are not corrupted.',
-                        style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+                      child: Column(
+                        children:[
+                          Text(
+                          'First, tap any PDF file on your device or in other apps.Then,in the "Open with" pop-up, choose our app icon,and tap "Always" to set PDF Reader as your default file reader. \n \n'
+                              'was it helpful?',
+                          style:GoogleFonts.poppins(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                          const SizedBox(height: 5),
+
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              ElevatedButton(onPressed: (){
+                                Get.snackbar("Thank you!", "Your FeedBack...");
+                              },
+                                  style: ElevatedButton.styleFrom(
+                                      foregroundColor: Colors.black,
+                                      backgroundColor: Colors.white,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      minimumSize: const Size(150, 40)
+                                  ),
+                                  child:const Text('YES')),
+
+                              const SizedBox(width: 25),
+
+                              ElevatedButton(onPressed: (){
+                                Get.to(()=>const FeedbackPage());
+                              },
+                                  style: ElevatedButton.styleFrom(
+                                      foregroundColor: Colors.black,
+                                      backgroundColor: Colors.white,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      minimumSize: const Size(150, 40)
+                                  ),
+                                  child:const Text('NO')),
+
+                            ],
+                          ),
+                      ],
                       ),
+
                     ),
+
+
                  ]
               ),
             ),
 
 
             const SizedBox(height: 25),
+
             Row(
               children: [
                 const SizedBox(width: 20),
@@ -310,7 +355,7 @@ class _FeatureRequestState extends State<FeatureRequest> {
                   leading: const Icon(
                     Icons.lock_outline,
                     size: 30,
-                    color: Colors.blue,
+                    color: Color(0xFF4A00E0),
                   ),
                   trailing: IconButton(
                     icon: Icon(
@@ -329,9 +374,54 @@ class _FeatureRequestState extends State<FeatureRequest> {
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 16.0, vertical: 8.0),
-                      child: Text(
-                        'If your files are opening slowly, try clearing the app cache or freeing up device storage space. Ensure that the files are not corrupted.',
-                        style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+                      child: Column(
+                        children: [
+                           Text(
+                          'First,please enable "Security question" in the sidebar of the homepage.\n \n'
+                              'Afterward,you can reset your password anytime using the security question. \n \n'
+                              'NOTE:We highly value your privacy and cannot reset password for files encrypted outside our app. \n \n'
+                              'Was it helpful?',
+                            style: GoogleFonts.poppins(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                            ),
+                        ),
+                          const SizedBox(height: 5),
+
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              ElevatedButton(onPressed: (){
+                                Get.snackbar("Thank you!", "Your FeedBack...");
+                              },
+                                  style: ElevatedButton.styleFrom(
+                                      foregroundColor: Colors.black,
+                                      backgroundColor: Colors.white,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      minimumSize: const Size(150, 40)
+                                  ),
+                                  child:const Text('YES')),
+
+                              const SizedBox(width: 25),
+
+                              ElevatedButton(onPressed: (){
+                                Get.to(()=>const FeedbackPage());
+                              },
+                                  style: ElevatedButton.styleFrom(
+                                      foregroundColor: Colors.black,
+                                      backgroundColor: Colors.white,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      minimumSize: const Size(150, 40)
+                                  ),
+                                  child:const Text('NO')),
+
+                            ],
+                          ),
+                      ],
                       ),
                     ),
                ]
@@ -353,7 +443,7 @@ class _FeatureRequestState extends State<FeatureRequest> {
                   leading: const Icon(
                     Icons.folder_special_outlined,
                     size: 30,
-                    color: Colors.blue,
+                    color: Color(0xFF4A00E0),
                   ),
                   trailing: IconButton(
                     icon: Icon(
@@ -372,9 +462,54 @@ class _FeatureRequestState extends State<FeatureRequest> {
                       Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 16.0, vertical: 8.0),
-                        child: Text(
-                          'If your files are opening slowly, try clearing the app cache or freeing up device storage space. Ensure that the files are not corrupted.',
-                          style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+                        child: Column(
+                          children:[
+                            Text(
+                           'Please check that your current app version is up-to-date.if not,please update and try again. \n \n'
+                               'if you still cannot open the file.please tap "Feedback" in the sidebar of the homepage to send us the problematic file,and we will assist you as soon as possible. \n \n'
+                               'Was it helpful?',
+                              style: GoogleFonts.poppins(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                              ),
+                          ),
+
+                            const SizedBox(height: 5),
+
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                ElevatedButton(onPressed: (){
+                                  Get.snackbar("Thank you!", "Your FeedBack...");
+                                },
+                                    style: ElevatedButton.styleFrom(
+                                        foregroundColor: Colors.black,
+                                        backgroundColor: Colors.white,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(5),
+                                        ),
+                                        minimumSize: const Size(150, 40)
+                                    ),
+                                    child:const Text('YES')),
+
+                                const SizedBox(width: 25),
+
+                                ElevatedButton(onPressed: (){
+                                  Get.to(()=>const FeedbackPage());
+                                },
+                                    style: ElevatedButton.styleFrom(
+                                        foregroundColor: Colors.black,
+                                        backgroundColor: Colors.white,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(5),
+                                        ),
+                                        minimumSize: const Size(150, 40)
+                                    ),
+                                    child:const Text('NO')),
+
+                              ],
+                            ),
+                        ],
                         ),
                       ),
                 ]
@@ -395,7 +530,7 @@ class _FeatureRequestState extends State<FeatureRequest> {
                   leading: const Icon(
                     Icons.search_rounded,
                     size: 30,
-                    color: Colors.blue,
+                    color: Color(0xFF4A00E0),
                   ),
                   trailing: IconButton(
                     icon: Icon(
@@ -414,9 +549,53 @@ class _FeatureRequestState extends State<FeatureRequest> {
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 16.0, vertical: 8.0),
-                      child: Text(
-                        'If your files are opening slowly, try clearing the app cache or freeing up device storage space. Ensure that the files are not corrupted.',
-                        style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+                      child: Column(
+                        children:[
+                          Text(
+                          'You can tap "import PDF"in the sidebar of the homepage to search for your files. \n \n '
+                              'Was it helpful?',
+                            style: GoogleFonts.poppins(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+
+                            ),
+                        ),
+                          const SizedBox(height: 5),
+
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              ElevatedButton(onPressed: (){
+                                Get.snackbar("Thank you!", "Your FeedBack...");
+                              },
+                                  style: ElevatedButton.styleFrom(
+                                      foregroundColor: Colors.black,
+                                      backgroundColor: Colors.white,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      minimumSize: const Size(150, 40)
+                                  ),
+                                  child:const Text('YES')),
+
+                              const SizedBox(width: 25),
+
+                              ElevatedButton(onPressed: (){
+                                Get.to(()=>const FeedbackPage());
+                              },
+                                  style: ElevatedButton.styleFrom(
+                                      foregroundColor: Colors.black,
+                                      backgroundColor: Colors.white,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      minimumSize: const Size(150, 40)
+                                  ),
+                                  child:const Text('NO')),
+
+                            ],
+                          ),
+                      ],
                       ),
                     ),
                   ]
@@ -436,7 +615,7 @@ class _FeatureRequestState extends State<FeatureRequest> {
                   leading: const Icon(
                     Icons.content_paste_search,
                     size: 30,
-                    color: Colors.blue,
+                    color: Color(0xFF4A00E0),
                   ),
                   trailing: IconButton(
                     icon: Icon(
@@ -455,9 +634,51 @@ class _FeatureRequestState extends State<FeatureRequest> {
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 16.0, vertical: 8.0),
-                      child: Text(
-                        'If your files are opening slowly, try clearing the app cache or freeing up device storage space. Ensure that the files are not corrupted.',
-                        style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+                      child: Column(
+                        children: [
+                          Text(
+                          'When viewing files,You can tap the "Search" icon  on the top bar to search for text. \n \n'
+                              'Please note that this features only works on pages containing recognizable text. \n \n'
+                              'Was it helpful?',
+                          style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 14,
+                          ),
+                        ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              ElevatedButton(onPressed: (){
+                                Get.snackbar("Thank you!", "Your FeedBack...");
+                              },
+                                  style: ElevatedButton.styleFrom(
+                                      foregroundColor: Colors.black,
+                                      backgroundColor: Colors.white,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      minimumSize: const Size(150, 40)
+                                  ),
+                                  child:const Text('YES')),
+
+                              const SizedBox(width: 25),
+
+                              ElevatedButton(onPressed: (){
+                                Get.to(()=>const FeedbackPage());
+                              },
+                                  style: ElevatedButton.styleFrom(
+                                      foregroundColor: Colors.black,
+                                      backgroundColor: Colors.white,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      minimumSize: const Size(150, 40)
+                                  ),
+                                  child:const Text('NO')),
+
+                            ],
+                          ),
+                      ],
                       ),
                     ),
                ],
@@ -494,7 +715,7 @@ class _FeatureRequestState extends State<FeatureRequest> {
                   leading: const Icon(
                     Icons.edit_note_outlined,
                     size: 30,
-                    color: Colors.blue,
+                    color: Color(0xFF4A00E0),
                   ),
                   trailing: IconButton(
                     icon: Icon(
@@ -513,9 +734,52 @@ class _FeatureRequestState extends State<FeatureRequest> {
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 16.0, vertical: 8.0),
-                      child: Text(
-                        'If your files are opening slowly, try clearing the app cache or freeing up device storage space. Ensure that the files are not corrupted.',
-                        style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+                      child: Column(
+                        children: [
+                          Text(
+                          'Currently do not support editing text in PDFs but you can make them. \n \n'
+                              'After marking,please tap "Done" in the upper-right corner.Then,tap"Save" in the "Save changes?" popup that appears on exit to save successfully. \n \n'
+                            'Note that some make features may be unavailable for pages with unrecognizable text.we will continue to optimize this features in the future \n \n'
+                              'Was it helpful?',
+                          style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 14,
+                          ),
+                        ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              ElevatedButton(onPressed: (){
+                                Get.snackbar("Thank you!", "Your FeedBack...");
+                              },
+                                  style: ElevatedButton.styleFrom(
+                                      foregroundColor: Colors.black,
+                                      backgroundColor: Colors.white,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      minimumSize: const Size(150, 40)
+                                  ),
+                                  child:const Text('YES')),
+
+                              const SizedBox(width: 25),
+
+                              ElevatedButton(onPressed: (){
+                                Get.to(()=>const FeedbackPage());
+                              },
+                                  style: ElevatedButton.styleFrom(
+                                      foregroundColor: Colors.black,
+                                      backgroundColor: Colors.white,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      minimumSize: const Size(150, 40)
+                                  ),
+                                  child:const Text('NO')),
+
+                            ],
+                          ),
+                      ],
                       ),
                     ),
                 ],
@@ -536,7 +800,7 @@ class _FeatureRequestState extends State<FeatureRequest> {
                   leading: const Icon(
                     Icons.file_open_outlined,
                     size: 30,
-                    color: Colors.blue,
+                    color: Color(0xFF4A00E0),
                   ),
                     trailing: IconButton(
                       icon: Icon(
@@ -555,9 +819,50 @@ class _FeatureRequestState extends State<FeatureRequest> {
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 16.0, vertical: 8.0),
-                      child: Text(
-                        'If your files are opening slowly, try clearing the app cache or freeing up device storage space. Ensure that the files are not corrupted.',
-                        style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+                      child: Column(
+                        children: [
+                          Text(
+                          '1.Please check in the files is damaged.\n'
+                              '2.if the file appears blurry,iy may be due to excessive enlargement.Please try zooming out. \n \n'
+                              'if the issue persists,please tap "Feedback" in the sidebar of the homepage to send us the problematic file,and we will assist you as soon as possible \n \n'
+                              'Was it helpful?',
+                          style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 14,
+                          ),
+                        ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              ElevatedButton(onPressed: (){},
+                                  style: ElevatedButton.styleFrom(
+                                      foregroundColor: Colors.black,
+                                      backgroundColor: Colors.white,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      minimumSize: const Size(150, 40)
+                                  ),
+                                  child:const Text('YES')),
+
+                              const SizedBox(width: 25),
+
+                              ElevatedButton(onPressed: (){
+                                Get.to(()=>const FeedbackPage());
+                              },
+                                  style: ElevatedButton.styleFrom(
+                                      foregroundColor: Colors.black,
+                                      backgroundColor: Colors.white,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      minimumSize: const Size(150, 40)
+                                  ),
+                                  child:const Text('NO')),
+
+                            ],
+                          ),
+                      ],
                       ),
                     ),
                ],
@@ -578,7 +883,7 @@ class _FeatureRequestState extends State<FeatureRequest> {
                   leading: const Icon(
                     Icons.wrap_text,
                     size: 30,
-                    color: Colors.blue,
+                    color: Color(0xFF4A00E0),
                   ),
                     trailing: IconButton(
                       icon: Icon(
@@ -597,17 +902,62 @@ class _FeatureRequestState extends State<FeatureRequest> {
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 16.0, vertical: 8.0),
-                      child: Text(
-                        'If your files are opening slowly, try clearing the app cache or freeing up device storage space. Ensure that the files are not corrupted.',
-                        style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+                      child: Column(
+                        children:[
+                          Text(
+                          'Open the file and tap "View mode" in the bottom bar.From there,you can toggle "Reflow" mode on or off. \n \n'
+                              'Currently, this feature is only available on Android 10 and above device.We will continue to optimize it and support more system in the future stay tuned. \n \n'
+                              'Was it helpful?',
+                          style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 14,
+                          ),
+                        ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              ElevatedButton(onPressed: (){
+                                Get.snackbar("Thank you!", "Your FeedBack...");
+                              },
+                                  style: ElevatedButton.styleFrom(
+                                      foregroundColor: Colors.black,
+                                      backgroundColor: Colors.white,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      minimumSize: const Size(150, 40)
+                                  ),
+                                  child:const Text('YES')),
+
+                              const SizedBox(width: 25),
+
+                              ElevatedButton(onPressed: (){
+                                Get.to(()=>const FeedbackPage());
+                              },
+                                  style: ElevatedButton.styleFrom(
+                                      foregroundColor: Colors.black,
+                                      backgroundColor: Colors.white,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      minimumSize: const Size(150, 40)
+                                  ),
+                                  child:const Text('NO')),
+
+                            ],
+                          ),
+                      ],
                       ),
                     ),
                 ],
               ),
             ),
+          const SizedBox(height: 60,)
           ],
+
         ),
       ),
+
 
       bottomNavigationBar: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -620,7 +970,9 @@ class _FeatureRequestState extends State<FeatureRequest> {
                   borderRadius: BorderRadius.circular(50),
                 ),
                 minimumSize: const Size(380, 65)),
-            onPressed: () {},
+            onPressed: () {
+              Get.to(()=>const FeedbackPage());
+            },
             child: Row(
               children: [
                 const Icon(Icons.feedback_outlined),

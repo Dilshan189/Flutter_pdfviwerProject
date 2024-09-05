@@ -1,10 +1,7 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:lottie/lottie.dart';
-import 'package:pdfviwer/bottom/SecurityQuestionPage.dart';
 import 'package:pdfviwer/consts/consts.dart';
 import 'package:pdfviwer/homepage/pdf_screen.dart';
 import 'package:pdfviwer/homepage/search_bar.dart';
@@ -271,31 +268,272 @@ class _MyHomePageState extends State<MyHomePage> {
                 onChanged: (val) {
                   setState(() {
                     isScreenKeptOff = val;
-                    Navigator.of(context).pop();
                   });
                 }
             ),
 
 
 
-
             SwitchListTile(
-              title:Text('Security question',
+              title: Text('Security question',
                   style: GoogleFonts.poppins(fontWeight: FontWeight.w400)),
-              secondary: const Image(image: AssetImage('assets/images/icons8-question-48.png'),
+              secondary: const Image(
+                image: AssetImage('assets/images/icons8-question-48.png'),
                 width: 25,
-                height: 25,),
+                height: 25,
+              ),
               value: isScreenKeptOn,
               onChanged: (abl) {
                 setState(() {
                   isScreenKeptOn = abl;
+
                   if (abl) {
-                    Navigator.push(context, MaterialPageRoute(
-                        builder: (context) => const SecurityQuestionPage()));
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        String? selectedQuestion;
+
+                        return AlertDialog(
+                          title: Text(
+                            'Set security Question',
+                            style: GoogleFonts.poppins(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 22,
+                            ),
+                          ),
+                          content: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                'Help you reset your password when you forget it',
+                                style: GoogleFonts.poppins(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 15,
+                                  color: Colors.grey,
+                                ),
+                              ),
+
+                              const SizedBox(height: 10),
+
+                              DropdownButtonFormField<String>(
+                                decoration:  InputDecoration(
+                                  hintText: 'Select question',
+                                    hintStyle: GoogleFonts.poppins(
+                                      fontWeight: FontWeight.bold,
+
+                                    ),
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      horizontal: 10, vertical: 10),
+                                  border: InputBorder.none,
+                                ),
+
+                                items: <String>[
+                                  'What is your pet\'s name?',
+                                  'What is your favorite color?',
+                                  'What is your birth Place?',
+                                  'What is your lucky number?',
+                                  'What\'s your favorite book?',
+                                ].map((String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Text(value),
+                                  );
+                                }).toList(),
+                                onChanged: (String? newValue) {
+                                  setState(() {
+                                    selectedQuestion = newValue;
+                                  });
+                                },
+                                value: selectedQuestion, // Highlight selected item
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+
+                              const SizedBox(height: 10),
+
+                              TextField(
+                                decoration: InputDecoration(
+                                  border: const OutlineInputBorder(
+                                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                                  ),
+                                  hintText: 'Answer',
+                                  hintStyle: GoogleFonts.poppins(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              style: TextButton.styleFrom(
+                                foregroundColor: Colors.white,
+                                backgroundColor: Colors.grey,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                              ),
+                              child: Text(
+                                'Cancel',
+                                style: GoogleFonts.poppins(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+
+                            const SizedBox(width: 3),
+                            TextButton(
+                              onPressed: () {},
+                              style: TextButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                foregroundColor: Colors.white,
+                                backgroundColor: const Color(0xFF4A00E0),
+                              ),
+                              child: Text(
+                                'Ok',
+                                style: GoogleFonts.poppins(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  }
+
+                  else{
+                    showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                          String? selectedQuestion;
+
+                          return AlertDialog(
+                            title: Text(
+                                 'Security Question',
+                                  style: GoogleFonts.poppins(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 22,
+                                 ),
+                              ),
+
+                    content: Column(
+                         mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                             'To close this feature',
+                              style: GoogleFonts.poppins(
+                              fontWeight: FontWeight.w400,
+                               fontSize: 15,
+                               color: Colors.grey,
+                               ),
+                           ),
+
+                      const SizedBox(height: 5),
+
+                DropdownButtonFormField<String>(
+                 decoration:  InputDecoration(
+                 hintText: 'Select question',
+                 hintStyle: GoogleFonts.poppins(
+                  fontWeight: FontWeight.bold,
+
+                      ),
+             contentPadding: const EdgeInsets.symmetric(
+             horizontal: 10, vertical: 10),
+              border: InputBorder.none,
+            ),
+
+              items: <String>[
+              'What is your pet\'s name?',
+              'What is your favorite color?',
+              'What is your birth Place?',
+              'What is your lucky number?',
+              'What\'s your favorite book?',
+              ].map((String value) {
+              return DropdownMenuItem<String>(
+              value: value,
+              child: Text(value),
+              );
+              }).toList(),
+              onChanged: (String? newValue) {
+              setState(() {
+              selectedQuestion = newValue;
+              });
+              },
+              value: selectedQuestion, // Highlight selected item
+              borderRadius: BorderRadius.circular(10),
+              ),
+
+            const SizedBox(height: 10),
+
+            TextField(
+            decoration: InputDecoration(
+            border: const OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+            ),
+            hintText: 'Answer',
+            hintStyle: GoogleFonts.poppins(
+            fontWeight: FontWeight.bold,
+            color: Colors.grey,
+            ),
+            ),
+            ),
+            ],
+            ),
+
+            actions: [
+            TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            style: TextButton.styleFrom(
+            foregroundColor: Colors.white,
+            backgroundColor: Colors.grey,
+            shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+            ),
+            ),
+            child: Text(
+            'Cancel',
+            style: GoogleFonts.poppins(
+            fontWeight: FontWeight.bold,
+            ),
+            ),
+            ),
+
+            const SizedBox(width: 3),
+            TextButton(
+            onPressed: () {},
+            style: TextButton.styleFrom(
+            shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+            ),
+            foregroundColor: Colors.white,
+            backgroundColor: const Color(0xFF4A00E0),
+            ),
+            child: Text(
+            'Ok',
+            style: GoogleFonts.poppins(
+            fontWeight: FontWeight.bold,
+            ),
+            ),
+            ),
+            ],
+            );
+            },
+            );
                   }
                 });
               },
             ),
+
 
 
             ListTile(
