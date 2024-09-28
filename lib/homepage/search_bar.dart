@@ -109,7 +109,6 @@ class _SearchbarState extends State<Searchbar> {
               ),
               suffixIcon: Icon(Icons.search),
               filled: true,
-              fillColor: Colors.white,
               hintText: 'Search PDF',
               contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 20),
             ),
@@ -190,9 +189,9 @@ class _SearchbarState extends State<Searchbar> {
 
                 title: Text(
                   fileItem.name,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w500,
-                    overflow: TextOverflow.ellipsis,
+                  style:GoogleFonts.poppins(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
                   ),
                 ),
 
@@ -233,7 +232,7 @@ class _SearchbarState extends State<Searchbar> {
                     Row(
                       children: [
                         const Icon(
-                          Icons.folder_copy_outlined,
+                          Icons.folder,
                           size: 15,
                         ),
                         const SizedBox(width: 5),

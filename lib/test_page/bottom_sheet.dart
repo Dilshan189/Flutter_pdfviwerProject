@@ -159,7 +159,11 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
                 if(!pdfExistsFa) {
                   DatabaseService().insertPdffa(pdfModelFa);
                 }
-                Get.snackbar('Successful', 'Favourite added successful!');
+
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Favourite added Successful!'))
+                );
+
 
                 Navigator.of(context).pop();
 

@@ -83,6 +83,7 @@ class _FeatureRequestState extends State<FeatureRequest> {
                       onPressed: () {
                         setState(() {
                           _isExpanded1 = !_isExpanded1;
+
                         });
                       },
                     ),
@@ -110,7 +111,9 @@ class _FeatureRequestState extends State<FeatureRequest> {
                             children: [
                               ElevatedButton(onPressed: (){
 
-                                Get.snackbar("Thank you!", "Your FeedBack...");
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(content: Text('Thank Your  Value Feedback!'))
+                                );
 
                               },
                                   style: ElevatedButton.styleFrom(
@@ -201,7 +204,10 @@ class _FeatureRequestState extends State<FeatureRequest> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               ElevatedButton(onPressed: (){
-                                Get.snackbar("Thank you!", "Your FeedBack...");
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(content: Text('Thank Your Value Feedback!',))
+                                );
+
                               },
                                   style: ElevatedButton.styleFrom(
                                       foregroundColor: Colors.black,
@@ -286,7 +292,10 @@ class _FeatureRequestState extends State<FeatureRequest> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               ElevatedButton(onPressed: (){
-                                Get.snackbar("Thank you!", "Your FeedBack...");
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(content: Text('Thank Your Value Feedback!',))
+                                );
+
                               },
                                   style: ElevatedButton.styleFrom(
                                       foregroundColor: Colors.black,
@@ -392,7 +401,10 @@ class _FeatureRequestState extends State<FeatureRequest> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               ElevatedButton(onPressed: (){
-                                Get.snackbar("Thank you!", "Your FeedBack...");
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(content: Text('Thank Your Value Feedback!',))
+                                );
+
                               },
                                   style: ElevatedButton.styleFrom(
                                       foregroundColor: Colors.black,
@@ -480,7 +492,10 @@ class _FeatureRequestState extends State<FeatureRequest> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 ElevatedButton(onPressed: (){
-                                  Get.snackbar("Thank you!", "Your FeedBack...");
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(content: Text('Thank Your Value Feedback!',))
+                                  );
+
                                 },
                                     style: ElevatedButton.styleFrom(
                                         foregroundColor: Colors.black,
@@ -566,7 +581,10 @@ class _FeatureRequestState extends State<FeatureRequest> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               ElevatedButton(onPressed: (){
-                                Get.snackbar("Thank you!", "Your FeedBack...");
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(content: Text('Thank Your Value Feedback!',))
+                                );
+
                               },
                                   style: ElevatedButton.styleFrom(
                                       foregroundColor: Colors.black,
@@ -649,7 +667,10 @@ class _FeatureRequestState extends State<FeatureRequest> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               ElevatedButton(onPressed: (){
-                                Get.snackbar("Thank you!", "Your FeedBack...");
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(content: Text('Thank Your Value Feedback!',))
+                                );
+
                               },
                                   style: ElevatedButton.styleFrom(
                                       foregroundColor: Colors.black,
@@ -750,7 +771,10 @@ class _FeatureRequestState extends State<FeatureRequest> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               ElevatedButton(onPressed: (){
-                                Get.snackbar("Thank you!", "Your FeedBack...");
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(content: Text('Thank Your Value Feedback!',))
+                                );
+
                               },
                                   style: ElevatedButton.styleFrom(
                                       foregroundColor: Colors.black,
@@ -917,7 +941,10 @@ class _FeatureRequestState extends State<FeatureRequest> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               ElevatedButton(onPressed: (){
-                                Get.snackbar("Thank you!", "Your FeedBack...");
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(content: Text('Thank Your Value Feedback!',))
+                                );
+
                               },
                                   style: ElevatedButton.styleFrom(
                                       foregroundColor: Colors.black,
@@ -969,7 +996,7 @@ class _FeatureRequestState extends State<FeatureRequest> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(50),
                 ),
-                minimumSize: const Size(380, 65)),
+                minimumSize: const Size(400, 65)),
             onPressed: () {
               Get.to(()=>const FeedbackPage());
             },

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:pdfviwer/consts/consts.dart';
 import 'package:pdfx/pdfx.dart';
 import 'package:share/share.dart';
+
 import '../const.dart';
+import 'bottomsheet.dart';
 
 class PDFScreen extends StatefulWidget {
   final String pdfPath;
@@ -28,8 +29,7 @@ class _PDFScreenState extends State<PDFScreen> {
   late PdfController pdfController;
   int _selectedIndex = 0;
   String fileName = '';
-
-  ///PDF Reader Portrait added//////////////////////////////////////////////////
+  bool _isEditing = false;
 
   @override
   void initState() {
@@ -80,7 +80,7 @@ class _PDFScreenState extends State<PDFScreen> {
         actions: [
           IconButton(
             onPressed: _rotateScreen,
-            icon: const Icon(Icons.autorenew_rounded,color: Colors.black,),
+            icon: const Icon(Icons.autorenew_rounded, color: Colors.black),
           ),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -106,31 +106,20 @@ class _PDFScreenState extends State<PDFScreen> {
       body: Center(
         child: PdfView(controller: pdfController),
       ),
-
-
       bottomNavigationBar: BottomNavigationBar(
-        items:const [
-          BottomNavigationBarItem(icon: Icon(Icons.pages_outlined),label: 'Pages'),
-          BottomNavigationBarItem(icon: Icon(Icons.edit_note_outlined),label: 'Edit'),
-          BottomNavigationBarItem(icon: Icon(Icons.menu_book_outlined),label: 'View mode'),
-          BottomNavigationBarItem(icon: Icon(Icons.ios_share),label: 'Share'),
-        ],
-
-        currentIndex: _selectedIndex,
+        items: _isEditing ? _getEditItems() : _getDefaultItems(),
+        currentIndex: _selectedIndex  ,
         selectedItemColor: Colors.black,
         unselectedItemColor: Colors.black,
         selectedLabelStyle: GoogleFonts.roboto(fontWeight: FontWeight.w500),
         unselectedLabelStyle: GoogleFonts.roboto(fontWeight: FontWeight.w500),
         backgroundColor: Colors.white,
         type: BottomNavigationBarType.fixed,
-        onTap: _onItemTapped,
-
-
+        onTap:  _onItemTapped  ,
       ),
+      backgroundColor: Colors.black54,
     );
   }
-
-  ///Added roisterer Screen connect portrait ///////////////////////////////////
 
   void _rotateScreen() {
     if (MediaQuery.of(context).orientation == Orientation.portrait) {
@@ -146,7 +135,6 @@ class _PDFScreenState extends State<PDFScreen> {
     }
   }
 
-
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -154,18 +142,71 @@ class _PDFScreenState extends State<PDFScreen> {
         case 0:
           break;
         case 1:
+
+          _isEditing = true;
+
           break;
         case 2:
+
+          if(_isEditing){
+
+          }
+          else
+          {
+            showModalBottomSheet(
+                context: context,
+                builder: (BuildContext context) {
+                  return const bottomsheet();
+                });
+          }
           break;
         case 3:
-          final RenderBox box = context.findRenderObject() as RenderBox;
-          Share.share(
-            'Check out this PDF file: $fileName',
-            subject: 'PDF Viewer App',
-            sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size,
-          );
+
+          if (_isEditing) {
+
+            _isEditing = false;
+          }
+          else
+          {
+            final RenderBox box = context.findRenderObject() as RenderBox;
+            Share.share(
+              'Check out this PDF file: ${widget.pdfName}',
+              subject: 'PDF Viewer App',
+              sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size,
+            );
+          }
           break;
       }
     });
+  }
+
+
+
+
+  List<BottomNavigationBarItem> _getDefaultItems() {
+    return const [
+      BottomNavigationBarItem(icon: Icon(Icons.pages_outlined), label: 'Pages'),
+      BottomNavigationBarItem(icon: Icon(Icons.edit_note_outlined), label: 'Edit'),
+      BottomNavigationBarItem(icon: Icon(Icons.menu_book_outlined), label: 'View mode'),
+      BottomNavigationBarItem(icon: Icon(Icons.ios_share), label: 'Share'),
+    ];
+  }
+
+
+  List<BottomNavigationBarItem> _getEditItems() {
+    return const [
+      BottomNavigationBarItem(icon: Icon(Icons.check),label:''),
+      BottomNavigationBarItem(icon: Icon(Icons.delete),label:''),
+
+
+
+
+
+
+      BottomNavigationBarItem(icon: Icon(Icons.content_copy),label:''),
+      BottomNavigationBarItem(icon: Icon(Icons.cancel),label:''),
+      BottomNavigationBarItem(icon: Icon(Icons.cancel),label:''),
+      BottomNavigationBarItem(icon: Icon(Icons.cancel),label:''),
+    ];
   }
 }

@@ -75,7 +75,6 @@ class _RecentState extends State<Recent> {
               var filePath =pdf.filePath;
 
               return Card(
-
                 shadowColor: Colors.grey,
                 margin: const EdgeInsets.symmetric(vertical: 4,horizontal: 15),
                 shape:  RoundedRectangleBorder(
@@ -105,10 +104,11 @@ class _RecentState extends State<Recent> {
 
                   title: Text(
                     pdf.fileName,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w500,
-                      overflow: TextOverflow.ellipsis,
+                    style: GoogleFonts.poppins(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
                     ),
+                    overflow: TextOverflow.ellipsis,
                   ),
 
                   subtitle:
@@ -153,8 +153,8 @@ class _RecentState extends State<Recent> {
                         children:
                         [
                           const Icon(
-                            Icons.folder_copy_outlined
-                            ,size: 15,
+                            Icons.folder,
+                            size: 15,
                             weight: 50,
                           ),
 

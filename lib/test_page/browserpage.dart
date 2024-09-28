@@ -159,6 +159,7 @@ class _PDFListScreenState extends State<PDFListScreen> {
                     fontWeight: FontWeight.bold,
                     fontSize: 20,
                   ),
+                  overflow: TextOverflow.ellipsis,
                 ),
 
                 subtitle: Column(
@@ -198,7 +199,7 @@ class _PDFListScreenState extends State<PDFListScreen> {
                     Row(
                       children: [
                         const Icon(
-                          Icons.folder_copy_outlined,
+                          Icons.folder,
                           size: 15,
                         ),
                         const SizedBox(width: 5),

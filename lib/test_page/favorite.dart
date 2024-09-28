@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
+import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
@@ -97,9 +99,9 @@ class _favoriteState extends State<favorite> {
 
 
                   title: Text(pdf.fileName,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w500,
-                      overflow: TextOverflow.ellipsis,
+                    style: GoogleFonts.poppins(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
                     ),
                   ),
 
@@ -144,8 +146,8 @@ class _favoriteState extends State<favorite> {
                             children:
                             [
                               const Icon(
-                                Icons.folder_copy_outlined
-                                ,size: 15,
+                                Icons.folder,
+                                size: 15,
                                 weight: 50,
                               ),
 
@@ -183,7 +185,12 @@ class _favoriteState extends State<favorite> {
                         });
 
 
-                      Get.snackbar('Delete','Successful!');
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text(' Delete Successful!'),
+                          padding: EdgeInsets.all(15),
+                          elevation: BorderSide.strokeAlignOutside,
+                        )
+                      );
 
 
                     },

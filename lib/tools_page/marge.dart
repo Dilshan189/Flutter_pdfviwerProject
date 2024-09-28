@@ -78,9 +78,12 @@ class _MargeState extends State<Marge> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
+        title:  Text(
           'Selected',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+          style:GoogleFonts.poppins(
+            fontWeight: FontWeight.bold,
+            fontSize: 26,
+          ),
         ),
         actions: [
           IconButton(
@@ -141,9 +144,9 @@ class _MargeState extends State<Marge> {
 
               title: Text(
                 fileName,
-                style: const TextStyle(
-                  fontWeight: FontWeight.w500,
-                  overflow: TextOverflow.ellipsis,
+                style:GoogleFonts.poppins(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
                 ),
               ),
               subtitle: Column(
@@ -157,7 +160,7 @@ class _MargeState extends State<Marge> {
                   Row(
                     children: [
                       const Icon(
-                        Icons.folder_copy_outlined,
+                        Icons.folder,
                         weight: 50,
                         size: 15,
                       ),

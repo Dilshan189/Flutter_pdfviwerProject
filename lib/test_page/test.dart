@@ -13,6 +13,7 @@ import 'package:permission_handler/permission_handler.dart';
 import '../homepage/pdf_screen.dart';
 import '../tools_page/images_list.dart';
 import '../tools_page/selected_images.dart';
+import 'bottom_mearge.dart';
 
 class tools extends StatefulWidget {
   const tools({Key? key});
@@ -152,10 +153,19 @@ class _ToolsState extends State<tools> {
                     onTap: () async {
                       switch (index) {
                         case 0:
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => const Marge()),
-                          );
+
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(builder: (context) => const Marge()),
+                          // );
+
+                          showModalBottomSheet(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return const BottomMerge();
+                              });
+
+
                           break;
       
                         case 1:

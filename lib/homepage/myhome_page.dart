@@ -1,10 +1,13 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:path/path.dart';
 import 'package:pdfviwer/consts/consts.dart';
 import 'package:pdfviwer/homepage/pdf_screen.dart';
 import 'package:pdfviwer/homepage/search_bar.dart';
+import 'package:pdfviwer/service/database_service_sequrity_question.dart';
 import 'package:pdfviwer/test_page/change_screen.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -12,6 +15,7 @@ import '../bottom/FeedbackPage.dart';
 import '../bottom/featureRequset.dart';
 import '../bottom/featurebottomsheet.dart';
 import '../exite_dialog.dart';
+import '../model/sequrity_question_model.dart';
 import '../notifier/notifiers.dart';
 import '../test_page/browserpage.dart';
 import '../test_page/favorite.dart';
@@ -27,6 +31,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
+  TextEditingController passwordController = TextEditingController();
 
   List<PlatformFile>? selectedFiles;
   final String _imagePath = 'assets/images/image.png';
@@ -51,6 +57,12 @@ class _MyHomePageState extends State<MyHomePage> {
   bool showCloudSyncIcon = false;
   bool showCreateFoldersIcon = false;
   bool showOtherIcon = false;
+
+  double rating = 0.0;
+
+
+
+
 
   /// File picker added ////////////////////////////////////////////////////////
 
@@ -171,9 +183,90 @@ class _MyHomePageState extends State<MyHomePage> {
         child: ListView(
           children: <Widget>[
 
-             ListTile(
+            ListTile(
               title: Text('PDF Reader',
-                  style:GoogleFonts.poppins(fontWeight: FontWeight.bold,fontSize: 25)),
+                  style: GoogleFonts.poppins(fontWeight: FontWeight.bold, fontSize: 25)),
+              trailing: IconButton(
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text(
+                          'Rating;',
+                          style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        content: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            RatingBar.builder(
+                              initialRating: rating,
+                              minRating: 1,
+                              direction: Axis.horizontal,
+                              allowHalfRating: true,
+                              itemCount: 5,
+                              itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                              itemBuilder: (context, _) => const Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                              ),
+                              onRatingUpdate: (value) {
+                                setState(() {
+                                  rating = value;
+                                });
+                              },
+                            ),
+                          ],
+                        ),
+                        actions: [
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.blue,
+                              foregroundColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            child: Text(
+                              'Cancel',
+                              style: GoogleFonts.poppins(),
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          ElevatedButton(
+                            onPressed: () async {
+                              Navigator.of(context).pop();
+                              const url = 'https://play.google.com/store/apps/details?id=com.example.app';
+                              if (await canLaunch(url)) {
+                                await launch(url);
+                              } else {
+                                throw 'Could not launch $url';
+                              }
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.blue,
+                              foregroundColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            child: Text(
+                              'OK',
+                              style: GoogleFonts.poppins(),
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+                icon: Image.asset('assets/images/icons8-hand-right-32.png'),
+              ),
             ),
 
             const Divider(thickness: 1),
@@ -268,6 +361,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 onChanged: (val) {
                   setState(() {
                     isScreenKeptOff = val;
+
                   });
                 }
             ),
@@ -287,11 +381,14 @@ class _MyHomePageState extends State<MyHomePage> {
                 setState(() {
                   isScreenKeptOn = abl;
 
+                  Navigator.of(context).pop();
+
                   if (abl) {
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
                         String? selectedQuestion;
+
 
                         return AlertDialog(
                           title: Text(
@@ -344,13 +441,14 @@ class _MyHomePageState extends State<MyHomePage> {
                                     selectedQuestion = newValue;
                                   });
                                 },
-                                value: selectedQuestion, // Highlight selected item
+                                value: selectedQuestion,
                                 borderRadius: BorderRadius.circular(10),
                               ),
 
                               const SizedBox(height: 10),
 
                               TextField(
+                                controller: passwordController,
                                 decoration: InputDecoration(
                                   border: const OutlineInputBorder(
                                     borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -387,7 +485,33 @@ class _MyHomePageState extends State<MyHomePage> {
 
                             const SizedBox(width: 3),
                             TextButton(
-                              onPressed: () {},
+                              onPressed: () async {
+                                String answer = passwordController.text.trim();
+
+                                if (selectedQuestion != null && answer.isNotEmpty) {
+                                  SecurityQuestionModel securityquestionModel = SecurityQuestionModel(
+                                    textName: selectedQuestion ?? 'Default Question',
+                                    textAnswer: answer,
+                                  );
+
+                                  await DatabaseServiceSequrityQuestion().insertSecurity(securityquestionModel);
+
+                                  Navigator.of(context).pop();
+
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(content: Text('Locked',
+                                    textAlign: TextAlign.center,
+                                    ),
+                                    ),
+                                  );
+
+                                }
+                                else{
+
+
+
+                                }
+                              },
                               style: TextButton.styleFrom(
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(8),
@@ -438,55 +562,56 @@ class _MyHomePageState extends State<MyHomePage> {
 
                       const SizedBox(height: 5),
 
-                DropdownButtonFormField<String>(
-                 decoration:  InputDecoration(
-                 hintText: 'Select question',
-                 hintStyle: GoogleFonts.poppins(
-                  fontWeight: FontWeight.bold,
+                            DropdownButtonFormField<String>(
+                              decoration:  InputDecoration(
+                                hintText: 'Select question',
+                                hintStyle: GoogleFonts.poppins(
+                                  fontWeight: FontWeight.bold,
 
-                      ),
-             contentPadding: const EdgeInsets.symmetric(
-             horizontal: 10, vertical: 10),
-              border: InputBorder.none,
-            ),
+                                ),
+                                contentPadding: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 10),
+                                border: InputBorder.none,
+                              ),
 
-              items: <String>[
-              'What is your pet\'s name?',
-              'What is your favorite color?',
-              'What is your birth Place?',
-              'What is your lucky number?',
-              'What\'s your favorite book?',
-              ].map((String value) {
-              return DropdownMenuItem<String>(
-              value: value,
-              child: Text(value),
-              );
-              }).toList(),
-              onChanged: (String? newValue) {
-              setState(() {
-              selectedQuestion = newValue;
-              });
-              },
-              value: selectedQuestion, // Highlight selected item
-              borderRadius: BorderRadius.circular(10),
-              ),
+                              items: <String>[
+                                'What is your pet\'s name?',
+                                'What is your favorite color?',
+                                'What is your birth Place?',
+                                'What is your lucky number?',
+                                'What\'s your favorite book?',
+                              ].map((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
+                              onChanged: (String? newValue) {
+                                setState(() {
+                                  selectedQuestion = newValue;
+                                });
+                              },
+                              value: selectedQuestion,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+
 
             const SizedBox(height: 10),
 
             TextField(
-            decoration: InputDecoration(
-            border: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(10)),
+              decoration: InputDecoration(
+              border: const OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10)),
             ),
-            hintText: 'Answer',
-            hintStyle: GoogleFonts.poppins(
-            fontWeight: FontWeight.bold,
-            color: Colors.grey,
+              hintText: 'Answer',
+              hintStyle: GoogleFonts.poppins(
+              fontWeight: FontWeight.bold,
+              color: Colors.grey,
+               ),
+             ),
             ),
-            ),
-            ),
-            ],
-            ),
+                          ],
+                    ),
 
             actions: [
             TextButton(
@@ -509,29 +634,46 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
 
             const SizedBox(width: 3),
+
             TextButton(
-            onPressed: () {},
+             onPressed: () async {
+              String answer = passwordController.text.trim();
+
+            //  DatabaseServiceSequrityQuestion().getDataPdfList();
+
+              if (selectedQuestion != null && answer.isNotEmpty) {
+                Navigator.of(context).pop();
+
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Close',
+                  textAlign: TextAlign.center),
+                  ),
+                );
+              }
+            },
+
             style: TextButton.styleFrom(
-            shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
+              shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+               ),
+              foregroundColor: Colors.white,
+              backgroundColor: const Color(0xFF4A00E0),
             ),
-            foregroundColor: Colors.white,
-            backgroundColor: const Color(0xFF4A00E0),
-            ),
-            child: Text(
-            'Ok',
-            style: GoogleFonts.poppins(
-            fontWeight: FontWeight.bold,
-            ),
-            ),
+            child: Text('Ok',
+              style: GoogleFonts.poppins(
+              fontWeight: FontWeight.bold,
+              ),
+             ),
             ),
             ],
-            );
-            },
-            );
+                          );
+                          },
+
+                    );
                   }
-                });
-              },
+                }
+                );
+                },
             ),
 
 

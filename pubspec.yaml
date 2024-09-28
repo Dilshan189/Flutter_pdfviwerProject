@@ -68,6 +68,12 @@ dependencies:
   pdf_thumbnail: ^0.1.6+1
   pdf_image_renderer: ^0.7.0
   pdf: ^3.6.0
+  flutter_rating_bar: ^4.0.0
+  pdftron_flutter: ^1.0.1-35
+  pdf_manipulator: ^0.5.9
+  pick_or_save: ^2.2.4
+
+
 
 
 
@@ -129,6 +135,7 @@ flutter:
     - assets/icon/Animation - 1723713721850.json
     - assets/images/icons8-lock-50.png
     - assets/images/icons8-activity-feed-50.png
+    - assets/images/icons8-hand-right-32.png
     
 
 
