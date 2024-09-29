@@ -149,7 +149,10 @@ class _BottomMergeState extends State<BottomMerge> {
                           fontSize: 20),
                     ),
                   ),
+
                   const SizedBox(height: 5),
+
+
                   ElevatedButton(
                     onPressed: _pickedFilesPathsForMerge == null ||
                         _pickedFilesPathsForMerge!.length < 2
@@ -189,7 +192,10 @@ class _BottomMergeState extends State<BottomMerge> {
                           fontSize: 20),
                     ),
                   ),
+
                   const SizedBox(height: 5),
+
+
                   ElevatedButton(
                     onPressed: _mergedPDFsPath == null || _isBusy
                         ? null
@@ -228,11 +234,14 @@ class _BottomMergeState extends State<BottomMerge> {
                           fontSize: 20),
                     ),
                   ),
+
                   const SizedBox(height: 5),
+
                 ],
               ),
             ),
           ),
+
           const SizedBox(height: 30),
         ],
       ),

@@ -43,8 +43,8 @@ class _bottomsheetState extends State<bottomsheet> {
                 });
               },
                   style: IconButton.styleFrom(
-                    foregroundColor: _isSelected ? Colors.black : Colors.white,
-                    backgroundColor: _isSelected ? Colors.black12 : Colors.blue,
+                    foregroundColor: _isSelected ? Colors.white : Colors.black,
+                    backgroundColor: _isSelected ? Colors.blue : Colors.black12,
                   ),
                   iconSize: 55,
                   icon: const Icon(Icons.swap_horiz)),
@@ -57,8 +57,8 @@ class _bottomsheetState extends State<bottomsheet> {
                 });
               },
                   style: IconButton.styleFrom(
-                      foregroundColor: _isSelected1 ? Colors.white : Colors.black,
-                      backgroundColor: _isSelected1 ? Colors.blue : Colors.black12,
+                      foregroundColor: _isSelected1 ? Colors.black : Colors.white,
+                      backgroundColor: _isSelected1 ? Colors.black12 : Colors.blue,
                   ),
                   iconSize: 55,
                   icon: const Icon(Icons.swap_vert)),

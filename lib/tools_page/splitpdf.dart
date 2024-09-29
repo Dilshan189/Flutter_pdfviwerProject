@@ -10,8 +10,6 @@ import 'package:pdfviwer/tools_page/splitepdf_image.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:path/path.dart' as path;
 
-import '../model/pdf_model.dart';
-
 class Spiltpdf extends StatefulWidget {
   const Spiltpdf({super.key});
 
@@ -72,9 +70,9 @@ class _SpiltpdfState extends State<Spiltpdf> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           'Select a file',
-          style: TextStyle(fontSize: 20, color: Colors.black, fontWeight: FontWeight.w500),
+          style: GoogleFonts.poppins(fontWeight: FontWeight.bold,fontSize: 25),
         ),
         actions: [
           IconButton(
@@ -85,6 +83,7 @@ class _SpiltpdfState extends State<Spiltpdf> {
           )
         ],
       ),
+
       body: ListView.builder(
         itemCount: pdfFiles.length,
         itemBuilder: (context, index) {
@@ -92,14 +91,13 @@ class _SpiltpdfState extends State<Spiltpdf> {
           String fileName = path.basename(filePath);
 
 
-
           return Card(
             shadowColor: Colors.grey,
             margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 8),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5),
-              side: const BorderSide(style: BorderStyle.solid),
-            ),
+             shape: RoundedRectangleBorder(
+               borderRadius: BorderRadius.circular(5),
+               side: const BorderSide(style: BorderStyle.solid),
+             ),
             child: ListTile(
 
               onTap: () {
@@ -120,10 +118,8 @@ class _SpiltpdfState extends State<Spiltpdf> {
               },
               title: Text(
                 fileName,
-                style: const TextStyle(
-                  fontWeight: FontWeight.w500,
-                  overflow: TextOverflow.ellipsis,
-                ),
+                style: GoogleFonts.poppins(fontWeight: FontWeight.bold,fontSize: 20),
+                overflow: TextOverflow.ellipsis,
               ),
               subtitle: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -136,7 +132,7 @@ class _SpiltpdfState extends State<Spiltpdf> {
                   Row(
                     children: [
                       const Icon(
-                        Icons.folder_copy_outlined,
+                        Icons.folder,
                         weight: 50,
                         size: 15,
                       ),
@@ -164,6 +160,7 @@ class _SpiltpdfState extends State<Spiltpdf> {
                   backgroundColor: Colors.transparent,
                 ),
               ),
+
             ),
           );
         },
