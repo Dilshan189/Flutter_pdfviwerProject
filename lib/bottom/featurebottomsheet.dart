@@ -87,7 +87,7 @@ class _FeatureRequestBottomSheetState extends State<FeatureRequestBottomSheet> {
                             label: Text('Cloud Sync', style: GoogleFonts.poppins(fontWeight: FontWeight.w400)),
                           ),
                         ),
-                      ],
+                      ]
                     ),
                   ],
                 ),

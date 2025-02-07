@@ -214,5 +214,4 @@ class _RecentState extends State<Recent> {
       },
     );
   }
-
 }
